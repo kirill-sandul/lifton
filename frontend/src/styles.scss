@@ -6,6 +6,8 @@
   --primary-blue-light: #60BAFA;
   --primary-grey: #535353;
   --primary-grey-light: #D2D2D2;
+  --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light), #B0CDE2);
+  --primary-error: #FF3737;
 }
 
 body {
@@ -13,4 +15,15 @@ body {
   padding: 0;
   font-family: "Sora", sans-serif;
   font-optical-sizing: auto;
+}
+
+button {
+  font-family: "Sora", sans-serif;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
 }

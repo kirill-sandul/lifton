@@ -5,9 +5,10 @@
     <div class="line"></div>
     <p class="project-description">A training platform for trainer-client interaction including gym programmes, progress and analytics</p>
     
-    <app-tabs-button [options]="['Sign in', 'Sign up']" [optionsLinks]="['login', 'register']" />
-    
-    <router-outlet />
+    <div class="form-wrapper">
+      <app-tabs-button [options]="['Sign in', 'Sign up']" [optionsLinks]="['login', 'register']" />
+      <router-outlet />
+    </div>
   </div>
 </div>
 <div class="auth-bg"></div>

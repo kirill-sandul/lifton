@@ -3,12 +3,13 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  
+  backdrop-filter: blur(10px);
 
   &-wrapper {
     padding: 100px;
     background-color: #fff;
     border-radius: 30px;
+    box-shadow: 0 0 0 15px rgba(255, 255, 255, 0.15);
   }
 
   .line {
@@ -27,6 +28,23 @@
     max-width: 370px;
     font-weight: 300;
     font-size: 18px;
+  }
+
+  .form-wrapper {
+    position: relative;
+    z-index: 2;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 5%;
+      left: -5%;
+      border: 1px solid var(--primary-grey-light);
+      border-radius: 20px;
+      width: 110%;
+      height: 100%;
+      z-index: -1;
+    }
   }
 }
 
