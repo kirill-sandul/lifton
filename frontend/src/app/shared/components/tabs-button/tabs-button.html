@@ -1,0 +1,11 @@
+<div class="tabs-button">
+  <div class="selection-bg" [class]="selectionBgClass()"></div>
+  @for (tab of options(); track $index) {
+    <a
+      class="select-button"
+      (click)="selectorStep.set($index + 1)"
+    >
+      {{ tab }}
+    </a>
+  }
+</div>
