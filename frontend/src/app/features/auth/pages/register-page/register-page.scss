@@ -1,0 +1,18 @@
+.register-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h3 {
+    color: var(--primary-blue);
+    max-width: 400px;
+    font-weight: 400;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  button {
+    width: 80%;
+  }
+}

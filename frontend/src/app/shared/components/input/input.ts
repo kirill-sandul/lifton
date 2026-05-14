@@ -1,10 +1,10 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { LucideCircleX } from '@lucide/angular';
 
 @Component({
   selector: 'app-input',
-  imports: [ReactiveFormsModule, LucideCircleX],
+  imports: [ReactiveFormsModule],
   templateUrl: './input.html',
   styleUrl: './input.scss',
 })
