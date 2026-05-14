@@ -4,10 +4,11 @@
 :root {
   --primary-blue: #0084E2;
   --primary-blue-light: #60BAFA;
+  --primary-blue-lighter: #B0CDE2;
   --primary-grey: #535353;
   --primary-grey-light: #D2D2D2;
-  --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light), #B0CDE2);
   --primary-error: #FF3737;
+  --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light),var(--primary-blue-lighter));
 }
 
 body {

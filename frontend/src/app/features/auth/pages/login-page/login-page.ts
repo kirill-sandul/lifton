@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAtSign, LucideEye } from '@lucide/angular';
+import { ButtonComponent } from '@shared/components/button/button';
 import { InputComponent } from '@shared/components/input/input';
 
 @Component({
   selector: 'app-login-page',
-  imports: [InputComponent, LucideAtSign, LucideEye, ReactiveFormsModule],
+  imports: [InputComponent, LucideAtSign, LucideEye, ReactiveFormsModule, ButtonComponent],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss',
 })
