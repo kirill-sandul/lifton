@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
-import { TabsButtonComponent } from '../../shared/components/tabs-button/tabs-button';
+import { TabsButtonComponent } from '@shared/components/tabs-button/tabs-button';
 
 @Component({
   selector: 'app-auth-layout',
