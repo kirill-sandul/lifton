@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
+import { LucidePlay } from '@lucide/angular';
+
+type IconName = 'play' | 'msg' | ''
 
 @Component({
   selector: 'button[liftonButton]',
-  imports: [],
+  imports: [LucidePlay],
   templateUrl: './button.html',
   styleUrl: './button.scss',
 })
-export class ButtonComponent {}
+export class ButtonComponent {
+  icon = input<IconName>('')
+}

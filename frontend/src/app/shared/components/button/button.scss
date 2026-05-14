@@ -1,4 +1,8 @@
 :host {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
   --c1: var(--primary-blue-light);
   --c2: var(--primary-blue-lighter);
   background: linear-gradient(90deg, var(--c1, var(--primary-blue-lighter)), var(--c2, var(--primary-blue-lighter)) 51%, var(--c1, var(--primary-blue-light))) var(--x, 0) / 200%;
@@ -9,5 +13,10 @@
 
   &:hover {
     --x: 100%;
+  }
+
+  svg {
+    position: absolute;
+    right: 30px;
   }
 }
