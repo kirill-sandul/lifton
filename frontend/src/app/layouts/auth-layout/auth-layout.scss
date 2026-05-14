@@ -1,0 +1,42 @@
+.auth-widget {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  
+
+  &-wrapper {
+    padding: 100px;
+    background-color: #fff;
+    border-radius: 30px;
+  }
+
+  .line {
+    display: block;
+    width: 70px;
+    height: 2px;
+    background-color: #000;
+  }
+
+  .title {
+    margin-top: 10px;
+  }
+
+  .project-description {
+    color: var(--primary-grey);
+    max-width: 370px;
+    font-weight: 300;
+    font-size: 18px;
+  }
+}
+
+.auth-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/auth-bg.jpg");
+  background-size: cover;
+  z-index: -1;
+}

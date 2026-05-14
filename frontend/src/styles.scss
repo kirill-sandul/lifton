@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+/* Sora global font */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
+
+:root {
+  --primary-blue: #0084E2;
+  --primary-blue-light: #60BAFA;
+  --primary-grey: #535353;
+  --primary-grey-light: #D2D2D2;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Sora", sans-serif;
+  font-optical-sizing: auto;
+}
