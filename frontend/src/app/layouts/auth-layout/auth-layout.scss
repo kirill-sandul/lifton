@@ -7,7 +7,7 @@
 
   &-wrapper {
     padding: 100px;
-    background-color: #fff;
+    background-color: var(--primary-bg);
     border-radius: 30px;
     box-shadow: 0 0 0 15px rgba(255, 255, 255, 0.15);
   }
@@ -16,10 +16,11 @@
     display: block;
     width: 70px;
     height: 2px;
-    background-color: #000;
+    background-color: var(--primary-text);
   }
 
   .title {
+    color: var(--primary-text);
     margin-top: 10px;
   }
 

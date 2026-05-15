@@ -9,6 +9,9 @@
   --primary-grey-light: #D2D2D2;
   --primary-error: #FF3737;
   --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light),var(--primary-blue-lighter));
+
+  --primary-text: #000;
+  --primary-bg: #fff;
 }
 
 body {
@@ -16,6 +19,12 @@ body {
   padding: 0;
   font-family: "Sora", sans-serif;
   font-optical-sizing: auto;
+
+  &.dark-theme {
+    --primary-text: #fff;
+    --primary-grey: var(--primary-grey-light);
+    --primary-bg: #121212;
+  }
 }
 
 button {
@@ -27,4 +36,12 @@ button {
 a {
   text-decoration: none;
   cursor: pointer;
+}
+
+input {
+  background: none;
+}
+
+.icon-theme-color {
+  stroke: var(--primary-text)
 }
