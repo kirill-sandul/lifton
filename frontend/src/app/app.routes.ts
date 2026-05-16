@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout';
 import { LoginPageComponent } from './features/auth/pages/login-page/login-page';
 import { RegisterPageComponent } from './features/auth/pages/register-page/register-page';
+import { RegisterQuizPage } from '@features/auth/pages/register-quiz-page/register-quiz-page';
 
 export const routes: Routes = [
   {
@@ -16,7 +17,11 @@ export const routes: Routes = [
       {
         path: 'register',
         component: RegisterPageComponent
+      },
+    ],
+  },
+  {
+      path: 'register/quiz',
+      component: RegisterQuizPage
       }
-    ]
-  }
 ];
