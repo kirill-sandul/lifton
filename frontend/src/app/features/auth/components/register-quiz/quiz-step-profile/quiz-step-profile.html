@@ -6,46 +6,45 @@
     <form class="register-form" [formGroup]="formGroup()">
       <app-file-input
         id="pfp"
+        name="Profile picture"
         placeholder="Upload a profile picture for others to know you"
         [control]="formGroup().controls.pfp"
-        invalidMsg="Email is invalid"
         [style]="'filled'"
       >
       </app-file-input>
       <app-input
-        id="pfp"
+        id="age"
+        name="Age"
         placeholder="How old are you?"
         [control]="formGroup().controls.age"
-        invalidMsg="Email is invalid"
         [style]="'filled'"
       >
-        <svg lucideUserRound></svg>
+        <span>YRS</span>
       </app-input>
       <app-input
-        id="pfp"
+        id="bodyWeight"
+        name="Body weight"
         placeholder="What is your body weight?"
         [control]="formGroup().controls.bodyWeight"
-        invalidMsg="Email is invalid"
         [style]="'filled'"
       >
-        <svg lucideWeight></svg>
+        <span>KG</span>
       </app-input>
       <app-input
-        id="pfp"
+        id="height"
+        name="Height"
         placeholder="What is your height?"
         [control]="formGroup().controls.height"
-        invalidMsg="Email is invalid"
         [style]="'filled'"
       >
-        <svg lucideRuler></svg>
+        <span>CM</span>
       </app-input>
       <app-input
-        id="pfp"
+        id="bio"
+        name="Your biography"
         type="textarea"
-        type="textarea"
-        placeholder="Add some biography or additional information to your profile"
+        placeholder="Add some biography or additional information to your profile (optional)"
         [control]="formGroup().controls.description"
-        invalidMsg="Email is invalid"
         [style]="'filled'"
       >
         <svg lucidePencil></svg>
@@ -60,34 +59,33 @@
         id="pfp"
         placeholder="Upload a profile picture for others to know you"
         [control]="formGroup().controls.pfp"
-        invalidMsg="Email is invalid"
         [style]="'filled'"
       >
       </app-file-input>
       <app-input
-        id="pfp"
+        id="age"
+        name="Age"
         placeholder="How old are you?"
         [control]="formGroup().controls.age"
-        invalidMsg="Email is invalid"
         [style]="'filled'"
       >
         <svg lucideUserRound></svg>
       </app-input>
       <app-input
-        id="pfp"
+        id="exp"
+        name="Experience (years)"
         placeholder="Your experience time?"
-        [control]="formGroup().controls.bodyWeight"
-        invalidMsg="Email is invalid"
+        [control]="formGroup().controls.experience"
         [style]="'filled'"
       >
         <svg lucideFlaskConical></svg>
       </app-input>
       <app-input
-        id="pfp"
+        id="bio"
+        name="Your biography"
         type="textarea"
         placeholder="Add some biography or additional information to your profile"
         [control]="formGroup().controls.description"
-        invalidMsg="Email is invalid"
         [style]="'filled'"
       >
         <svg lucidePencil></svg>

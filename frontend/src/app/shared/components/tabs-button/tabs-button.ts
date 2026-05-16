@@ -20,6 +20,5 @@ export class TabsButtonComponent {
     if(selectedOptionIdx == -1) selectedOptionIdx = 0;
 
     this.selectorStep.set(selectedOptionIdx);
-    console.log(this.selectedOption(), this.selectorStep())
   }
 }
