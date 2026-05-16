@@ -19,4 +19,9 @@
     position: absolute;
     right: 30px;
   }
+
+  &:disabled {
+    opacity: 0.9;
+    pointer-events: none;
+  }
 }

@@ -38,6 +38,11 @@
     max-height: 200px;
   }
 
+  span {
+    border-left: 1px solid var(--primary-grey);
+    padding-left: 10px;
+  }
+
   svg.interact-icon {
     cursor: pointer;
   }
