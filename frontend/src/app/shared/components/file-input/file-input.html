@@ -1,0 +1,18 @@
+<div class="input-wrapper mock-input" [class]="style() == 'outlined' ? 'outlined' : 'filled'" (click)="fileInput.click()">
+  <input
+    class="input-wrapper"
+    [placeholder]="placeholder()"
+    [value]="control().value?.name || ''"
+    readonly
+  />
+  <input
+    #fileInput
+    type="file"
+    [id]="id()"
+    [name]="id()"
+    accept="image/png, image/jpeg"
+    (change)="onFileUpload($event)"
+    hidden
+  />
+  <svg lucideUpload></svg>
+</div>

@@ -1,3 +1,6 @@
+@use './app/shared/styles/input';
+@use './app/shared/styles/quiz';
+
 /* Sora global font */
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
 
@@ -45,3 +48,4 @@ input {
 .icon-theme-color {
   stroke: var(--primary-text)
 }
+
