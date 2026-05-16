@@ -4,8 +4,7 @@ import { UserGoal, UserRole } from '@features/auth/models/register.model';
 @Component({
   selector: 'app-quiz-step-goal',
   imports: [],
-  templateUrl: './quiz-step-goal.html',
-  styleUrl: './quiz-step-goal.scss',
+  templateUrl: './quiz-step-goal.html'
 })
 export class QuizStepGoalComponent {
   role = input.required<UserRole>();

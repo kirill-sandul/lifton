@@ -10,7 +10,6 @@ import { FileInputComponent } from '@shared/components/file-input/file-input';
   selector: 'app-quiz-step-profile',
   imports: [ReactiveFormsModule, ButtonComponent, FileInputComponent, BaseInputComponent, ...APP_ICONS],
   templateUrl: './quiz-step-profile.html',
-  styleUrl: './quiz-step-profile.scss',
 })
 export class QuizStepProfileComponent {
   role = input.required<UserRole>();

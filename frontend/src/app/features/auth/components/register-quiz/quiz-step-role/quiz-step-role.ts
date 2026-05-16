@@ -4,8 +4,7 @@ import { UserRole } from '@features/auth/models/register.model';
 @Component({
   selector: 'app-quiz-step-role',
   imports: [],
-  templateUrl: './quiz-step-role.html',
-  styleUrl: './quiz-step-role.scss',
+  templateUrl: './quiz-step-role.html'
 })
 export class QuizStepRoleComponent {
   selected = output<UserRole>()

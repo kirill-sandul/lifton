@@ -7,8 +7,7 @@ import { BaseInputComponent } from '@shared/components/base-input/base-input';
 @Component({
   selector: 'app-quiz-step-credentials',
   imports: [ReactiveFormsModule, BaseInputComponent, ...APP_ICONS],
-  templateUrl: './quiz-step-credentials.html',
-  styleUrl: './quiz-step-credentials.scss',
+  templateUrl: './quiz-step-credentials.html'
 })
 export class QuizStepCredentialsComponent {
   formGroup = input.required<FormGroup<RegisterFormControls>>()
