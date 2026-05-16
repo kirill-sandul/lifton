@@ -1,0 +1,38 @@
+<div class="input-wrapper" [class]="style() == 'outlined' ? 'outlined' : 'filled'">
+  @if(type() == "textarea"){
+      <textarea
+        [id]="id()"
+        [name]="id()"
+        [formControl]="control()"
+        [placeholder]="placeholder()"
+      ></textarea>
+    }
+    
+    @if(type() !== "textarea") {
+      <input
+        [id]="id()"
+        [name]="id()"
+        [formControl]="control()"
+        [type]="dynamicType()"
+        [placeholder]="placeholder()"
+      />
+    }
+
+  <ng-content />
+
+  @if(type() == 'password'){
+    @if(dynamicType() == 'password') {
+      <svg lucideEye [strokeWidth]="1.5" class="icon-theme-color interact-icon" (click)="dynamicType.set('text')"></svg>
+    }
+    @if(dynamicType() == 'text') {
+      <svg lucideEyeClosed [strokeWidth]="1.5" class="icon-theme-color interact-icon" (click)="dynamicType.set('password')"></svg>
+    }
+  }
+</div>
+
+@if(control().invalid && control().touched) {
+  <div class="invalid-msg">
+    <img src="/assets/error.png" alt="">
+    <span>{{ invalidMsg() }}</span>
+  </div>
+}
