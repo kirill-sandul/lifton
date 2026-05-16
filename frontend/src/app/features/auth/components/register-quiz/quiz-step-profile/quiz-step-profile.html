@@ -1,0 +1,98 @@
+<div class="quiz-align-center">
+  <h1>Add some more information to your profile</h1>
+  <div class="line"></div>
+
+  @if(role() == "client") {
+    <form class="register-form" [formGroup]="formGroup()">
+      <app-file-input
+        id="pfp"
+        placeholder="Upload a profile picture for others to know you"
+        [control]="formGroup().controls.pfp"
+        invalidMsg="Email is invalid"
+        [style]="'filled'"
+      >
+      </app-file-input>
+      <app-input
+        id="pfp"
+        placeholder="How old are you?"
+        [control]="formGroup().controls.age"
+        invalidMsg="Email is invalid"
+        [style]="'filled'"
+      >
+        <svg lucideUserRound></svg>
+      </app-input>
+      <app-input
+        id="pfp"
+        placeholder="What is your body weight?"
+        [control]="formGroup().controls.bodyWeight"
+        invalidMsg="Email is invalid"
+        [style]="'filled'"
+      >
+        <svg lucideWeight></svg>
+      </app-input>
+      <app-input
+        id="pfp"
+        placeholder="What is your height?"
+        [control]="formGroup().controls.height"
+        invalidMsg="Email is invalid"
+        [style]="'filled'"
+      >
+        <svg lucideRuler></svg>
+      </app-input>
+      <app-input
+        id="pfp"
+        type="textarea"
+        type="textarea"
+        placeholder="Add some biography or additional information to your profile"
+        [control]="formGroup().controls.description"
+        invalidMsg="Email is invalid"
+        [style]="'filled'"
+      >
+        <svg lucidePencil></svg>
+      </app-input>
+      <button liftonButton (click)="nextStep.emit()">Final step</button>
+    </form>
+  }
+
+  @if(role() == "trainer") {
+    <form class="register-form" [formGroup]="formGroup()">
+      <app-file-input
+        id="pfp"
+        placeholder="Upload a profile picture for others to know you"
+        [control]="formGroup().controls.pfp"
+        invalidMsg="Email is invalid"
+        [style]="'filled'"
+      >
+      </app-file-input>
+      <app-input
+        id="pfp"
+        placeholder="How old are you?"
+        [control]="formGroup().controls.age"
+        invalidMsg="Email is invalid"
+        [style]="'filled'"
+      >
+        <svg lucideUserRound></svg>
+      </app-input>
+      <app-input
+        id="pfp"
+        placeholder="Your experience time?"
+        [control]="formGroup().controls.bodyWeight"
+        invalidMsg="Email is invalid"
+        [style]="'filled'"
+      >
+        <svg lucideFlaskConical></svg>
+      </app-input>
+      <app-input
+        id="pfp"
+        type="textarea"
+        placeholder="Add some biography or additional information to your profile"
+        [control]="formGroup().controls.description"
+        invalidMsg="Email is invalid"
+        [style]="'filled'"
+      >
+        <svg lucidePencil></svg>
+      </app-input>
+      <button liftonButton (click)="nextStep.emit()">Final step</button>
+    </form>
+  }
+</div>

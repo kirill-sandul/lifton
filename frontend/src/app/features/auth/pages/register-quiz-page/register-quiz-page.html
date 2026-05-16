@@ -1,0 +1,22 @@
+<div class="register-quiz">
+  <div class="register-quiz-widget">
+    
+    @if(step() == 1){
+      <app-quiz-step-role (selected)="registrationModel.role = $event; nextStep()"></app-quiz-step-role>
+    }
+
+    @if(step() == 2){
+      <app-quiz-step-goal [role]="registrationModel.role" (selected)="registrationModel.goal = $event; nextStep()"></app-quiz-step-goal>
+    }
+
+    @if(step() == 3){
+      <app-quiz-step-profile [formGroup]="registerForm" [role]="registrationModel.role" (nextStep)="nextStep()"></app-quiz-step-profile>
+    }
+
+    @if(step() == 4){
+      <app-quiz-step-credentials [formGroup]="registerForm"></app-quiz-step-credentials>
+    }
+    
+  </div>
+</div>
+<div class="register-quiz-bg"></div>
