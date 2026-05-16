@@ -2,7 +2,7 @@
   <div class="register-quiz-widget">
     
     @if(step() == 1){
-      <app-quiz-step-role (selected)="registrationModel.role = $event; nextStep()"></app-quiz-step-role>
+      <app-quiz-step-role (selected)="roleSelected($event)"></app-quiz-step-role>
     }
 
     @if(step() == 2){
@@ -10,11 +10,11 @@
     }
 
     @if(step() == 3){
-      <app-quiz-step-profile [formGroup]="registerForm" [role]="registrationModel.role" (nextStep)="nextStep()"></app-quiz-step-profile>
+      <app-quiz-step-profile [formGroup]="registerProfileForm" [role]="registrationModel.role" (nextStep)="nextStep()"></app-quiz-step-profile>
     }
 
     @if(step() == 4){
-      <app-quiz-step-credentials [formGroup]="registerForm"></app-quiz-step-credentials>
+      <app-quiz-step-credentials [formGroup]="registerCredentialsForm" (onSubmit)="onSubmit()"></app-quiz-step-credentials>
     }
     
   </div>

@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { APP_ICONS } from '@core/icons';
-import { RegisterFormControls } from '@features/auth/models/register.model';
+import { RegisterCredentialsFormControls } from '@features/auth/models/register.model';
 import { BaseInputComponent } from '@shared/components/base-input/base-input';
 import { ButtonComponent } from "@shared/components/button/button";
 
@@ -11,7 +11,7 @@ import { ButtonComponent } from "@shared/components/button/button";
   templateUrl: './quiz-step-credentials.html'
 })
 export class QuizStepCredentialsComponent {
-  formGroup = input.required<FormGroup<RegisterFormControls>>()
+  formGroup = input.required<FormGroup<RegisterCredentialsFormControls>>()
 
   onSubmit = output()
 }

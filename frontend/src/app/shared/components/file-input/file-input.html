@@ -8,11 +8,11 @@
   <input
     #fileInput
     type="file"
+    accept="image/png, image/jpeg"
+    hidden
     [id]="id()"
     [name]="id()"
-    accept="image/png, image/jpeg"
     (change)="onFileUpload($event)"
-    hidden
   />
   <svg lucideUpload></svg>
 </div>

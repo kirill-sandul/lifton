@@ -49,7 +49,7 @@
       >
         <svg lucidePencil></svg>
       </app-input>
-      <button liftonButton (click)="nextStep.emit()">Final step</button>
+      <button liftonButton [disabled]="formGroup().invalid" (click)="nextStep.emit()">Final step</button>
     </form>
   }
 
@@ -69,7 +69,7 @@
         [control]="formGroup().controls.age"
         [style]="'filled'"
       >
-        <svg lucideUserRound></svg>
+        <span>YRS</span>
       </app-input>
       <app-input
         id="exp"
@@ -78,7 +78,7 @@
         [control]="formGroup().controls.experience"
         [style]="'filled'"
       >
-        <svg lucideFlaskConical></svg>
+        <span>YRS</span>
       </app-input>
       <app-input
         id="bio"
@@ -90,7 +90,7 @@
       >
         <svg lucidePencil></svg>
       </app-input>
-      <button liftonButton (click)="nextStep.emit()">Final step</button>
+      <button liftonButton [disabled]="formGroup().invalid" (click)="nextStep.emit();">Final step</button>
     </form>
   }
 </div>
