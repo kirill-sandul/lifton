@@ -21,7 +21,7 @@ export const routes: Routes = [
     ],
   },
   {
-      path: 'register/quiz',
-      component: RegisterQuizPage
-      }
+    path: 'register/quiz',
+    component: RegisterQuizPage
+  }
 ];

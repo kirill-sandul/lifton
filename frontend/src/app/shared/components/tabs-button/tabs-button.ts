@@ -10,7 +10,16 @@ import { RouterLink } from "@angular/router";
 export class TabsButtonComponent {
   options = input([''])
   optionsLinks = input([''])
+  selectedOption = input('')
   
   selectorStep = signal(0)
   selectionBgPos = computed(() => 100 * this.selectorStep())
+
+  ngAfterViewInit(){
+    let selectedOptionIdx = this.options().findIndex(o => o == this.selectedOption());
+    if(selectedOptionIdx == -1) selectedOptionIdx = 0;
+
+    this.selectorStep.set(selectedOptionIdx);
+    console.log(this.selectedOption(), this.selectorStep())
+  }
 }
