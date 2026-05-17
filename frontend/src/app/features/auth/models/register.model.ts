@@ -21,6 +21,7 @@ export interface TrainerProfileFormControls extends BaseProfileFormControls {
 export type FullProfileFormControls = BaseProfileFormControls & ClientProfileFormControls & TrainerProfileFormControls
 
 export interface RegisterCredentialsFormControls {
+  fullName: FormControl<string | null>
   phone: FormControl<string | null>
   email: FormControl<string | null>
   password: FormControl<string | null>

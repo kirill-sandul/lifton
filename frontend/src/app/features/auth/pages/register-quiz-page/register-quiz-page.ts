@@ -37,6 +37,9 @@ export class RegisterQuizPage {
   registerProfileForm: FormGroup = new FormGroup({});
   
   registerCredentialsForm = new FormGroup<RegisterCredentialsFormControls>({
+    fullName: new FormControl<string | null>('', [
+      Validators.required
+    ]), 
     phone: new FormControl<string | null>('', [
       phoneValidator(),
       Validators.required
