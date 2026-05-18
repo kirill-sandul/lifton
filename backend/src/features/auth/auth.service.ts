@@ -1,0 +1,109 @@
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { PrismaService } from 'src/core/prisma/prisma.service';
+import { Role } from 'src/generated/prisma/enums';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+
+@Injectable()
+export class AuthService {
+  constructor(private jwtService: JwtService, private prisma: PrismaService){}
+
+  async register(registerDto: RegisterDto){
+    const { fullName, email, phone, role, age, description, pfp, password, bodyWeight, height, goal, experience } = registerDto;
+    
+    const hash = await bcrypt.hash(password, 10);
+
+    const user = await this.prisma.user.create({
+      data: {
+        fullName,
+        email,
+        phone,
+        role,
+        age,
+        description,
+        pfp,
+        goal,
+        password: hash,
+        clientProfile: {
+          create: {
+            bodyWeight,
+            height
+          }
+        },
+        trainerProfile:{
+          create: {
+            experience
+          }
+        }
+      }
+    });
+
+    return await this.generateTokens(user.id, user.role);
+  }
+
+  async login(loginDto: LoginDto){
+    const { email, password } = loginDto;
+
+    const foundUser = await this.prisma.user.findUnique({
+      where: {
+        email
+      }
+    })
+
+    if(!foundUser) throw new UnauthorizedException('Invalid credentials')
+
+    const correctPass = await bcrypt.compare(password, foundUser.password);
+    if(!correctPass) throw new UnauthorizedException('Invalid credentials')
+
+    return this.generateTokens(foundUser.id, foundUser.role)
+  }
+
+  async logout(refreshToken: string){
+    await this.prisma.refreshToken.deleteMany({
+      where: {
+        token: refreshToken
+      }
+    });
+  }
+
+  async refresh(refreshToken: string){
+    if(!refreshToken) throw new UnauthorizedException();
+
+    const storedToken = await this.prisma.refreshToken.findUnique({
+      where: {
+        token: refreshToken
+      }
+    })
+
+    if(!storedToken) throw new UnauthorizedException();
+    if(storedToken.expiresAt < new Date()) {
+      await this.prisma.refreshToken.delete({ where: {
+        token: refreshToken
+      } })
+
+      throw new UnauthorizedException();
+    }
+
+    return this.generateTokens(storedToken.userId, storedToken.role);
+  }
+
+  private async generateTokens(userId: string, role: Role){
+    const payload = { sub: userId, role }
+
+    const accessToken = this.jwtService.sign(payload);
+    const refreshToken = crypto.randomUUID();
+
+    await this.prisma.refreshToken.create({
+      data: {
+        token: refreshToken,
+        userId,
+        role,
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      }
+    })
+
+    return { accessToken, refreshToken }
+  }
+}
