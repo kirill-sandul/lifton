@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
+  moduleFormat = "commonjs"
 }
 
 datasource db {
@@ -8,7 +9,61 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id    String     @id @default(uuid())
   email String  @unique
-  name  String?
+  phone String
+  fullName  String
+  password String
+  pfp String?
+  age Int
+  description String?
+  role Role
+  goal Goal
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clientProfile ClientProfile?
+  trainerProfile TrainerProfile?
+
+  refreshTokens RefreshToken[]
+}
+
+model ClientProfile {
+  id String @id @default(uuid())
+  bodyWeight Int
+  height Int
+
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+model TrainerProfile {
+  id String @id @default(uuid())
+  experience Int
+
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+enum Role {
+  CLIENT
+  TRAINER
+}
+
+enum Goal {
+  STRENGTH
+  MUSCLES
+  FATLOSS
+}
+
+model RefreshToken {
+  id String @id @default(uuid())
+  token String @unique
+  userId String
+  role Role
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
 }
