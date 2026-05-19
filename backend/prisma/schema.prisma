@@ -14,7 +14,7 @@ model User {
   phone String
   fullName  String
   password String
-  pfp String?
+  pfpUrl String?
   age Int
   description String?
   role Role
