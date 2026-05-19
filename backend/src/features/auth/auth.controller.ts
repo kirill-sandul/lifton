@@ -1,5 +1,7 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import type { Request } from 'express';
+import 'multer'
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -9,8 +11,12 @@ export class AuthController {
   constructor(private readonly authService: AuthService){}
 
   @Post('register')
-  register(@Body() dto: RegisterDto){
-    return this.authService.register(dto);
+  @UseInterceptors(FileInterceptor('pfp'))
+  register(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() dto: RegisterDto
+  ){
+    return this.authService.register(dto, file);
   }
 
   @Post('login')

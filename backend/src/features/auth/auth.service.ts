@@ -1,19 +1,30 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { PrismaService } from 'src/core/prisma/prisma.service';
+import { StorageService } from 'src/core/modules/storage/storage.service';
+import { PrismaService } from 'src/core/modules/prisma/prisma.service';
 import { Role } from 'src/generated/prisma/enums';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService, private prisma: PrismaService){}
+  constructor(private jwtService: JwtService, private storageService: StorageService, private prisma: PrismaService){}
 
-  async register(registerDto: RegisterDto){
-    const { fullName, email, phone, role, age, description, pfp, password, bodyWeight, height, goal, experience } = registerDto;
+  async register(registerDto: RegisterDto, file?: Express.Multer.File){
+    let pfpUrl: string | null = null;
+
+    if(file) pfpUrl = await this.storageService.uploadFile(file, 'avatars');
+
+    const { fullName, email, phone, role, age, description, password, bodyWeight, height, goal, experience } = registerDto;
     
     const hash = await bcrypt.hash(password, 10);
+
+    const existingEmail = await this.prisma.user.findUnique({
+      where: { email }
+    })
+
+    if(existingEmail) throw new ConflictException('EXISTING_EMAIL');
 
     const user = await this.prisma.user.create({
       data: {
@@ -23,21 +34,21 @@ export class AuthService {
         role,
         age,
         description,
-        pfp,
+        pfpUrl,
         goal,
         password: hash,
-        clientProfile: {
+        clientProfile: role === Role.CLIENT ? {
           create: {
             bodyWeight,
             height
           }
-        },
-        trainerProfile:{
+        } : undefined,
+        trainerProfile: role === Role.TRAINER ? {
           create: {
             experience
           }
-        }
-      }
+        } : undefined
+      } 
     });
 
     return await this.generateTokens(user.id, user.role);
@@ -85,6 +96,8 @@ export class AuthService {
 
       throw new UnauthorizedException();
     }
+
+    await this.prisma.refreshToken.delete({ where: { token: refreshToken } });
 
     return this.generateTokens(storedToken.userId, storedToken.role);
   }
