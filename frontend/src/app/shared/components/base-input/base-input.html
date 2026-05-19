@@ -1,4 +1,7 @@
-<div class="input-wrapper" [class]="style() == 'outlined' ? 'outlined' : 'filled'">
+<div class="input-wrapper"
+  [class]="style() == 'outlined' ? 'outlined' : 'filled'"
+  [class.invalid]="control().invalid && control().touched"
+>
   @if(type() == "textarea"){
       <textarea
         [id]="id()"

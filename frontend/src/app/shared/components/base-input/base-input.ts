@@ -33,6 +33,7 @@ export class BaseInputComponent {
       maxlength: `${this.name()} is too long`,
       min: `${this.name()} is too small`,
       max: `${this.name()} is too large`,
+      serverEmailError: 'An account linked to this email already exists'
     }
   }
 
