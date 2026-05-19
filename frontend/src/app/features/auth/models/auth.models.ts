@@ -1,7 +1,7 @@
 import { FormControl } from "@angular/forms";
 
-export type UserRole = 'trainer' | 'client';
-export type UserGoal = 'strength' | 'muscles' | 'fat-loss';
+export type UserRole = 'TRAINER' | 'CLIENT';
+export type UserGoal = 'STRENGTH' | 'MUSCLES' | 'FATLOSS';
 
 export interface BaseProfileFormControls {
   pfp: FormControl<File | null>
@@ -30,4 +30,24 @@ export interface RegisterCredentialsFormControls {
 export interface RegistrationModel {
   role: UserRole,
   goal: UserGoal
+}
+
+export interface RegisterDto {
+  fullName: string;
+  email: string;
+  phone: string;
+  password: string;
+  role: UserRole;
+  goal: UserGoal,
+  age: number;
+  pfpUrl?: string;
+  description?: string;
+  bodyWeight?: number;
+  height?: number;
+  experience?: number;
+}
+
+export interface AuthResponse {
+  accessToken: string,
+  refreshToken: string
 }

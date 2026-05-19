@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '@features/auth/services/auth.service';
 import { QuizStepRoleComponent } from '@features/auth/components/register-quiz/quiz-step-role/quiz-step-role';
 import { QuizStepGoalComponent } from '@features/auth/components/register-quiz/quiz-step-goal/quiz-step-goal';
 import { QuizStepProfileComponent } from '@features/auth/components/register-quiz/quiz-step-profile/quiz-step-profile';
@@ -9,10 +10,11 @@ import {
   RegisterCredentialsFormControls,
   RegistrationModel,
   UserRole
-} from '@features/auth/models/register.model';
+} from '@features/auth/models/auth.models';
 import { QuizStepCredentialsComponent } from '@features/auth/components/register-quiz/quiz-step-credentials/quiz-step-credentials';
 import { phoneValidator } from '@shared/validators/phone.validator';
 import { digitsOnlyValidator } from '@shared/validators/digitsOnly.validator';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register-quiz-page',
@@ -27,11 +29,13 @@ import { digitsOnlyValidator } from '@shared/validators/digitsOnly.validator';
   styleUrl: './register-quiz-page.scss'
 })
 export class RegisterQuizPage {
+  authService = inject(AuthService)
+
   step = signal(1)
 
   registrationModel: RegistrationModel = {
-    role: 'client',
-    goal: 'strength'
+    role: 'CLIENT',
+    goal: 'STRENGTH'
   }
 
   registerProfileForm: FormGroup = new FormGroup({});
@@ -68,7 +72,7 @@ export class RegisterQuizPage {
       ]),
     }
 
-    if(this.registrationModel.role == 'client'){
+    if(this.registrationModel.role === 'CLIENT'){
       return new FormGroup<ClientProfileFormControls>({
         ...baseFields,
         bodyWeight: new FormControl<number | null>(null, [
@@ -86,6 +90,7 @@ export class RegisterQuizPage {
       })
     }
 
+    // TRAINER
     return new FormGroup<TrainerProfileFormControls>({
       ...baseFields,
       experience: new FormControl<number | null>(null, [
@@ -108,6 +113,28 @@ export class RegisterQuizPage {
   }
 
   onSubmit(){
-    console.log({ ...this.registrationModel, ...this.registerProfileForm.value, ...this.registerCredentialsForm.value })
+    const registrationFinalModel = {
+      ...this.registrationModel,
+      ...this.registerProfileForm.value,
+      ...this.registerCredentialsForm.value
+    }
+
+    this.authService.register(registrationFinalModel).subscribe({
+      next: (res) => {
+        console.log(res)
+      },
+      error: ({ error }: HttpErrorResponse) => {
+        if(error.statusCode === 409 && error.message === 'EXISTING_EMAIL') {
+          this.registerCredentialsForm.get('email')?.setErrors({
+            serverEmailError: true
+          })
+  
+          console.log(this.registerCredentialsForm, this.registerCredentialsForm.get('email')?.errors);
+  
+  
+          this.registerCredentialsForm.get('email')?.markAsTouched();
+        }
+      }
+    })
   }
 }

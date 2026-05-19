@@ -1,5 +1,5 @@
 import { Component, output } from '@angular/core';
-import { UserRole } from '@features/auth/models/register.model';
+import { UserRole } from '@features/auth/models/auth.models';
 
 @Component({
   selector: 'app-quiz-step-role',

@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { UserGoal, UserRole } from '@features/auth/models/register.model';
+import { UserGoal, UserRole } from '@features/auth/models/auth.models';
 
 @Component({
   selector: 'app-quiz-step-goal',
