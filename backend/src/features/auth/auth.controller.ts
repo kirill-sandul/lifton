@@ -1,6 +1,6 @@
-import { Body, Controller, Post, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Param, Post, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import type { Request } from 'express';
+import type { Request, Response } from 'express';
 import 'multer'
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -10,27 +10,47 @@ import { LoginDto } from './dto/login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService){}
 
+  private setRefreshCookie(res: Response, refreshToken: string){
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    })
+  }
+
   @Post('register')
   @UseInterceptors(FileInterceptor('pfp'))
-  register(
+  async register(
     @UploadedFile() file: Express.Multer.File,
-    @Body() dto: RegisterDto
+    @Body() dto: RegisterDto,
+    @Res({ passthrough: true }) res: Response
   ){
-    return this.authService.register(dto, file);
+    const { accessToken, refreshToken } = await this.authService.register(dto, file);
+
+    this.setRefreshCookie(res, refreshToken);
+
+    return { accessToken }
   }
 
   @Post('login')
-  login(@Body() dto: LoginDto){
-    return this.authService.login(dto);
+  async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response){
+    const { accessToken, refreshToken } = await this.authService.login(dto);
+
+    this.setRefreshCookie(res, refreshToken);
+
+    return { accessToken }
   }
 
   @Post('logout')
-  logout(@Req() req: Request){
-    return this.authService.logout(req.cookies["refresh_token"]);
+  async logout(@Param('userId') userId: string){
+    return await this.authService.logout(userId);
   }
 
   @Post('refresh')
-  refresh(@Req() req: Request){
-    return this.authService.refresh(req.cookies["refresh_token"]);
-  } 
+  async refresh(@Req() req: Request){
+    const { accessToken } = await this.authService.refresh(req.cookies["refresh_token"]);
+
+    return { accessToken }
+  }
 }
