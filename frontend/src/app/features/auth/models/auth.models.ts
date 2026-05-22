@@ -1,4 +1,4 @@
-import { FormControl } from "@angular/forms";
+import { Form, FormControl } from "@angular/forms";
 
 export type UserRole = 'TRAINER' | 'CLIENT';
 export type UserGoal = 'STRENGTH' | 'MUSCLES' | 'FATLOSS';
@@ -32,6 +32,11 @@ export interface RegistrationModel {
   goal: UserGoal
 }
 
+export interface LoginFormControls {
+  email: FormControl<string | null>
+  password: FormControl<string | null>
+}
+
 export interface RegisterDto {
   fullName: string;
   email: string;
@@ -47,7 +52,11 @@ export interface RegisterDto {
   experience?: number;
 }
 
+export interface LoginDto {
+  email: string;
+  password: string;
+}
+
 export interface AuthResponse {
-  accessToken: string,
-  refreshToken: string
+  accessToken: string
 }
