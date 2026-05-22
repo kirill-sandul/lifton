@@ -57,24 +57,19 @@ export class AuthService {
   async login(loginDto: LoginDto){
     const { email, password } = loginDto;
 
-    const foundUser = await this.prisma.user.findUnique({
-      where: {
-        email
-      }
-    })
-
-    if(!foundUser) throw new UnauthorizedException('Invalid credentials')
+    const foundUser = await this.prisma.user.findUnique({ where: { email } })
+    if(!foundUser) throw new UnauthorizedException('INVALID_CREDENTIALS');
 
     const correctPass = await bcrypt.compare(password, foundUser.password);
-    if(!correctPass) throw new UnauthorizedException('Invalid credentials')
+    if(!correctPass) throw new UnauthorizedException('INVALID_CREDENTIALS');
 
-    return this.generateTokens(foundUser.id, foundUser.role)
+    return await this.generateTokens(foundUser.id, foundUser.role)
   }
 
-  async logout(refreshToken: string){
+  async logout(userId: string){
     await this.prisma.refreshToken.deleteMany({
       where: {
-        token: refreshToken
+        userId
       }
     });
   }
@@ -89,6 +84,7 @@ export class AuthService {
     })
 
     if(!storedToken) throw new UnauthorizedException();
+    
     if(storedToken.expiresAt < new Date()) {
       await this.prisma.refreshToken.delete({ where: {
         token: refreshToken
@@ -97,9 +93,15 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    await this.prisma.refreshToken.delete({ where: { token: refreshToken } });
+    await this.prisma.refreshToken.update({
+      where: { token: refreshToken }, 
+      data: { expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) }
+    })
 
-    return this.generateTokens(storedToken.userId, storedToken.role);
+    const payload = { sub: storedToken.userId, role: storedToken.role }
+    const accessToken = this.jwtService.sign(payload);
+
+    return { accessToken }
   }
 
   private async generateTokens(userId: string, role: Role){
