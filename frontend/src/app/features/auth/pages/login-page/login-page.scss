@@ -10,4 +10,16 @@
       margin-bottom: 0;
     }
   }
+
+  .invalid-form-msg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    
+    span {
+      color: var(--primary-error);
+      margin-left: 7px;
+    }
+  }
 }
