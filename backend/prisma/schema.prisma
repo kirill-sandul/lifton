@@ -63,7 +63,9 @@ model RefreshToken {
   userId String
   role Role
   expiresAt DateTime
+
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 
   user User @relation(fields: [userId], references: [id])
 }
