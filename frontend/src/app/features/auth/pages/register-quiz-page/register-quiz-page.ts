@@ -15,6 +15,7 @@ import { QuizStepCredentialsComponent } from '@features/auth/components/register
 import { phoneValidator } from '@shared/validators/phone.validator';
 import { digitsOnlyValidator } from '@shared/validators/digitsOnly.validator';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-quiz-page',
@@ -30,6 +31,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class RegisterQuizPage {
   authService = inject(AuthService)
+  router = inject(Router);
 
   step = signal(1)
 
@@ -112,6 +114,16 @@ export class RegisterQuizPage {
     this.step.set(this.step() + 1);
   }
 
+  checkEmailError({ error }: HttpErrorResponse){
+    if(error.statusCode === 409 && error.message === 'EXISTING_EMAIL') {
+      this.registerCredentialsForm.get('email')?.setErrors({
+        serverEmailError: true
+      })
+
+      this.registerCredentialsForm.get('email')?.markAsTouched();
+    }
+  }
+
   onSubmit(){
     const registrationFinalModel = {
       ...this.registrationModel,
@@ -120,21 +132,8 @@ export class RegisterQuizPage {
     }
 
     this.authService.register(registrationFinalModel).subscribe({
-      next: (res) => {
-        console.log(res)
-      },
-      error: ({ error }: HttpErrorResponse) => {
-        if(error.statusCode === 409 && error.message === 'EXISTING_EMAIL') {
-          this.registerCredentialsForm.get('email')?.setErrors({
-            serverEmailError: true
-          })
-  
-          console.log(this.registerCredentialsForm, this.registerCredentialsForm.get('email')?.errors);
-  
-  
-          this.registerCredentialsForm.get('email')?.markAsTouched();
-        }
-      }
+      next: () => this.router.navigate(['/']),
+      error: (error) => this.checkEmailError(error)
     })
   }
 }
