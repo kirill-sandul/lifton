@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { RouterLink } from "@angular/router";
 
 @Component({
@@ -15,10 +15,12 @@ export class TabsButtonComponent {
   selectorStep = signal(0)
   selectionBgPos = computed(() => 100 * this.selectorStep())
 
-  ngAfterViewInit(){
-    let selectedOptionIdx = this.options().findIndex(o => o == this.selectedOption());
-    if(selectedOptionIdx == -1) selectedOptionIdx = 0;
+  constructor(){
+    effect(() => {
+      let selectedOptionIdx = this.options().findIndex(o => o == this.selectedOption());
+      if(selectedOptionIdx == -1) selectedOptionIdx = 0;
 
-    this.selectorStep.set(selectedOptionIdx);
+      this.selectorStep.set(selectedOptionIdx);
+    })
   }
 }

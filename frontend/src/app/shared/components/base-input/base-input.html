@@ -33,7 +33,7 @@
   }
 </div>
 
-@if(control().invalid && control().touched) {
+@if(control().invalid && control().touched && errorMessage) {
   <div class="invalid-msg">
     <img src="/assets/error.png" alt="">
     <span>{{ errorMessage }}</span>

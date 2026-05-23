@@ -40,7 +40,7 @@ export class BaseInputComponent {
   get errorMessage(): string {
     const errors = this.control().errors;
 
-    if (!errors) return '';
+    if (!errors || errors['serverCredentialsError']) return '';
     
     const firstError = Object.keys(errors)[0];
     return this.errorMessages[firstError] ?? 'Invalid value';
