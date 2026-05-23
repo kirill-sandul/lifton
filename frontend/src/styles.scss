@@ -11,7 +11,10 @@
   --primary-grey: #535353;
   --primary-grey-light: #D2D2D2;
   --primary-error: #FF3737;
-  --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light),var(--primary-blue-lighter));
+  --primary-error-light: #FF7676;
+  --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light), var(--primary-blue-lighter));
+  --primary-blue-bg-gradient: linear-gradient(to bottom, var(--primary-blue-lighter), #D8DEE3);
+  --primary-dark-gradient: linear-gradient(to bottom, #000, #6b6b6b);
 
   --primary-text: #000;
   --primary-bg: #fff;
@@ -28,6 +31,15 @@ body {
     --primary-grey: var(--primary-grey-light);
     --primary-bg: #121212;
   }
+
+  &.dashboard-bg {
+    height: 100vh;
+    background: var(--primary-blue-bg-gradient);
+  }
+}
+
+ul {
+    list-style-type: none;
 }
 
 button {
