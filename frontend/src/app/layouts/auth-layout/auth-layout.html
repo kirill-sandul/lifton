@@ -1,0 +1,14 @@
+<div class="auth-widget">
+  <div class="auth-widget-wrapper">
+    <img src="assets/lifton-logo.png" alt="Lifton">
+    <h1 class="title">Gym training SaaS</h1>
+    <div class="line"></div>
+    <p class="project-description">A training platform for trainer-client interaction including gym programmes, progress and analytics</p>
+    
+    <div class="form-wrapper">
+      <app-tabs-button [options]="['Sign in', 'Join Lifton']" [optionsLinks]="['login', 'register']" [selectedOption]="selectedTab()!"  />
+      <router-outlet />
+    </div>
+  </div>
+</div>
+<div class="auth-bg"></div>

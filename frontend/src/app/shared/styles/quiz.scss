@@ -1,0 +1,126 @@
+.register-quiz {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  &-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, rgb(166, 218, 255, 0.8), rgb(255, 255, 255, 0.8));
+    padding: 120px;
+    border-radius: 25px;
+
+    h1 {
+      font-weight: 500;
+    }
+
+    .line {
+      display: block;
+      width: 90px;
+      height: 2px;
+      background-color: var(--primary-text);
+    }
+
+    .quiz {
+      &-options {
+        display: flex;
+        flex-direction: row;
+        gap: 55px;
+      }
+
+      &-card {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 25px;
+        cursor: pointer;
+        z-index: 2;
+
+        &:hover::before {
+          background-color: var(--primary-blue-lighter);
+          box-shadow: 0 0 25px var(--primary-blue-lighter);
+          transform: scale(1.03);
+        }
+
+        &:hover img {
+          transform: translateY(-15px);
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 80%;
+          background-color: #fff;
+          border-radius: 30px;
+          box-shadow: 0 0 15px #fff;
+          transition: .2s;
+          z-index: -1;
+        }
+
+        img {
+          border-radius: 25px;
+          transition: .2s;
+        }
+
+        h2 {
+          font-weight: 400;
+          font-size: 30px;
+        }
+
+        p {
+          color: var(--primary-grey);
+          font-weight: 300;
+          text-align: center;
+          max-width: 300px;
+          margin: 0;
+        }
+      }
+    }
+
+    .register-form {
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+      gap: 25px;
+      margin-top: 40px;
+    }
+  }
+}
+
+.quiz-align-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 35vw;
+}
+
+.register-quiz-bg {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.10);
+  }
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/auth-bg.jpg");
+  background-size: cover;
+  z-index: -1;
+}

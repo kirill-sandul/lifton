@@ -1,1 +1,51 @@
-/* You can add global styles to this file, and also import other style files */
+@use './app/shared/styles/input';
+@use './app/shared/styles/quiz';
+
+/* Sora global font */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
+
+:root {
+  --primary-blue: #0084E2;
+  --primary-blue-light: #60BAFA;
+  --primary-blue-lighter: #A6DAFF;
+  --primary-grey: #535353;
+  --primary-grey-light: #D2D2D2;
+  --primary-error: #FF3737;
+  --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light),var(--primary-blue-lighter));
+
+  --primary-text: #000;
+  --primary-bg: #fff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Sora", sans-serif;
+  font-optical-sizing: auto;
+
+  &.dark-theme {
+    --primary-text: #fff;
+    --primary-grey: var(--primary-grey-light);
+    --primary-bg: #121212;
+  }
+}
+
+button {
+  font-family: "Sora", sans-serif;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+input {
+  background: none;
+}
+
+.icon-theme-color {
+  stroke: var(--primary-text)
+}
+

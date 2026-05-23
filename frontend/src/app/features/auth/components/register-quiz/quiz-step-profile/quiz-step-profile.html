@@ -1,0 +1,96 @@
+<div class="quiz-align-center">
+  <h1>Add some more information to your profile</h1>
+  <div class="line"></div>
+
+  @if(role() == "CLIENT") {
+    <form class="register-form" [formGroup]="formGroup()">
+      <app-file-input
+        id="pfp"
+        name="Profile picture"
+        placeholder="Upload a profile picture for others to know you"
+        [control]="formGroup().controls.pfp"
+        [style]="'filled'"
+      >
+      </app-file-input>
+      <app-input
+        id="age"
+        name="Age"
+        placeholder="How old are you?"
+        [control]="formGroup().controls.age"
+        [style]="'filled'"
+      >
+        <span>YRS</span>
+      </app-input>
+      <app-input
+        id="bodyWeight"
+        name="Body weight"
+        placeholder="What is your body weight?"
+        [control]="formGroup().controls.bodyWeight"
+        [style]="'filled'"
+      >
+        <span>KG</span>
+      </app-input>
+      <app-input
+        id="height"
+        name="Height"
+        placeholder="What is your height?"
+        [control]="formGroup().controls.height"
+        [style]="'filled'"
+      >
+        <span>CM</span>
+      </app-input>
+      <app-input
+        id="bio"
+        name="Your biography"
+        type="textarea"
+        placeholder="Add some biography or additional information to your profile (optional)"
+        [control]="formGroup().controls.description"
+        [style]="'filled'"
+      >
+        <svg lucidePencil></svg>
+      </app-input>
+      <button liftonButton [disabled]="formGroup().invalid" (click)="nextStep.emit()">Final step</button>
+    </form>
+  }
+
+  @if(role() == "TRAINER") {
+    <form class="register-form" [formGroup]="formGroup()">
+      <app-file-input
+        id="pfp"
+        placeholder="Upload a profile picture for others to know you"
+        [control]="formGroup().controls.pfp"
+        [style]="'filled'"
+      >
+      </app-file-input>
+      <app-input
+        id="age"
+        name="Age"
+        placeholder="How old are you?"
+        [control]="formGroup().controls.age"
+        [style]="'filled'"
+      >
+        <span>YRS</span>
+      </app-input>
+      <app-input
+        id="exp"
+        name="Experience (years)"
+        placeholder="Your experience time?"
+        [control]="formGroup().controls.experience"
+        [style]="'filled'"
+      >
+        <span>YRS</span>
+      </app-input>
+      <app-input
+        id="bio"
+        name="Your biography"
+        type="textarea"
+        placeholder="Add some biography or additional information to your profile"
+        [control]="formGroup().controls.description"
+        [style]="'filled'"
+      >
+        <svg lucidePencil></svg>
+      </app-input>
+      <button liftonButton [disabled]="formGroup().invalid" (click)="nextStep.emit();">Final step</button>
+    </form>
+  }
+</div>
