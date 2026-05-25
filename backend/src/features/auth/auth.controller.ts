@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Request, Response } from 'express';
 import 'multer'
@@ -43,8 +43,16 @@ export class AuthController {
   }
 
   @Post('logout')
-  async logout(@Param('userId') userId: string){
-    return await this.authService.logout(userId);
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response){
+    await this.authService.logout(req.cookies["refresh_token"]);
+
+    res.clearCookie("refresh_token", {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: true
+    })
+
+    return { logoutSuccess: true }
   }
 
   @Post('refresh')

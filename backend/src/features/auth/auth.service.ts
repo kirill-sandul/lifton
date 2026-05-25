@@ -66,10 +66,12 @@ export class AuthService {
     return await this.generateTokens(foundUser.id, foundUser.role)
   }
 
-  async logout(userId: string){
+  async logout(refreshToken: string){
+    if(!refreshToken) throw new UnauthorizedException("NO_TOKEN_FOR_LOGOUT");
+
     await this.prisma.refreshToken.deleteMany({
       where: {
-        userId
+        token: refreshToken
       }
     });
   }
