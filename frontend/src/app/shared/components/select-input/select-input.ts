@@ -1,6 +1,5 @@
 import { Component, computed, input, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { TitleCasePipe } from '@angular/common';
 import { LucideArrowDown, LucideCheck } from '@lucide/angular';
 
 export interface SelectInputOption {
@@ -10,7 +9,7 @@ export interface SelectInputOption {
 
 @Component({
   selector: 'app-select-input',
-  imports: [LucideArrowDown, LucideCheck, TitleCasePipe],
+  imports: [LucideArrowDown, LucideCheck],
   templateUrl: './select-input.html',
   styleUrl: './select-input.scss',
 })

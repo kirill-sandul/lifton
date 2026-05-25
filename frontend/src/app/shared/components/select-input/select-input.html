@@ -2,7 +2,7 @@
   <div class="selected input-wrapper" (click)="isOpen.set(!isOpen())">
     <div class="scale-wrapper">
       <div class="selected-value">
-        {{ selectedOption?.label | titlecase }}
+        {{ selectedOption?.label }}
       </div>
       <svg lucideArrowDown [class.opened]="isOpen()"></svg>
     </div>
@@ -14,7 +14,7 @@
         [class.selected]="control().value === option.value"
         (click)="control().setValue(option.value); isOpen.set(false)"
       >
-        <span>{{ option.label | titlecase }}</span>
+        <span>{{ option.label }}</span>
         @if(control().value === option.value){
           <svg lucideCheck></svg>
         }
