@@ -34,7 +34,6 @@ export class RegisterDto {
   bodyWeight!: number;
 
   @ValidateIf(o => o.role === Role.TRAINER)
-  @IsOptional()
   @IsNumber()
   @Type(() => Number)
   experience!: number;
