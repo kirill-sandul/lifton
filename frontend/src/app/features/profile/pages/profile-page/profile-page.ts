@@ -5,12 +5,13 @@ import { UserService } from '@core/services/user.service';
 import { LucideLogOut, LucidePencil } from '@lucide/angular';
 import { ButtonComponent } from '@shared/components/button/button';
 import { EditProfileModalComponent } from '@features/profile/components/edit-profile-modal/edit-profile-modal';
+import { EditPfpModalComponent } from '@features/profile/components/edit-pfp-modal/edit-pfp-modal';
 import { UserGoal, UserRole } from '@core/models/user.models';
 import { UserGoalPipe } from '@core/pipes/user-goal.pipe';
 
 @Component({
   selector: 'app-profile-page',
-  imports: [LucidePencil, LucideLogOut, ButtonComponent, EditProfileModalComponent, UserGoalPipe],
+  imports: [LucidePencil, LucideLogOut, ButtonComponent, EditProfileModalComponent, EditPfpModalComponent, UserGoalPipe],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss',
 })
@@ -21,6 +22,7 @@ export class ProfilePageComponent {
 
   userProfile = computed(() => this.userService.userProfile());
   showEditProfileModal = signal(false);
+  showEditPfpModal = signal(false);
 
   readonly UserRole = UserRole;
   readonly UserGoal = UserGoal;

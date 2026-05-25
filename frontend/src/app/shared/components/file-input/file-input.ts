@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { LucideUpload } from '@lucide/angular';
 
@@ -13,6 +13,8 @@ export class FileInputComponent {
   placeholder = input('')
   control = input<FormControl<File | null>>(new FormControl());
   style = input<'outlined' | 'filled'>('outlined')
+  
+  onSelected = output()
 
   onFileUpload(event: Event){
     const input = event.target as HTMLInputElement;
@@ -22,6 +24,8 @@ export class FileInputComponent {
     const file = input.files[0];
 
     this.control().setValue(file);
+
+    this.onSelected.emit();
 
     input.value = '';
   }

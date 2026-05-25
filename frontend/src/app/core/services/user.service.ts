@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { EditProfileDto, UserProfile } from '@core/models/user.models';
 import { switchMap, tap } from 'rxjs';
 
@@ -11,7 +11,7 @@ export class UserService {
 
   private user = signal<UserProfile | null>(null)
   
-  userProfile = this.user.asReadonly();
+  userProfile = computed(() => this.user())
 
   getProfile(){
     return this.http.get<UserProfile>('user/getProfile', {}).pipe(
@@ -19,9 +19,21 @@ export class UserService {
     )
   }
 
+  editPfp(newFile: File){
+    const formData = new FormData();
+
+    formData.append('newImg', newFile);
+
+    console.log(formData, newFile);
+
+    return this.http.post<UserProfile>('user/editPfp', formData).pipe(
+      tap(userData => this.user.set(userData))
+    )
+  }
+
   editProfile(profileChanges: EditProfileDto){
-    return this.http.patch('user/editProfile', profileChanges).pipe(
-      switchMap(() => this.getProfile())
+    return this.http.patch<UserProfile>('user/editProfile', profileChanges).pipe(
+      tap(userData => this.user.set(userData))
     )
   }
 

@@ -26,10 +26,22 @@
 
     .pfp {
       min-width: 100px;
-      height: 100px;
-      border-radius: 100%;
-      border: 1px solid var(--primary-grey);
-      background-size: cover;
+
+      .editPfpBtn {
+        display: flex;
+        position: absolute;
+        top: 70%;
+        right: -15px;
+        align-items: center;
+        justify-content: center;
+        padding: 9px;
+        border-radius: 100%;
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
     }
 
     .text {

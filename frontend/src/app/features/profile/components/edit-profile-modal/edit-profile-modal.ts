@@ -82,7 +82,10 @@ export class EditProfileModalComponent {
     phone: new FormControl<string | null>(null, [
       phoneValidator(),
     ]),
-    description: new FormControl<string | null>(null),
+    description: new FormControl<string | null>(null, [
+      Validators.minLength(10),
+      Validators.maxLength(400)
+    ]),
   });
 
   selectGoalOptions: SelectInputOption[] = [

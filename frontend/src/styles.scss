@@ -63,3 +63,16 @@ input {
   stroke: var(--primary-text)
 }
 
+.pfp-style {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  border: 1px solid var(--primary-grey);
+  background-size: cover;
+
+  &.bigger {
+    width: 200px;
+    height: 200px;
+  }
+}

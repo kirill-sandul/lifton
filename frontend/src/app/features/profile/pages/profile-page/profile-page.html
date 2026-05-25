@@ -2,7 +2,10 @@
   <h1 class="title">Your profile</h1>
   <div class="profile-widget">
     <div class="row">
-      <div class="pfp" [style]="{ 'background-image': `url(${userProfile()?.pfpUrl ?? '/assets/no-pfp.png'})` }">
+      <div class="pfp pfp-style" [style.backgroundImage]="`url(${userProfile()?.pfpUrl ?? '/assets/no-pfp.png'})`">
+        <button liftonButton class="editPfpBtn" (click)="showEditPfpModal.set(true)">
+          <svg lucidePencil></svg>
+        </button>
       </div>
       <div class="text">
         <div class="text-top-row">
@@ -51,7 +54,7 @@
             @if(userProfile()?.role == UserRole.CLIENT){
               <div class="prop">
                 <span class="label">Your trainer</span>
-                <span class="value">John Johnathan</span>
+                <span class="value"></span>
               </div>
             }
             <div class="prop">
@@ -78,5 +81,9 @@
 </div>
 
 @if(userProfile() && showEditProfileModal()){
-  <app-edit-profile-modal [userRole]="userProfile()!.role" [defaultValues]="userProfile()" (onClose)="this.showEditProfileModal.set(false)"></app-edit-profile-modal>
+  <app-edit-profile-modal [userRole]="userProfile()!.role" [defaultValues]="userProfile()" (onClose)="showEditProfileModal.set(false)"></app-edit-profile-modal>
+}
+
+@if(userProfile() && showEditPfpModal()){
+  <app-edit-pfp-modal (onClose)="showEditPfpModal.set(false)"></app-edit-pfp-modal>
 }
