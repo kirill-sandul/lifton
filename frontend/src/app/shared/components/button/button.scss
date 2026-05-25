@@ -13,11 +13,18 @@
 
   &:hover {
     --x: 100%;
+    box-shadow: 0 0 15px var(--c2);
   }
 
   svg {
     position: absolute;
     right: 30px;
+  }
+  
+  &.red-tone {
+    --c1: var(--primary-error-light);
+    --c2: var(--primary-error-lighter);
+    background: linear-gradient(90deg, var(--c1, var(--primary-error-lighter)), var(--c2, var(--primary-error-lighter)) 51%, var(--c1, var(--primary-error-light))) var(--x, 0) / 200%;
   }
 
   &:disabled {
