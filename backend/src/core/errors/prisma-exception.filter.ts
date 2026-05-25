@@ -19,8 +19,10 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         throw new ConflictException('Unique constraint violated');
       }
       default:
-        super.catch(exception, host);
-        throw new Error(exception.message);
+        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Internal server error'
+        })
     }
   }
 }
