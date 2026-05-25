@@ -1,0 +1,24 @@
+<div class="select-input">
+  <div class="selected input-wrapper" (click)="isOpen.set(!isOpen())">
+    <div class="scale-wrapper">
+      <div class="selected-value">
+        {{ selectedOption?.label | titlecase }}
+      </div>
+      <svg lucideArrowDown [class.opened]="isOpen()"></svg>
+    </div>
+  </div>
+  <div class="dropdown" [class.opened]="isOpen()">
+    @for (option of options(); track option.value) {
+      <div
+        class="option"
+        [class.selected]="control().value === option.value"
+        (click)="control().setValue(option.value); isOpen.set(false)"
+      >
+        <span>{{ option.label | titlecase }}</span>
+        @if(control().value === option.value){
+          <svg lucideCheck></svg>
+        }
+      </div>
+    }
+  </div>
+</div>
