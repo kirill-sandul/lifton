@@ -1,0 +1,39 @@
+.modal-window {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 20px 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 5px #fff;
+  
+  &-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.15);
+    width: 100vw;
+    height: 100vh;
+    z-index: 99;
+  }
+
+  header {
+    padding: 10px 0 20px 0;
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  main {
+    margin-bottom: 20px;
+  }
+
+  footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+}

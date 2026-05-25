@@ -1,0 +1,25 @@
+import { Component, input, model, output } from '@angular/core';
+import { ButtonComponent } from '../button/button';
+
+@Component({
+  selector: 'app-modal',
+  imports: [ButtonComponent],
+  templateUrl: './modal.html',
+  styleUrl: './modal.scss',
+})
+export class ModalComponent {
+  title = input.required<string>()
+  acceptOption = input.required<string>()
+  discardOption = input.required<string>()
+  
+  acceptBtnDisabled = input<boolean>()
+
+  onSubmit = output();
+  onDiscard = output();
+  
+  onOutClick(event: PointerEvent){
+    const clickTarget = (event.target as HTMLElement);
+
+    if(clickTarget?.className == 'modal-window-wrapper') this.onDiscard.emit();
+  }
+}
