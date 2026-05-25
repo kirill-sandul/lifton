@@ -6,10 +6,11 @@ import { LucideLogOut, LucidePencil } from '@lucide/angular';
 import { ButtonComponent } from '@shared/components/button/button';
 import { EditProfileModalComponent } from '@features/profile/components/edit-profile-modal/edit-profile-modal';
 import { UserGoal, UserRole } from '@core/models/user.models';
+import { UserGoalPipe } from '@core/pipes/user-goal.pipe';
 
 @Component({
   selector: 'app-profile-page',
-  imports: [LucidePencil, LucideLogOut, ButtonComponent, EditProfileModalComponent],
+  imports: [LucidePencil, LucideLogOut, ButtonComponent, EditProfileModalComponent, UserGoalPipe],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss',
 })

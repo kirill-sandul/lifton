@@ -8,14 +8,6 @@
   (onDiscard)="onClose.emit()"
 >
   <form class="editProfileForm">
-    <app-file-input
-      id="pfp"
-      name="Profile picture"
-      placeholder="Upload a profile picture for others to know you"
-      [control]="editProfileForm.controls.pfp"
-    >
-    </app-file-input>
-
     <app-input
       id="fullName"
       name="Your full name"

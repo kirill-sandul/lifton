@@ -2,14 +2,14 @@
 // export type UserGoal = 'STRENGTH' | 'MUSCLES' | 'FATLOSS';
 
 export enum UserRole {
-  TRAINER = 'trainer',
-  CLIENT = 'client'
+  TRAINER = 'TRAINER',
+  CLIENT = 'CLIENT'
 }
 
 export enum UserGoal {
-  STRENGTH = 'strength',
-  MUSCLES = 'muscle gain',
-  FATLOSS = 'fat loss'
+  STRENGTH = 'STRENGTH',
+  MUSCLES = 'MUSCLES',
+  FATLOSS = 'FATLOSS'
 }
 
 export interface UserProfile {

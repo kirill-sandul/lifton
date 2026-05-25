@@ -4,11 +4,11 @@ import { APP_ICONS } from '@core/icons';
 import { UserGoal, UserProfile, UserRole } from '@core/models/user.models';
 import { UserService } from '@core/services/user.service';
 import { BaseInputComponent } from '@shared/components/base-input/base-input';
-import { FileInputComponent } from '@shared/components/file-input/file-input';
 import { SelectInputComponent, SelectInputOption } from '@shared/components/select-input/select-input';
 import { ModalComponent } from '@shared/components/modal/modal';
 import { digitsOnlyValidator } from '@shared/validators/digitsOnly.validator';
 import { phoneValidator } from '@shared/validators/phone.validator';
+import { USER_GOAL_LABELS } from '@shared/constants/ui-mapping/user-goal.labels';
 
 export interface EditProfileFormControls {
   pfp: FormControl<File | null>;
@@ -38,7 +38,7 @@ export interface EditProfileFormValues {
 
 @Component({
   selector: 'app-edit-profile-modal',
-  imports: [ModalComponent, FileInputComponent, BaseInputComponent, SelectInputComponent, ...APP_ICONS],
+  imports: [ModalComponent, BaseInputComponent, SelectInputComponent, ...APP_ICONS],
   templateUrl: './edit-profile-modal.html',
   styleUrl: './edit-profile-modal.scss',
 })
@@ -87,16 +87,16 @@ export class EditProfileModalComponent {
 
   selectGoalOptions: SelectInputOption[] = [
     {
-      label: UserGoal.STRENGTH,
-      value: 'STRENGTH'
+      label: USER_GOAL_LABELS[UserGoal.STRENGTH],
+      value: UserGoal.STRENGTH
     },
     {
-      label: UserGoal.MUSCLES,
-      value: 'MUSCLES'
+      label: USER_GOAL_LABELS[UserGoal.MUSCLES],
+      value: UserGoal.MUSCLES
     },
     {
-      label: UserGoal.FATLOSS,
-      value: 'FATLOSS'
+      label: USER_GOAL_LABELS[UserGoal.FATLOSS],
+      value: UserGoal.FATLOSS
     }
   ]
 

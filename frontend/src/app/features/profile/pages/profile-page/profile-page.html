@@ -3,7 +3,6 @@
   <div class="profile-widget">
     <div class="row">
       <div class="pfp" [style]="{ 'background-image': `url(${userProfile()?.pfpUrl ?? '/assets/no-pfp.png'})` }">
-        <!-- <img [src]="userProfile()?.pfpUrl ?? '/assets/no-pfp.png'" alt="Avatar image" /> -->
       </div>
       <div class="text">
         <div class="text-top-row">
@@ -41,7 +40,7 @@
           <div class="column">
             <div class="prop">
               <span class="label">Training goal</span>
-              <span class="value">{{ userProfile()?.goal }}</span>
+              <span class="value">{{ userProfile()?.goal | userGoal }}</span>
             </div>
             <div class="prop">
               <span class="label">Email</span>
