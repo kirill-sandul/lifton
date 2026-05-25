@@ -1,7 +1,8 @@
 import { Component, input, output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { APP_ICONS } from '@core/icons';
-import { FullProfileFormControls, UserRole } from '@features/auth/models/auth.models';
+import { FullProfileFormControls } from '@features/auth/models/auth.models';
+import { UserRole } from '@core/models/user.models';
 import { BaseInputComponent } from '@shared/components/base-input/base-input';
 import { ButtonComponent } from '@shared/components/button/button';
 import { FileInputComponent } from '@shared/components/file-input/file-input';
@@ -12,6 +13,8 @@ import { FileInputComponent } from '@shared/components/file-input/file-input';
   templateUrl: './quiz-step-profile.html',
 })
 export class QuizStepProfileComponent {
+  readonly UserRole = UserRole;
+
   role = input.required<UserRole>();
   formGroup = input.required<FormGroup<FullProfileFormControls>>()
 

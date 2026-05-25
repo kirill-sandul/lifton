@@ -1,26 +1,26 @@
 <div class="quiz-align-center">
-  @if(role() == 'CLIENT'){
+  @if(role() == UserRole.CLIENT){
   <h1>What will be your training focus?</h1>
 }
 
-  @if(role() == 'TRAINER'){
+  @if(role() == UserRole.TRAINER){
     <h1>What is your specialization?</h1>
   }
 
   <div class="line"></div>
 
   <div class="quiz-options">
-    <div class="quiz-card" (click)="selected.emit('STRENGTH')">
+    <div class="quiz-card" (click)="selected.emit(UserGoal.STRENGTH)">
       <img src="/assets/strength.jpg" alt="Strength" draggable="false">
       <h2>Strength</h2>
       <p>Strength sports like powerlifting, armwrestling, gymnastics...</p>
     </div>
-    <div class="quiz-card" (click)="selected.emit('MUSCLES')">
+    <div class="quiz-card" (click)="selected.emit(UserGoal.MUSCLES)">
       <img src="/assets/muscles.jpg" alt="Muscle gain" draggable="false">
       <h2>Muscle gain</h2>
       <p>A gym without bodybuilders in it is not a gym is it?</p>
     </div>
-    <div class="quiz-card" (click)="selected.emit('FATLOSS')">
+    <div class="quiz-card" (click)="selected.emit(UserGoal.FATLOSS)">
       <img src="/assets/fat-loss.jpg" alt="Fat loss" draggable="false">
       <h2>Fat loss</h2>
       <p>Focus on cardiovascular and structural body health</p>

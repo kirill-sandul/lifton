@@ -2,12 +2,12 @@
   <h1>Who are you?</h1>
   <div class="line"></div>
   <div class="quiz-options">
-    <div class="quiz-card" (click)="selected.emit('TRAINER')">
+    <div class="quiz-card" (click)="selected.emit(UserRole.TRAINER)">
       <img src="/assets/trainer.jpg" alt="Trainer" draggable="false">
       <h2>Trainer</h2>
       <p>I’m a specialist in training other people for strength/fitness/bodybuilding...</p>
     </div>
-    <div class="quiz-card" (click)="selected.emit('CLIENT')">
+    <div class="quiz-card" (click)="selected.emit(UserRole.CLIENT)">
       <img src="/assets/client.jpg" alt="Client" draggable="false">
       <h2>Client</h2>
       <p>I want to analyze my progress, get my programs by a trainer and his help with training</p>

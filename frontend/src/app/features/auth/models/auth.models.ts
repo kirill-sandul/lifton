@@ -1,7 +1,6 @@
-import { Form, FormControl } from "@angular/forms";
+import { FormControl } from "@angular/forms";
+import { UserGoal, UserRole } from "@core/models/user.models";
 
-export type UserRole = 'TRAINER' | 'CLIENT';
-export type UserGoal = 'STRENGTH' | 'MUSCLES' | 'FATLOSS';
 
 export interface BaseProfileFormControls {
   pfp: FormControl<File | null>
