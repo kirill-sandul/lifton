@@ -10,6 +10,7 @@ import { RegisterPageComponent } from './features/auth/pages/register-page/regis
 import { RegisterQuizPage } from '@features/auth/pages/register-quiz-page/register-quiz-page';
 
 import { DashboardPageComponent } from '@features/dashboard/pages/dashboard-page/dashboard-page';
+import { ProfilePageComponent } from '@features/profile/pages/profile-page/profile-page';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
       {
         path: '',
         component: DashboardPageComponent
+      },
+      {
+        path: 'profile',
+        component: ProfilePageComponent
       }
     ]
   },

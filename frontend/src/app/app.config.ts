@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([apiInterceptor])),
     provideAppInitializer(() => {
       const authService = inject(AuthService);
-      return authService.refresh().pipe(catchError(() => of(false)))
+      return authService.refresh()
     })
   ]
 };

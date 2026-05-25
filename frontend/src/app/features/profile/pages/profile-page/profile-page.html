@@ -1,53 +1,75 @@
 <div class="profile">
   <h1 class="title">Your profile</h1>
   <div class="profile-widget">
-    <div class="pfp">
-      <img src="/assets/no-pfp.png" alt="Avatar image" />
+    <div class="row">
+      <div class="pfp" [style]="{ 'background-image': `url(${userProfile()?.pfpUrl ?? '/assets/no-pfp.png'})` }">
+        <!-- <img [src]="userProfile()?.pfpUrl ?? '/assets/no-pfp.png'" alt="Avatar image" /> -->
+      </div>
+      <div class="text">
+        <div class="text-top-row">
+          <h3 class="fullName">{{ userProfile()?.fullName }}</h3>
+          <span>•</span>
+          <h4 class="role">{{ userProfile()?.role }}</h4>
+        </div>
+        <div class="description">
+          <span class="label">Description</span>
+          <p>{{ userProfile()?.description || 'No added description yet' }}</p>
+        </div>
+        <div class="props">
+          <div class="column">
+            <div class="prop">
+              <span class="label">Age</span>
+              <span class="value">{{ userProfile()?.age }} years old</span>
+            </div>
+            @if (userProfile()?.role == UserRole.CLIENT){
+              <div class="prop">
+                <span class="label">Body weight</span>
+                <span class="value">{{ userProfile()?.clientProfile?.bodyWeight }}kg</span>
+              </div>
+              <div class="prop">
+                <span class="label">Height</span>
+                <span class="value">{{ userProfile()?.clientProfile?.height }}cm</span>
+              </div>
+            }
+            @if (userProfile()?.role === UserRole.TRAINER){
+              <div class="prop">
+                <span class="label">Experience</span>
+                <span class="value">{{ userProfile()?.trainerProfile?.experience }} years</span>
+              </div>
+            }
+          </div>
+          <div class="column">
+            <div class="prop">
+              <span class="label">Training goal</span>
+              <span class="value">{{ userProfile()?.goal }}</span>
+            </div>
+            <div class="prop">
+              <span class="label">Email</span>
+              <span class="value">{{ userProfile()?.email }}</span>
+            </div>
+          </div>
+          <div class="column">
+            @if(userProfile()?.role == UserRole.CLIENT){
+              <div class="prop">
+                <span class="label">Your trainer</span>
+                <span class="value">John Johnathan</span>
+              </div>
+            }
+            <div class="prop">
+              <span class="label">Phone number</span>
+              <span class="value">{{ userProfile()?.phone }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="text">
-      <h3 class="fullName">John Johnathan</h3>
-      <div class="description">
-        <span class="label">Description</span>
-        <p>My goal is to increase my strength level in 3 months and then work on my appearance. Sometimes I might seem lazy, but I’m really motivated right now.</p>
-      </div>
-      <div class="props">
-        <div class="column">
-          <div class="prop">
-            <span class="label">Age</span>
-            <span class="value">25 years old</span>
-          </div>
-          <div class="prop">
-            <span class="label">Body weight</span>
-            <span class="value">120kg</span>
-          </div>
-          <div class="prop">
-            <span class="label">Height</span>
-            <span class="value">220cm</span>
-          </div>
-        </div>
-        <div class="column">
-          <div class="prop">
-            <span class="label">Training goal</span>
-            <span class="value">Strength</span>
-          </div>
-          <div class="prop">
-            <span class="label">Email</span>
-            <span class="value">jjhnth@gmail.com</span>
-          </div>
-        </div>
-        <div class="column">
-          <div class="prop">
-            <span class="label">Your trainer</span>
-            <span class="value">John Johnathan</span>
-          </div>
-        </div>
-      </div>
+    <div class="row">
       <div class="bottom-ops">
-        <button>
+        <button liftonButton (click)="showEditProfileModal.set(true)">
           Edit profile
           <svg lucidePencil></svg>
         </button>
-        <button class="logout">
+        <button liftonButton class="logout red-tone" (click)="logout()">
           Log out
           <svg lucideLogOut></svg>
         </button>
@@ -55,3 +77,7 @@
     </div>
   </div>
 </div>
+
+@if(userProfile() && showEditProfileModal()){
+  <app-edit-profile-modal [userRole]="userProfile()!.role" [defaultValues]="userProfile()" (onClose)="this.showEditProfileModal.set(false)"></app-edit-profile-modal>
+}

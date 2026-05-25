@@ -8,6 +8,7 @@
         [name]="id()"
         [formControl]="control()"
         [placeholder]="placeholder()"
+        [(value)]="control().value"
       ></textarea>
     }
     
@@ -18,6 +19,7 @@
         [formControl]="control()"
         [type]="dynamicType()"
         [placeholder]="placeholder()"
+        [(value)]="control().value"
       />
     }
 

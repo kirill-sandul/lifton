@@ -6,34 +6,54 @@
 
   .title {
     margin-left: 100px;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
   }
 
   &-widget {
     display: flex;
-    justify-content: center;
-    align-self: center;
+    flex-direction: column;
     background-color: #fff;
     width: 70%;
     border-radius: 35px;
-    padding: 60px 30px;
+    padding: 60px 40px 40px 40px;
     box-shadow: 0 0 12px #fff;
+    margin: auto;
+    
+    .row {
+      display: flex;
+      width: 100%;
+    }
 
     .pfp {
-      img {
-        border-radius: 100%;
-        border: 1px solid var(--primary-grey);
-        width: 100px;
-      }
+      min-width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      border: 1px solid var(--primary-grey);
+      background-size: cover;
     }
 
     .text {
-      padding: 0 30px;
+      padding: 20px 30px;
 
-      .fullName {
-        font-size: 24px;
-        margin: 0 0 10px 0;
+      &-top-row {
+        display: flex;
+        align-items: center;
+        margin: 0 0 20px 0;
+        gap: 7px;
+        
+        h3, h4 {
+          margin: 0;
+        }
+
+        .role, span {
+          color: var(--primary-grey)
+        }
+
+        .fullName {
+          font-size: 24px;
+        }
       }
+
 
       .description {
         .label {
@@ -74,30 +94,21 @@
           }
         }
       }
+    }
 
-      .bottom-ops {
-        display: flex;
-        gap: 30px;
-        margin-top: 20px;
-        justify-self: flex-end;
+    .bottom-ops {
+      display: flex;
+      justify-content: flex-end;
+      gap: 30px;
+      width: 100%;
+      margin-top: 20px;
 
-        button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: var(--primary-blue-light);
-          padding: 10px 20px;
-          border-radius: 14px;
-          font-size: 15px;
+      button {
+        padding: 13px 20px;
 
-          svg {
-            margin-left: 10px;
-            width: 20px;
-          }
-
-          &.logout {
-            background-color: var(--primary-error-light);
-          }
+        svg {
+          margin-left: 10px;
+          width: 20px;
         }
       }
     }

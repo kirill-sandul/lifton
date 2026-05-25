@@ -1,0 +1,105 @@
+
+<app-modal
+  [title]="'Edit profile'"
+  [acceptOption]="'Save changes'"
+  [discardOption]="'Discard'"
+  [acceptBtnDisabled]="editProfileForm.invalid && editProfileForm.touched"
+  (onSubmit)="onSubmit()" 
+  (onDiscard)="onClose.emit()"
+>
+  <form class="editProfileForm">
+    <app-file-input
+      id="pfp"
+      name="Profile picture"
+      placeholder="Upload a profile picture for others to know you"
+      [control]="editProfileForm.controls.pfp"
+    >
+    </app-file-input>
+
+    <app-input
+      id="fullName"
+      name="Your full name"
+      placeholder="Change your full name"
+      [control]="editProfileForm.controls.fullName"
+    >
+      <svg lucideUserRound></svg>
+    </app-input>
+
+    @if(userRole() === UserRole.CLIENT) {
+      <app-input
+        id="age"
+        name="Age"
+        placeholder="Change your age"
+        [control]="editProfileForm.controls.age"
+      >
+        <span>YRS</span>
+      </app-input>
+      <app-input
+        id="bodyWeight"
+        name="Body weight"
+        placeholder="Change your body weight"
+        [control]="editProfileForm.controls.bodyWeight"
+      >
+        <span>KG</span>
+      </app-input>
+      <app-input
+        id="height"
+        name="Height"
+        placeholder="Change your height"
+        [control]="editProfileForm.controls.height"
+      >
+        <span>CM</span>
+      </app-input>
+    }
+
+    @if(userRole() === UserRole.TRAINER) {
+      <app-input
+        id="age"
+        name="Age"
+        placeholder="Change your age"
+        [control]="editProfileForm.controls.age"
+      >
+        <span>YRS</span>
+      </app-input>
+      <app-input
+        id="exp"
+        name="Experience (years)"
+        placeholder="Change your experience time"
+        [control]="editProfileForm.controls.experience"
+      >
+        <span>YRS</span>
+      </app-input>
+    }
+
+    <app-input
+      id="phone"
+      name="Phone number"
+      placeholder="Change your mobile phone number"
+      [control]="editProfileForm.controls.phone"
+    >
+      <svg lucidePhone></svg>
+    </app-input>
+    <app-input
+      id="email"
+      name="Email"
+      type="email"
+      placeholder="Change your email"
+      [control]="editProfileForm.controls.email"
+    >
+      <svg lucideMail></svg>
+    </app-input>
+    <app-select-input
+      [control]="editProfileForm.controls.goal"
+      [options]="selectGoalOptions"
+    ></app-select-input>
+    <app-input
+      id="bio"
+      name="Your biography"
+      type="textarea"
+      placeholder="Change biography or additional information of your profile"
+      [control]="editProfileForm.controls.description"
+    >
+      <svg lucidePencil></svg>
+    </app-input>
+  </form>  
+</app-modal>
