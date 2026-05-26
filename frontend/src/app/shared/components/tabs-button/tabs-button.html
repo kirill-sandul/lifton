@@ -1,8 +1,18 @@
-<div class="tabs-button">
-  <div class="selection-bg" [style]="{'width': `${100 / options().length}%`, 'transform': `translate(${selectionBgPos()}%)`}"></div>
+<div
+  class="tabs-button"
+  [class.primary]="style() === 'primary'"
+  [class.dark]="style() === 'dark'"
+>
+  <div
+    class="selection-bg"
+    [style]="{'width': `${currentTabWidth()}px`, 'transform': `translate(${selectionBgPos()}px)`}"
+  ></div>
+
   @for (tab of options(); track $index) {
     <a
+      #tab
       class="select-button"
+      [class.selected]="selectorStep() === $index"
       (click)="selectorStep.set($index)"
       [routerLink]="optionsLinks()[$index]"
     >

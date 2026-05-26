@@ -17,11 +17,7 @@ export class EditPfpModalComponent {
   pfpControl = new FormControl<File | null>(null, [
     Validators.required
   ]);
-  acceptBtnDisabled = computed(() => {
-    console.log(this.pfpControl.invalid)
-    return this.pfpControl.invalid
-  })
-  
+    
   onClose = output();
   
 

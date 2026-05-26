@@ -1,10 +1,10 @@
 <header>
   <div class="left-section">
-    <div class="logo">
+    <div class="logo" routerLink="/">
       <img src="/assets/lifton-logo.png" alt="">
     </div>
     <nav>
-      <ul class="tabs">
+      <!-- <ul class="tabs">
           <li class="tab" routerLink="">
             Overview
           </li>
@@ -14,7 +14,13 @@
           <li class="tab" routerLink="">
             Programs library
           </li>
-        </ul>
+        </ul> -->
+        <app-tabs-button
+          [options]="['Overview', 'Workouts', 'Start workout']" 
+          [optionsLinks]="['', '', '']" 
+          [selectedOption]="selectedTab()"
+          [style]="'dark'"
+        />
       </nav>
   </div>
 
@@ -37,18 +43,16 @@
       </li>
       <li routerLink="/profile">
         <div class="profile-widget">
-          <div class="pfp">
-            <img src="/assets/no-pfp.png" alt="Avatar icon" />
-          </div>
+          <div class="pfp pfp-style mini" [style.backgroundImage]="`url(${profile?.pfpUrl ?? '/assets/no-pfp.png'})`"></div>
           <div class="wrapper">
             <div class="text">
-              <span class="fullName">John Johnathan</span>
+              <span class="fullName">{{ profile?.fullName }}</span>
               <svg lucideMoveRight></svg>
             </div>
             <div class="brief-props">
-              <span>trainer</span>
+              <span>{{ profile?.role | userRole | lowercase }}</span>
               <span class="dot">•</span>
-              <span>jjhnt@gmail.com</span>
+              <span>{{ profile?.email }}</span>
             </div>
           </div>
         </div>

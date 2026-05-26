@@ -42,12 +42,7 @@ header {
         border-radius: 40px;
 
         .tab {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 17px 20px;
-          color: #000;
-          cursor: pointer;
+          
         }
       }
 
@@ -136,8 +131,6 @@ header {
               display: flex;
               align-items: center;
               justify-content: center;
-              width: 35px;
-              height: 35px;
               border-radius: 100%;
               border: 2px solid var(--primary-blue-light);
               background-color: #fff;
