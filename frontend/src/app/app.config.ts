@@ -1,11 +1,11 @@
 import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { routes } from './app.routes';
 
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { apiInterceptor } from '@core/interceptors/api.interceptor';
 import { AuthService } from '@features/auth/services/auth.service';
-import { catchError, firstValueFrom, of, tap } from 'rxjs';
 
 
 export const appConfig: ApplicationConfig = {

@@ -1,8 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthResponse, LoginDto, RegisterDto } from '@features/auth/models/auth.models';
-import { catchError, of, retry, switchMap, tap } from 'rxjs';
-import { UserService } from '@core/services/user.service';
+import { catchError, finalize, map, Observable, of, retry, switchMap, take, tap } from 'rxjs';
+import { UserService } from '@core/services/user/user.service';
+import { UserProfile } from '@core/models/user.models';
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +11,11 @@ import { UserService } from '@core/services/user.service';
 export class AuthService {
   private http = inject(HttpClient);
   private userService = inject(UserService);
-  
+
   private readonly _accessToken = signal<string | null>(null);
   readonly accessToken = this._accessToken.asReadonly();
 
-  private isRefreshing = false;
+   isRefreshing = signal(false);
 
   toFormData(jsonForm: Object){
     const formData = new FormData();
@@ -55,22 +56,22 @@ export class AuthService {
     )
   }
 
-  refresh(){
-    if(this.isRefreshing) return of({ accessToken: this._accessToken() } as AuthResponse);;
-    this.isRefreshing = true;
+  refresh(): Observable<AuthResponse | UserProfile | null> {
+    if(this.isRefreshing()) return of({ accessToken: this._accessToken() } as AuthResponse);;
+    this.isRefreshing.set(true);
 
     return this.http.post<AuthResponse>('auth/refresh', {}).pipe(
-      retry({ count: 1, delay: 300 }),
       tap(({ accessToken }) => {
         this._accessToken.set(accessToken)
       }),
       switchMap(() => this.userService.getProfile()),
       catchError(() => {
-        this.isRefreshing = false;
+        this.isRefreshing.set(false);
         this.userService.clear();
 
         return of(null);
-      })
+      }),
+      take(1)
     )
   }
 }

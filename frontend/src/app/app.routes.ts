@@ -3,10 +3,10 @@ import { Routes } from '@angular/router';
 import { authGuard } from '@core/guards/auth.guard';
 import { guestGuard } from '@core/guards/guest.guard';
 
-import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout';
+import { AuthLayoutComponent } from '@layouts/auth-layout/auth-layout';
 import { AppLayoutComponent } from '@layouts/app-layout/app-layout';
-import { LoginPageComponent } from './features/auth/pages/login-page/login-page';
-import { RegisterPageComponent } from './features/auth/pages/register-page/register-page';
+import { LoginPageComponent } from '@features/auth/pages/login-page/login-page';
+import { RegisterPageComponent } from '@features/auth/pages/register-page/register-page';
 import { RegisterQuizPage } from '@features/auth/pages/register-quiz-page/register-quiz-page';
 
 import { DashboardPageComponent } from '@features/dashboard/pages/dashboard-page/dashboard-page';

@@ -1,9 +1,6 @@
 import { Component, input } from '@angular/core';
 import {
-  LucideMailPlus,
   LucidePlay,
-  LucideSend,
-  LucideSendHorizonal,
   LucideSendHorizontal,
 } from '@lucide/angular';
 
