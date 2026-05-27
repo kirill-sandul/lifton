@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthResponse, LoginDto, RegisterDto } from '@features/auth/models/auth.models';
-import { catchError, finalize, map, Observable, of, retry, switchMap, take, tap } from 'rxjs';
+import { catchError, Observable, of, switchMap, take, tap } from 'rxjs';
 import { UserService } from '@core/services/user/user.service';
 import { UserProfile } from '@core/models/user.models';
 
@@ -57,7 +57,7 @@ export class AuthService {
   }
 
   refresh(): Observable<AuthResponse | UserProfile | null> {
-    if(this.isRefreshing()) return of({ accessToken: this._accessToken() } as AuthResponse);;
+    if(this.isRefreshing()) return of({ accessToken: this._accessToken() } as AuthResponse);
     this.isRefreshing.set(true);
 
     return this.http.post<AuthResponse>('auth/refresh', {}).pipe(

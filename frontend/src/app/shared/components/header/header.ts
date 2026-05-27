@@ -1,10 +1,8 @@
-import { Component, computed, effect, HostBinding, inject, signal } from '@angular/core';
+import { Component, computed, HostBinding, inject, signal } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { UserService } from '@core/services/user/user.service';
 import { TabsButtonComponent } from '../tabs-button/tabs-button';
-import { UserRolePipe } from '@core/pipes/user-role.pipe';
-import { LucideBell, LucideMail, LucideSun, LucideMoveRight } from "@lucide/angular";
-import { LowerCasePipe } from '@angular/common';
+import { LucideBell, LucideMail, LucideSun } from "@lucide/angular";
 import { ScrollService } from '@core/services/scroll/scroll';
 import { ProfileWidgetComponent } from '@shared/components/profile-widget/profile-widget';
 
