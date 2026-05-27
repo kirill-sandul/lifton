@@ -2,7 +2,7 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { APP_ICONS } from '@core/icons';
 import { UserGoal, UserProfile, UserRole } from '@core/models/user.models';
-import { UserService } from '@core/services/user.service';
+import { UserService } from '@core/services/user/user.service';
 import { BaseInputComponent } from '@shared/components/base-input/base-input';
 import { SelectInputComponent, SelectInputOption } from '@shared/components/select-input/select-input';
 import { ModalComponent } from '@shared/components/modal/modal';
@@ -132,7 +132,7 @@ export class EditProfileModalComponent {
 
   onSubmit(){
     const formValues = (this.editProfileForm.value as EditProfileFormValues);
-    
+
     const profileChanges = { ...formValues, role: this.userRole() }
 
     this.userService.editProfile(profileChanges).subscribe({

@@ -1,6 +1,6 @@
-import { Component, computed, inject, output, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { UserService } from '@core/services/user.service';
+import { UserService } from '@core/services/user/user.service';
 import { FileInputComponent } from '@shared/components/file-input/file-input';
 import { ModalComponent } from '@shared/components/modal/modal';
 
@@ -17,9 +17,9 @@ export class EditPfpModalComponent {
   pfpControl = new FormControl<File | null>(null, [
     Validators.required
   ]);
-    
+
   onClose = output();
-  
+
 
   constructor(){
     const currentPfpUrl = this.userService.userProfile()?.pfpUrl;
@@ -35,7 +35,7 @@ export class EditPfpModalComponent {
     if(this.previewImgUrl){
       URL.revokeObjectURL(this.previewImgUrl());
     }
-    
+
     this.previewImgUrl.set(previewUrl);
   }
 

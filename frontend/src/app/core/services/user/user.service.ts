@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { EditProfileDto, UserProfile } from '@core/models/user.models';
-import { switchMap, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class UserService {
   http = inject(HttpClient);
 
   private user = signal<UserProfile | null>(null)
-  
+
   userProfile = computed(() => this.user())
 
   getProfile(){
@@ -23,8 +23,6 @@ export class UserService {
     const formData = new FormData();
 
     formData.append('newImg', newFile);
-
-    console.log(formData, newFile);
 
     return this.http.post<UserProfile>('user/editPfp', formData).pipe(
       tap(userData => this.user.set(userData))

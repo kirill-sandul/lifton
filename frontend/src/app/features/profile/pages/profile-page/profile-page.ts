@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@features/auth/services/auth.service';
-import { UserService } from '@core/services/user.service';
+import { UserService } from '@core/services/user/user.service';
 import { LucideLogOut, LucidePencil } from '@lucide/angular';
 import { ButtonComponent } from '@shared/components/button/button';
 import { EditProfileModalComponent } from '@features/profile/components/edit-profile-modal/edit-profile-modal';
