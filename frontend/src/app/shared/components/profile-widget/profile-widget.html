@@ -1,0 +1,14 @@
+<div class="profile-widget" [class.dark]="color() === 'dark'">
+  <div class="pfp pfp-style mini" [style.backgroundImage]="`url(${profile()?.pfpUrl ?? '/assets/no-pfp.png'})`"></div>
+  <div class="wrapper">
+    <div class="text">
+      <span class="fullName">{{ profile()?.fullName }}</span>
+      <svg lucideMoveRight></svg>
+    </div>
+    <div class="brief-props">
+      <span>{{ profile()?.role | userRole | lowercase }}</span>
+      <span class="dot">•</span>
+      <span>{{ profile()?.email }}</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+.profile-widget {
+  display: flex;
+  position: relative;
+  background-color: #fff;
+  height: 100%;
+  min-height: 60px;
+  border-radius: 40px;
+  padding-left: 14px;
+  padding-right: 25px;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: .25s;
+  z-index: 2;
+
+  &.dark {
+    color: #fff;
+
+    .brief-props span {
+      color: #ccc;
+    }
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-dark-gradient);
+    opacity: 0;
+    pointer-events: none;
+    transition: .25s;
+    z-index: -1;
+  }
+
+  &:hover {
+    color: #fff;
+
+    .brief-props span {
+      color: #ccc;
+    }
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  .pfp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    border: 2px solid var(--primary-blue-light);
+    background-color: #fff;
+    margin-right: 10px;
+
+    img {
+      width: 25px;
+    }
+  }
+
+  .text {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .brief-props {
+    display: flex;
+    align-items: center;
+
+    span {
+      font-size: 15px;
+      color: var(--primary-grey);
+      transition: .25s;
+    }
+
+    .dot {
+      margin: 0 5px;
+    }
+  }
+}
