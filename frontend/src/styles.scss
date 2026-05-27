@@ -1,5 +1,7 @@
+@use './app/shared/styles/grid';
 @use './app/shared/styles/input';
 @use './app/shared/styles/quiz';
+@use './app/shared/styles/widget';
 
 /* Sora global font */
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
@@ -20,6 +22,10 @@
 
   --primary-text: #000;
   --primary-bg: #fff;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -52,6 +58,7 @@ button {
 
 a {
   text-decoration: none;
+  color: #000;
   cursor: pointer;
 }
 
@@ -80,4 +87,8 @@ input {
     width: 200px;
     height: 200px;
   }
+}
+
+.highlight {
+  color: var(--primary-blue);
 }
