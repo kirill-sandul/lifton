@@ -20,11 +20,24 @@
     position: absolute;
     right: 30px;
   }
-  
+
   &.red-tone {
     --c1: var(--primary-error-light);
     --c2: var(--primary-error-lighter);
     background: linear-gradient(90deg, var(--c1, var(--primary-error-lighter)), var(--c2, var(--primary-error-lighter)) 51%, var(--c1, var(--primary-error-light))) var(--x, 0) / 200%;
+  }
+
+  &.compact {
+    display: inline-flex;
+    justify-content: space-between;
+    width: auto;
+    padding: 13px 25px;
+    gap: 30px;
+
+    svg {
+      position: relative;
+      right: 0;
+    }
   }
 
   &:disabled {
