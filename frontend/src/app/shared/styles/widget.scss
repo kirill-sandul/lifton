@@ -1,0 +1,13 @@
+.widget {
+  background-color: #fff;
+  height: 100%;
+  border-radius: 25px;
+  padding: 15px 30px 30px 30px;
+  height: auto;
+
+  .top-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

@@ -1,0 +1,15 @@
+@for $start from 1 through 4 {
+  @for $end from 1 through 5 {
+    .grid-rows-#{$start}-#{$end} {
+      grid-row: #{$start} / #{$end};
+    }
+  }
+}
+
+@for $start from 1 through 4 {
+  @for $end from 1 through 5 {
+    .grid-cols-#{$start}-#{$end} {
+      grid-column: #{$start} / #{$end};
+    }
+  }
+}
