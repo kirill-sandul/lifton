@@ -1,0 +1,29 @@
+<div class="widget">
+  <div class="top-text">
+    <h3>Your trainer</h3>
+    @if (profile; as p) {
+      <app-profile-widget [profile]="p" [color]="'dark'" />
+    }
+  </div>
+  <div class="trainer-info">
+    <div class="prop">
+      <span class="name">Age:</span>
+      <span class="value">25</span>
+    </div>
+    <div class="prop">
+      <span class="name">Specialization:</span>
+      <span class="value">Strength</span>
+    </div>
+    <div class="prop">
+      <span class="name">Experience:</span>
+      <span class="value">5 years</span>
+    </div>
+    <div class="prop">
+      <span class="name">Your collaboration start:</span>
+      <span class="value">5th March 2026</span>
+    </div>
+  </div>
+  <div class="bottom-btn">
+    <a liftonButton [icon]="'msg'" class="compact">Write message to John</a>
+  </div>
+</div>
