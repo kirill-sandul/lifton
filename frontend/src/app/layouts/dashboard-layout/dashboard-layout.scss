@@ -1,0 +1,21 @@
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 25px 60px;
+  gap: 30px;
+}
+
+.top-text {
+  h2 {
+    margin: 0;
+  }
+}
+
+.widgets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 170px);
+  grid-gap: 25px;
+  flex: 1;
+  min-height: 0;
+}
