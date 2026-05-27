@@ -16,15 +16,15 @@
           </li>
         </ul> -->
         <app-tabs-button
-          [options]="['Overview', 'Workouts', 'Start workout']" 
-          [optionsLinks]="['', '', '']" 
+          [options]="['Overview', 'Workouts', 'Start workout']"
+          [optionsLinks]="['', '', '']"
           [selectedOption]="selectedTab()"
           [style]="'dark'"
         />
       </nav>
   </div>
 
-  <nav>  
+  <nav>
     <ul class="profile">
       <li>
         <button>
@@ -42,20 +42,9 @@
         </button>
       </li>
       <li routerLink="/profile">
-        <div class="profile-widget">
-          <div class="pfp pfp-style mini" [style.backgroundImage]="`url(${profile?.pfpUrl ?? '/assets/no-pfp.png'})`"></div>
-          <div class="wrapper">
-            <div class="text">
-              <span class="fullName">{{ profile?.fullName }}</span>
-              <svg lucideMoveRight></svg>
-            </div>
-            <div class="brief-props">
-              <span>{{ profile?.role | userRole | lowercase }}</span>
-              <span class="dot">•</span>
-              <span>{{ profile?.email }}</span>
-            </div>
-          </div>
-        </div>
+        @if (profile; as p){
+          <app-profile-widget [profile]="p" />
+        }
       </li>
     </ul>
   </nav>

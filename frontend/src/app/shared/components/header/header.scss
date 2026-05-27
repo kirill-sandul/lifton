@@ -1,12 +1,19 @@
+:host {
+  position: sticky;
+  border: 1px solid transparent;
+  top: 0;
+
+  &.scrolled {
+  }
+}
+
 header {
   display: flex;
-  top: 0;
-  left: 0;
-  width: calc(100% - 80px);
-  height: 60px;
-  padding: 25px 40px;
+  max-height: 60px;
+  margin: 25px 40px;
+  height: 100%;
   justify-content: space-between;
-  
+
   .left-section {
     display: flex;
   }
@@ -19,7 +26,7 @@ header {
     border-radius: 40px;
     margin-right: 40px;
     cursor: pointer;
-    
+
     img {
       width: 125px;
       padding-left: 12px;
@@ -36,14 +43,9 @@ header {
       height: 100%;
       padding: 0;
       margin: 0;
-      
-      &.tabs {
-        background-color: #fff;
-        border-radius: 40px;
 
-        .tab {
-          
-        }
+      &.tabs {
+        border-radius: 40px;
       }
 
       &.profile {
@@ -87,82 +89,7 @@ header {
             }
           }
 
-          .profile-widget {
-            display: flex;
-            position: relative;
-            background-color: #fff;
-            height: 100%;
-            border-radius: 40px;
-            padding-left: 14px;
-            padding-right: 25px;
-            align-items: center;
-            cursor: pointer;
-            overflow: hidden;
-            transition: .25s;
-            z-index: 2;
 
-            &::before {
-              content: '';
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              background: var(--primary-dark-gradient);
-              opacity: 0;
-              pointer-events: none;
-              transition: .25s;
-              z-index: -1;
-            }
-
-            &:hover {
-              color: #fff;
-
-              .brief-props span {
-                color: #ccc;
-              }
-
-              &::before {
-                opacity: 1;
-              }
-            }
-
-            .pfp {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              border-radius: 100%;
-              border: 2px solid var(--primary-blue-light);
-              background-color: #fff;
-              margin-right: 10px;
-
-              img {
-                width: 25px;
-              }
-            }
-
-            .text {
-              display: flex;
-              flex-direction: row;
-              align-items: flex-end;
-              justify-content: space-between;
-            }
-
-            .brief-props {
-              display: flex;
-              align-items: center;
-
-              span {
-                font-size: 15px;
-                color: var(--primary-grey);
-                transition: .25s;
-              }
-
-              .dot {
-                margin: 0 5px;
-              }
-            }
-          }          
         }
       }
     }
