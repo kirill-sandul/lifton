@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
-import { authGuard } from '@core/guards/auth-guard';
-import { guestGuard } from '@core/guards/guest-guard';
+import { authGuard } from '@core/guards/auth.guard';
+import { guestGuard } from '@core/guards/guest.guard';
 
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout';
 import { AppLayoutComponent } from '@layouts/app-layout/app-layout';
@@ -15,11 +15,16 @@ import { ProfilePageComponent } from '@features/profile/pages/profile-page/profi
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'dashboard'
+  },
+  {
+    path: '',
     component: AppLayoutComponent,
     canActivate: [authGuard],
     children: [
       {
-        path: '',
+        path: 'dashboard',
         component: DashboardPageComponent
       },
       {
