@@ -1,0 +1,17 @@
+.progress-bar {
+  width: 100%;
+  height: 48px;
+  background-color: var(--primary-blue-light);
+  border-radius: 15px;
+  overflow: hidden;
+
+  &.compact {
+    height: 10px;
+  }
+
+  .done {
+    height: 100%;
+    background-color: var(--primary-blue);
+    border-radius: inherit;
+  }
+}

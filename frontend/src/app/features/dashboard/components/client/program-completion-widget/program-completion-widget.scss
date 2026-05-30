@@ -1,0 +1,30 @@
+.widget {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .progress {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      .progress-bar {
+        flex: 0.95;
+      }
+
+      .percentage {
+        font-size: 30px;
+        color: var(--primary-blue);
+      }
+  }
+
+    .text {
+      display: flex;
+      color: var(--primary-grey);
+      justify-content: space-between;
+
+    }
+  }
+}

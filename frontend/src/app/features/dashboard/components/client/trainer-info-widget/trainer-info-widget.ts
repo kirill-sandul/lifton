@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ButtonComponent } from '@shared/components/button/button';
 import { ProfileWidgetComponent } from '@shared/components/profile-widget/profile-widget';
 import { UserService } from '@core/services/user/user.service';
@@ -11,5 +11,9 @@ import { UserService } from '@core/services/user/user.service';
 })
 export class TrainerInfoWidgetComponent {
   userService = inject(UserService);
-  profile= this.userService.userProfile();
+  profile= computed(() => {
+    const currentUser = this.userService.userProfile();
+
+    return currentUser?.clientProfile!.assignedTrainer;
+  })
 }

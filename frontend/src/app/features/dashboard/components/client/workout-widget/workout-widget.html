@@ -3,37 +3,27 @@
     <h3>Upcoming workout</h3>
     <svg lucideMoveRight></svg>
     <div class="date">
-      <span class="highlight">Monday</span>
+      <span class="highlight">{{ mockWorkout.day | titlecase }}</span>
       <span class="full-date">11th of May 2026</span>
     </div>
   </div>
   <div class="workout-info">
-    <span class="workout-name highlight">“Push day”</span>
+    <span class="workout-name highlight">“{{ mockWorkout.name }}”</span>
     <table class="workout-table">
       <tr class="header">
         <th>Exercise</th>
         <th>Sets</th>
         <th>Reps</th>
-        <th>Target weight</th>
+        <th>Target value</th>
       </tr>
-      <tr class="exercise">
-        <td class="exercise-name">• bench press</td>
-        <td>3</td>
-        <td>10</td>
-        <td>40kg</td>
-      </tr>
-      <tr class="exercise">
-        <td class="exercise-name">• leg push</td>
-        <td>3</td>
-        <td>10</td>
-        <td>40kg</td>
-      </tr>
-      <tr class="exercise">
-        <td class="exercise-name">• biceps curl</td>
-        <td>3</td>
-        <td>10</td>
-        <td>40kg</td>
-      </tr>
+      @for (ex of mockWorkout.exercises; track ex.id) {
+        <tr class="exercise">
+          <td class="exercise-name">• {{ ex.name }}</td>
+          <td>{{ ex.sets.length }}</td>
+          <td>{{ ex.sets[0].reps }}</td>
+          <td>{{ ex.sets[0].targetValue }}{{ ex.unit }}</td>
+        </tr>
+      }
     </table>
   </div>
   <div class="bottom-button">

@@ -1,0 +1,20 @@
+.widget {
+  .streak {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+
+    .text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      font-size: 18px;
+
+      .missed {
+        color: var(--primary-warn);
+      }
+    }
+  }
+}

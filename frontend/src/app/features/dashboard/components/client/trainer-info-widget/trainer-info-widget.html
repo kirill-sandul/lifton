@@ -1,7 +1,7 @@
 <div class="widget">
   <div class="top-text">
     <h3>Your trainer</h3>
-    @if (profile; as p) {
+    @if (profile(); as p) {
       <app-profile-widget [profile]="p" [color]="'dark'" />
     }
   </div>

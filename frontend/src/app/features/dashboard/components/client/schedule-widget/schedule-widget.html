@@ -1,0 +1,39 @@
+<div class="widget">
+  <h3>Schedule</h3>
+  <div class="calendar">
+    <div class="week">
+      @for (day of week; track $index) {
+        <div class="cell">
+          <div class="week-day">
+            {{ day | date: 'EEE' }}
+          </div>
+          <div
+            class="day"
+            (click)="selectedDay.set(day)"
+            [class.selected]="selectedDay().toDateString() === day.toDateString()"
+          >
+            {{ day | date: 'd' }}
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  <div class="content">
+    <div class="line"></div>
+    <div class="workout">
+      @if(dayWorkout()){
+        <div class="title">
+          Workout on {{ selectedDay() | date: 'd MMM' }}: <span class="highlight">“{{ dayWorkout()?.name }}”</span>
+        </div>
+        <div class="exercises">
+          @for (exercise of dayWorkout()?.exercises; track exercise.id) {
+            <div class="exercise">• {{ exercise.name }}</div>
+          }
+        </div>
+      } @else {
+        <span class="grey no-workout">No workouts for this day</span>
+      }
+    </div>
+
+  </div>
+</div>

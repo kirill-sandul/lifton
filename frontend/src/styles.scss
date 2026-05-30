@@ -15,8 +15,12 @@
   --primary-error: #FF3737;
   --primary-error-light: #ff5959;
   --primary-error-lighter: #ff8686;
+  --primary-warn: #9D7800;
+  --primary-success: #008066;
+
   --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light), var(--primary-blue-lighter));
-  --primary-blue-bg-gradient: linear-gradient(to bottom, var(--primary-blue-lighter), #D8DEE3);
+  --primary-blue-bg-gradient: linear-gradient(to right, var(--primary-blue-lighter), #D8DEE3);
+  --primary-blue-dark-gradient: linear-gradient(to bottom, var(--primary-blue), #60B5F2);
   --primary-error-gradient: linear-gradient(to right, var(--primary-error-light), var(--primary-error-lighter));
   --primary-dark-gradient: linear-gradient(to bottom, #000, #6b6b6b);
 
@@ -91,4 +95,16 @@ input {
 
 .highlight {
   color: var(--primary-blue);
+}
+
+.warn {
+  color: var(--primary-warn);
+}
+
+.success {
+  color: var(--primary-success);
+}
+
+.grey {
+  color: var(--primary-grey);
 }

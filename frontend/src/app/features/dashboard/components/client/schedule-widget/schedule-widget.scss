@@ -1,0 +1,73 @@
+.widget {
+  .calendar {
+    .week {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, auto));
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .week-day {
+      color: #AAAAAA;
+      font-weight: 400;
+      font-size: 18px;
+      padding: 10px 0;
+    }
+
+    .day {
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 20px;
+      padding: 7px 20px;
+      transition: .2s;
+
+      &.selected {
+        background: var(--primary-blue-dark-gradient)
+      }
+
+      &:hover {
+        background-color: #eaeaea;
+      }
+    }
+  }
+
+  .content {
+    .line {
+      width: 90%;
+      height: 1px;
+      background-color: var(--primary-grey-light);
+      margin: 20px auto;
+    }
+
+    .workout {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        font-size: 18px;
+      }
+
+      .exercises {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        gap: 15px;
+        font-size: 17px;
+        font-weight: 600;
+        margin-top: 22px;
+      }
+
+      .no-workout {
+        font-size: 17px;
+        margin: auto;
+      }
+    }
+  }
+}
