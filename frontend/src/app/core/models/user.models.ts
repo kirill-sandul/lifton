@@ -24,7 +24,8 @@ export interface UserProfile {
   description?: string;
   clientProfile?: {
     bodyWeight: number,
-    height: number
+    height: number,
+    assignedTrainer: UserProfile
   },
   trainerProfile?: {
     experience: number
