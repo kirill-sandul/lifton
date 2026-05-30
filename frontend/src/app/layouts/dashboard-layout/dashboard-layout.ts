@@ -14,5 +14,6 @@ export class DashboardLayoutComponent {
   readonly UserRole = UserRole;
 
   userFullName = input.required<string>();
-  widgetRegistry = input.required<DashboardWidgetRegistry>()
+  widgetRegistry = input.required<DashboardWidgetRegistry>();
+  programAssigned = input.required<boolean>();
 }

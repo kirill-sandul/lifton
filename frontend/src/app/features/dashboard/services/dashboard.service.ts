@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
+import { UserService } from '@core/services/user/user.service';
 import { Target, Workout } from '@core/models/training.models';
 import { UserGoal } from '@core/models/user.models';
 
@@ -6,6 +7,8 @@ import { UserGoal } from '@core/models/user.models';
   providedIn: 'root',
 })
 export class DashboardService {
+  userService = inject(UserService);
+
   detailedProfile = {};
   programSchedule: Workout[] = [
     {
@@ -50,7 +53,7 @@ export class DashboardService {
       ],
     },
   ];
-  mockTargets: Target[] = [
+  clientTargets: Target[] = [
     {
       id: 't1',
       type: UserGoal.STRENGTH,
@@ -85,4 +88,17 @@ export class DashboardService {
       trainingPlanId: 'plan_1',
     },
   ];
+
+  assignedTrainer = computed(() => {
+    if (this.userService.userProfile()?.role !== 'CLIENT') return null;
+
+    return this.userService.userProfile()?.clientProfile!.assignedTrainer;
+  });
+
+  assignedProgram = computed(() => {
+    if (this.userService.userProfile()?.role !== 'CLIENT') return null;
+
+    return !this.userService.userProfile()?.clientProfile!.currentProgram;
+  });
+
 }

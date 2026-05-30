@@ -1,31 +1,38 @@
 <div class="widget">
   <div class="top-block">
     <h3>Your targets</h3>
-    <button liftonButton class="circular">
-      <svg lucideArrowUpRight></svg>
-    </button>
+    @if(previewTargets.length){
+      <button liftonButton class="circular">
+        <svg lucideArrowUpRight></svg>
+      </button>
+    }
   </div>
   <div class="targets">
-    @for (target of previewTargets; track target.id) {
-      <div class="target">
-        <div class="row target-info">
-          <span class="target-name">{{ target.name }}</span>
-          <div class="target-completion highlight">{{ target.completionPercent }}%</div>
-        </div>
-        <div class="progress">
-          <app-progress-bar [completion]="target.completionPercent" [compactStyle]="true" class="progress-bar" />
-        </div>
-        <div class="row target-values">
-          <div class="current">
-            <span class="grey">current - </span>
-            <span class="warn">{{ target.currentValue }} {{ target.unit }}</span>
+    @if(previewTargets.length){
+      @for (target of previewTargets; track target.id) {
+        <div class="target">
+          <div class="row target-info">
+            <span class="target-name">{{ target.name }}</span>
+            <div class="target-completion highlight">{{ target.completionPercent }}%</div>
           </div>
-          <div class="goal">
-            <span class="grey">target - </span>
-            <span class="success">{{ target.targetValue }} {{ target.unit }}</span>
+          <div class="progress">
+            <app-progress-bar [completion]="target.completionPercent" [compactStyle]="true" class="progress-bar" />
+          </div>
+          <div class="row target-values">
+            <div class="current">
+              <span class="grey">current - </span>
+              <span class="warn">{{ target.currentValue }} {{ target.unit }}</span>
+            </div>
+            <div class="goal">
+              <span class="grey">target - </span>
+              <span class="success">{{ target.targetValue }} {{ target.unit }}</span>
+            </div>
           </div>
         </div>
-      </div>
+      }
+    }
+    @else {
+      <span class="grey no-goals">No goals set yet</span>
     }
   </div>
 </div>

@@ -1,32 +1,40 @@
-<div class="widget">
+<div class="widget" [class.empty]="!workout">
   <div class="top-text">
     <h3>Upcoming workout</h3>
     <svg lucideMoveRight></svg>
-    <div class="date">
-      <span class="highlight">{{ mockWorkout.day | titlecase }}</span>
-      <span class="full-date">11th of May 2026</span>
-    </div>
+    @if(workout){
+      <div class="date">
+        <span class="highlight">{{ workout.day | titlecase }}</span>
+        <span class="full-date">11th of May 2026</span>
+      </div>
+    } @else {
+      <div class="grey">No upcoming workout</div>
+    }
+
   </div>
-  <div class="workout-info">
-    <span class="workout-name highlight">“{{ mockWorkout.name }}”</span>
-    <table class="workout-table">
-      <tr class="header">
-        <th>Exercise</th>
-        <th>Sets</th>
-        <th>Reps</th>
-        <th>Target value</th>
-      </tr>
-      @for (ex of mockWorkout.exercises; track ex.id) {
-        <tr class="exercise">
-          <td class="exercise-name">• {{ ex.name }}</td>
-          <td>{{ ex.sets.length }}</td>
-          <td>{{ ex.sets[0].reps }}</td>
-          <td>{{ ex.sets[0].targetValue }}{{ ex.unit }}</td>
+  @if(workout){
+    <div class="workout-info">
+      <span class="workout-name highlight">“{{ workout.name }}”</span>
+      <table class="workout-table">
+        <tr class="header">
+          <th>Exercise</th>
+          <th>Sets</th>
+          <th>Reps</th>
+          <th>Target value</th>
         </tr>
-      }
-    </table>
-  </div>
-  <div class="bottom-button">
-    <a liftonButton routerLink="" [icon]="'play'">Start workout session</a>
-  </div>
+        @for (ex of workout.exercises; track ex.id) {
+          <tr class="exercise">
+            <td class="exercise-name">• {{ ex.name }}</td>
+            <td>{{ ex.sets.length }}</td>
+            <td>{{ ex.sets[0].reps }}</td>
+            <td>{{ ex.sets[0].targetValue }}{{ ex.unit }}</td>
+          </tr>
+        }
+      </table>
+    </div>
+    <div class="bottom-button">
+      <a liftonButton routerLink="" [icon]="'play'">Start workout session</a>
+    </div>
+  }
+
 </div>

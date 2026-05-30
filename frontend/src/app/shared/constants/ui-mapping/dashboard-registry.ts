@@ -48,3 +48,29 @@ export const DASHBOARD_WIDGET_REGISTRY: DashboardWidgetRegistry = {
   ],
   TRAINER: []
 };
+
+export const NO_PROGRAM_WIDGET_REGISTRY: DashboardWidgetRegistry = {
+  CLIENT: [
+    {
+      component: TrainerInfoWidgetComponent,
+      grid: 'grid-rows-1-3',
+    },
+    {
+      component: WorkoutWidgetComponent,
+      grid: 'grid-rows-1-2',
+    },
+    {
+      component: TargetsWidgetComponent,
+      grid: 'grid-rows-2-3 grid-cols-2-3',
+    },
+    {
+      component: ScheduleWidgetComponent,
+      grid: 'grid-rows-3-4 grid-cols-1-1',
+    },
+    {
+      component: ProgressChartComponent,
+      grid: 'grid-rows-1-2 grid-cols-2-3',
+    },
+  ],
+  TRAINER: [],
+};

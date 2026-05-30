@@ -16,5 +16,6 @@ import { LucideArrowUpRight } from '@lucide/angular';
 export class TargetsWidgetComponent {
   dashboardService = inject(DashboardService);
 
-  previewTargets: Target[] = this.dashboardService.mockTargets.slice(0, 2);
+  previewTargets: Target[] = this.dashboardService.clientTargets.slice(0, 2);
 }
+

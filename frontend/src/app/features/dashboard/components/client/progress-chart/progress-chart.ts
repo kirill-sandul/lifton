@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-progress-chart',
@@ -11,15 +11,15 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
 export class ProgressChartComponent {
   lineChartType: 'line' = 'line';
 
+  chartData: ChartDataset<'line'>  = {
+    data: [60, 70, 73, 80],
+    label: 'Bench Press',
+    tension: 0.4,
+  };
+
   lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-    datasets: [
-      {
-        data: [60, 70, 73, 80],
-        label: 'Bench Press',
-        tension: 0.4,
-      },
-    ],
+    datasets: [this.chartData],
   };
 
   lineChartOptions: ChartOptions<'line'> = {
@@ -45,9 +45,14 @@ export class ProgressChartComponent {
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
   ngAfterViewInit() {
+    if(!this.lineChartData.datasets.length) return;
+    this.setChartGradient();
+  }
+
+  setChartGradient(){
     const ctx = this.chart?.chart?.ctx;
 
-    if(!ctx) return;
+    if (!ctx) return;
 
     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
 

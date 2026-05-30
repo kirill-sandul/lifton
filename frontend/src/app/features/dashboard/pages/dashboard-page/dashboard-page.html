@@ -1,5 +1,15 @@
-<app-dashboard-layout
-  [userFullName]="userService.userProfile()!.fullName"
-  [userRole]="userService.userProfile()!.role"
-  [widgetRegistry]="widgetRegistry"
-/>
+@if(dashboardService.assignedProgram()){
+  <app-dashboard-layout
+    [userFullName]="userService.userProfile()!.fullName"
+    [userRole]="userService.userProfile()!.role"
+    [widgetRegistry]="widgetRegistry"
+    [programAssigned]="true"
+  />
+} @else {
+  <app-dashboard-layout
+    [userFullName]="userService.userProfile()!.fullName"
+    [userRole]="userService.userProfile()!.role"
+    [widgetRegistry]="noProgramWidgetRegistry"
+    [programAssigned]="false"
+  />
+}

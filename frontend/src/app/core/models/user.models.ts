@@ -25,7 +25,9 @@ export interface UserProfile {
   clientProfile?: {
     bodyWeight: number,
     height: number,
-    assignedTrainer: UserProfile
+    assignedTrainer: UserProfile,
+    assignedAt: Date,
+    currentProgram: any
   },
   trainerProfile?: {
     experience: number

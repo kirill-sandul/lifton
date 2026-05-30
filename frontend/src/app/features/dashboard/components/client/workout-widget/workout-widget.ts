@@ -14,5 +14,5 @@ import { DashboardService } from '@features/dashboard/services/dashboard.service
 })
 export class WorkoutWidgetComponent {
   dashboardService = inject(DashboardService);
-  mockWorkout: Workout = this.dashboardService.programSchedule[0];
+  workout: Workout = this.dashboardService.programSchedule[0];
 }

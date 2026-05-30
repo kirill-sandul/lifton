@@ -20,6 +20,7 @@ export class ScheduleWidgetComponent {
 
   constructor() {
     effect(() => {
+
       const workout = this.getDayExercises(this.selectedDay());
 
       this.dayWorkout.set(workout ?? null);
@@ -38,6 +39,8 @@ export class ScheduleWidgetComponent {
       '5': 'FRIDAY',
       '6': 'SATURDAY',
     };
+
+    if (!this.schedule) return;
 
     return this.schedule.find((d) => d.day === weekDays[dayIdx.toString()]);
   }

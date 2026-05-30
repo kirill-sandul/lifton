@@ -11,6 +11,10 @@
     }
   }
 
+  &.empty {
+    padding: 15px 30px;
+  }
+
   .workout-name {
     font-size: 19px;
   }

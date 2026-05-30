@@ -18,4 +18,8 @@
   grid-gap: 25px;
   flex: 1;
   min-height: 0;
+
+  &.no-program {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
