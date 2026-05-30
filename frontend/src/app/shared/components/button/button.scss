@@ -40,6 +40,15 @@
     }
   }
 
+  &.circular {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    padding: 9px;
+    border-radius: 100%;
+  }
+
   &:disabled {
     opacity: 0.9;
     pointer-events: none;

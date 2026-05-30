@@ -14,4 +14,5 @@ type IconName = 'play' | 'msg' | '';
 })
 export class ButtonComponent {
   icon = input<IconName>('');
+  circular = input(false);
 }
