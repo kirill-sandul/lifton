@@ -18,7 +18,7 @@
     padding: 60px 40px 40px 40px;
     box-shadow: 0 0 12px #fff;
     margin: auto;
-    
+
     .row {
       display: flex;
       width: 100%;
@@ -28,14 +28,9 @@
       min-width: 100px;
 
       .editPfpBtn {
-        display: flex;
         position: absolute;
         top: 70%;
         right: -15px;
-        align-items: center;
-        justify-content: center;
-        padding: 9px;
-        border-radius: 100%;
 
         svg {
           width: 18px;
@@ -52,7 +47,7 @@
         align-items: center;
         margin: 0 0 20px 0;
         gap: 7px;
-        
+
         h3, h4 {
           margin: 0;
         }

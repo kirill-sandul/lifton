@@ -3,7 +3,7 @@
   <div class="profile-widget">
     <div class="row">
       <div class="pfp pfp-style" [style.backgroundImage]="`url(${userProfile()?.pfpUrl ?? '/assets/no-pfp.png'})`">
-        <button liftonButton class="editPfpBtn" (click)="showEditPfpModal.set(true)">
+        <button liftonButton class="editPfpBtn circular" (click)="showEditPfpModal.set(true)">
           <svg lucidePencil></svg>
         </button>
       </div>
