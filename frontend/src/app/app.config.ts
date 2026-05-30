@@ -1,6 +1,7 @@
 import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './app.routes';
 
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -15,7 +16,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([apiInterceptor])),
     provideAppInitializer(() => {
       const authService = inject(AuthService);
-      return firstValueFrom(authService.refresh())
-    })
-  ]
+      return firstValueFrom(authService.refresh());
+    }),
+    provideCharts(withDefaultRegisterables())
+  ],
 };
