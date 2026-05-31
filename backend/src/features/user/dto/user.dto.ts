@@ -1,28 +1,35 @@
-import { Type } from "class-transformer";
-import { IsEmail, IsEnum, IsNumber, IsOptional, IsPhoneNumber, IsString } from "class-validator";
-import { Goal } from "src/generated/prisma/enums";
+import { Type } from 'class-transformer';
+import {
+  IsEmail,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+} from 'class-validator';
+import { Goal } from 'src/generated/prisma/enums';
 
 export class EditUserDto {
   @IsOptional()
   @IsString()
-  fullName?: string
+  fullName?: string;
 
   @IsOptional()
   @IsEmail()
-  email?: string
+  email?: string;
 
   @IsOptional()
   @IsPhoneNumber()
-  phone?: string
+  phone?: string;
 
   @IsOptional()
   @IsEnum(Goal)
-  goal?: Goal
+  goal?: Goal;
 
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  age?: number
+  age?: number;
 
   @IsOptional()
   @IsString()
@@ -30,20 +37,20 @@ export class EditUserDto {
 
   @IsOptional()
   @IsString()
-  description?: string
-  
-  @IsOptional()
-  @IsNumber()
-  @Type(() => Number)
-  bodyWeight?: number
+  description?: string;
 
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  height?: number
-  
+  bodyWeight?: number;
+
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  experience?: number
+  height?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  experience?: number;
 }

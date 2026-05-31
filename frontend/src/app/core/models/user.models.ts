@@ -22,6 +22,7 @@ export interface UserProfile {
   age: number;
   pfpUrl?: string;
   description?: string;
+  active: boolean;
   clientProfile?: {
     bodyWeight: number,
     height: number,
@@ -30,7 +31,8 @@ export interface UserProfile {
     currentProgram: any
   },
   trainerProfile?: {
-    experience: number
+    experience: number,
+    clients: UserProfile[]
   }
 }
 

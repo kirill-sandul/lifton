@@ -41,9 +41,17 @@ export class UserService {
           assignedTrainer: resolvedTrainer,
         },
       };
-    }
-    if (found && found.trainerProfile) return found;
-    else throw new NotFoundException('Cannot get user profile');
+    } else if (found && found.trainerProfile) {
+      const trainerProfile = await this.prisma.trainerProfile.findUnique({
+        where: { userId: found.id },
+        include: { clients: true },
+      });
+
+      return {
+        ...found,
+        trainerProfile,
+      };
+    } else throw new NotFoundException('Cannot get user profile');
   }
 
   async editPfp(userId: string, newImg: Express.Multer.File) {
