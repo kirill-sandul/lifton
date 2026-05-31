@@ -9,6 +9,6 @@ import { UserModule } from './features/user/user.module';
   imports: [PrismaModule, AuthModule, UserModule],
   controllers: [AppController],
   providers: [AppService],
-  exports: []
+  exports: [],
 })
 export class AppModule {}
