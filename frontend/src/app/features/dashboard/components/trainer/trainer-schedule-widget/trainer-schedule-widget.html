@@ -1,0 +1,32 @@
+<app-calendar-widget (onSelectDay)="getDayWorkouts($event)">
+  <div class="client-workouts-list">
+    @if(schedule && dayWorkouts()?.length){
+      <div class="top-block">
+        <div class="title">
+          Workouts on {{ selectedDay() | date: 'd MMM' }}:
+        </div>
+        @if(dayWorkouts()!.length > 1){
+          <div class="slider-nav">
+            <button class="nav-btn" (click)="sliderPrev()" [disabled]="disableScrollPrev()">
+              <svg lucideMoveLeft></svg>
+            </button>
+            <button class="nav-btn" (click)="sliderNext()" [disabled]="disableScrollNext()">
+              <svg lucideMoveRight></svg>
+            </button>
+          </div>
+        }
+      </div>
+        <div class="workouts embla" #embla>
+          <div class="embla__container">
+              @for (client of dayWorkouts(); track client.id) {
+                <div class="embla__slide">
+                  <app-client-preview [type]="'clientWithWorkout'" [clientWithWorkout]="client" />
+                </div>
+              }
+          </div>
+        </div>
+    } @else {
+      <span class="grey no-workout">No workouts planned</span>
+    }
+  </div>
+</app-calendar-widget>
