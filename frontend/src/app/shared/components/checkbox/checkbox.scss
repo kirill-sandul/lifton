@@ -1,0 +1,30 @@
+.checkbox {
+  position: relative;
+  width: 19px;
+  height: 19px;
+  border: 2px solid #000;
+  border-radius: 6px;
+  cursor: pointer;
+  background: none;
+  transition: .15s;
+
+  &:active {
+    transform: scale(1.2);
+  }
+
+  &.checked {
+    border-color: var(--primary-success);
+
+    & .checkbox-icon {
+      opacity: 1;
+    }
+  }
+
+  &-icon {
+    position: absolute;
+    left: 3px;
+    top: -1px;
+    opacity: 0;
+    transition: .15s;
+  }
+}
