@@ -1,0 +1,33 @@
+.widget {
+  .mini-title {
+    font-size: 17.5px;
+    font-weight: 400;
+    margin: 15px 0;
+  }
+
+  .percentage {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .avg-percentage {
+      font-size: 32px;
+      font-weight: 600;
+
+      &-growth {
+        display: flex;
+        align-items: center;
+        padding: 4px 12px 4px 8px;
+        color: #fff;
+        background: var(--primary-success-gradient);
+        border-radius: 15px;
+        font-weight: 300;
+      }
+    }
+  }
+
+  .date-span {
+    display: block;
+    margin-top: 15px;
+  }
+}
