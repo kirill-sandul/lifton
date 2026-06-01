@@ -1,4 +1,4 @@
-import { UserGoal } from '@core/models/user.models';
+import { UserGoal, UserProfile } from '@core/models/user.models';
 
 export interface ExerciseSet {
   id: string;
@@ -21,6 +21,7 @@ export interface Workout {
   name?: string;
   trainingPlanId: string;
   exercises: Exercise[];
+  clients?: UserProfile[];
 }
 
 export interface Target {
@@ -34,3 +35,7 @@ export interface Target {
   exerciseId: string | null;
   trainingPlanId: string;
 }
+
+export type ClientWorkoutOnDay = UserProfile & {
+  plannedWorkout: Workout;
+};
