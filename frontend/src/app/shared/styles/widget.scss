@@ -3,10 +3,33 @@
   border-radius: 25px;
   padding: 15px 30px 30px 30px;
   height: auto;
+  //overflow: hidden;
 
   .top-text {
     display: flex;
     align-items: center;
     gap: 10px;
   }
+
+  &.name-count-widget {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    .large-title {
+      font-size: 17.5px;
+      font-weight: 400;
+    }
+
+    .count {
+      font-weight: 600;
+      font-size: 32px;
+    }
+  }
+}
+
+.max-size {
+  max-width: 500px;
+  min-width: 450px;
 }

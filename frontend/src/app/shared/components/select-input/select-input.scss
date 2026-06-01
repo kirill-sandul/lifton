@@ -1,11 +1,11 @@
 .select-input {
   position: relative;
   z-index: 5;
-  
+
   .selected {
     border: 1px solid var(--primary-grey-light);
     cursor: pointer;
-    
+
     .scale-wrapper {
       display: flex;
       flex-direction: row;
