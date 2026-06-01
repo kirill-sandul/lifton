@@ -3,37 +3,38 @@
 
 export enum UserRole {
   TRAINER = 'TRAINER',
-  CLIENT = 'CLIENT'
+  CLIENT = 'CLIENT',
 }
 
 export enum UserGoal {
   STRENGTH = 'STRENGTH',
   MUSCLES = 'MUSCLES',
-  FATLOSS = 'FATLOSS'
+  FATLOSS = 'FATLOSS',
 }
 
 export interface UserProfile {
+  id?: string;
   fullName: string;
   email: string;
   phone: string;
   password: string;
   role: UserRole;
-  goal: UserGoal,
+  goal: UserGoal;
   age: number;
   pfpUrl?: string;
   description?: string;
   active: boolean;
   clientProfile?: {
-    bodyWeight: number,
-    height: number,
-    assignedTrainer: UserProfile,
-    assignedAt: Date,
-    currentProgram: any
-  },
+    bodyWeight: number;
+    height: number;
+    assignedTrainer: UserProfile;
+    assignedAt: Date;
+    currentProgram: any;
+  };
   trainerProfile?: {
-    experience: number,
-    clients: UserProfile[]
-  }
+    experience: number;
+    clients: UserProfile[];
+  };
 }
 
 export interface EditProfileDto {
@@ -41,11 +42,11 @@ export interface EditProfileDto {
   fullName?: string;
   email?: string;
   phone?: string;
-  goal?: UserGoal,
+  goal?: UserGoal;
   age?: number;
   pfpUrl?: string;
   description?: string;
-  bodyWeight?: number,
-  height?: number
-  experience?: number
+  bodyWeight?: number;
+  height?: number;
+  experience?: number;
 }

@@ -1,10 +1,9 @@
-
 <app-modal
   [title]="'Edit profile'"
   [acceptOption]="'Save changes'"
   [discardOption]="'Discard'"
   [acceptBtnDisabled]="editProfileForm.invalid && editProfileForm.touched"
-  (onSubmit)="onSubmit()" 
+  (onSubmit)="onSubmit()"
   (onDiscard)="onClose.emit()"
 >
   <form class="editProfileForm">
@@ -93,5 +92,5 @@
     >
       <svg lucidePencil></svg>
     </app-input>
-  </form>  
+  </form>
 </app-modal>
