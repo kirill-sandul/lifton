@@ -1,15 +1,7 @@
-@if(dashboardService.assignedProgram()){
-  <app-dashboard-layout
-    [userFullName]="userService.userProfile()!.fullName"
-    [userRole]="userService.userProfile()!.role"
-    [widgetRegistry]="widgetRegistry"
-    [programAssigned]="true"
-  />
-} @else {
-  <app-dashboard-layout
-    [userFullName]="userService.userProfile()!.fullName"
-    [userRole]="userService.userProfile()!.role"
-    [widgetRegistry]="noProgramWidgetRegistry"
-    [programAssigned]="false"
-  />
-}
+
+<app-dashboard-layout
+  [userFullName]="userService.userProfile()!.fullName"
+  [userRole]="userService.userProfile()!.role"
+  [widgetRegistry]="dashboardService.noData() ? noDataWidgetRegistry : widgetRegistry"
+  [noData]="dashboardService.noData()"
+/>

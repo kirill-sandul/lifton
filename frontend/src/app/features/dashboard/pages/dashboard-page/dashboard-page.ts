@@ -3,7 +3,7 @@ import { UserService } from '@core/services/user/user.service';
 import { DashboardLayoutComponent } from '@layouts/dashboard-layout/dashboard-layout';
 import {
   DASHBOARD_WIDGET_REGISTRY,
-  NO_PROGRAM_WIDGET_REGISTRY,
+  NO_DATA_WIDGET_REGISTRY,
 } from '@shared/constants/ui-mapping/dashboard-registry';
 import { DashboardService } from '@features/dashboard/services/dashboard.service';
 
@@ -17,5 +17,5 @@ export class DashboardPageComponent {
   userService = inject(UserService);
   dashboardService = inject(DashboardService);
   widgetRegistry = DASHBOARD_WIDGET_REGISTRY;
-  noProgramWidgetRegistry = NO_PROGRAM_WIDGET_REGISTRY;
+  noDataWidgetRegistry = NO_DATA_WIDGET_REGISTRY;
 }

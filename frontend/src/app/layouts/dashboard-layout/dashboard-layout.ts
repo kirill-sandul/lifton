@@ -15,5 +15,5 @@ export class DashboardLayoutComponent {
 
   userFullName = input.required<string>();
   widgetRegistry = input.required<DashboardWidgetRegistry>();
-  programAssigned = input.required<boolean>();
+  noData = input.required<boolean>();
 }

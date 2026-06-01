@@ -9,7 +9,7 @@
       <h2>Here is your trainer's overview on your clients.</h2>
     }
   </div>
-  <div class="widgets" [class.no-program]="!programAssigned()">
+  <div class="widgets" [class.no-data]="noData()">
     @for (widget of widgetRegistry()[userRole()]; track $index) {
       <div class="widget-host" [class]="widget.grid">
         <ng-container *ngComponentOutlet="widget.component"></ng-container>
