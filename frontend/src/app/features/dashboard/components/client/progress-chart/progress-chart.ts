@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
 
@@ -11,10 +11,25 @@ import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
 export class ProgressChartComponent {
   lineChartType: 'line' = 'line';
 
-  chartData: ChartDataset<'line'>  = {
+  chartData: ChartDataset<'line'> = {
     data: [60, 70, 73, 80],
     label: 'Bench Press',
+    borderColor: '#0084E2',
+    borderWidth: 2,
+    fill: true,
     tension: 0.4,
+    backgroundColor: (context) => {
+      const ctx = context.chart?.ctx;
+
+      if (!ctx) return;
+
+      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+
+      gradient.addColorStop(0, 'rgba(168, 218, 255, 0.8)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+      return gradient;
+    },
   };
 
   lineChartData: ChartConfiguration<'line'>['data'] = {
@@ -41,25 +56,4 @@ export class ProgressChartComponent {
       },
     },
   };
-
-  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
-
-  ngAfterViewInit() {
-    if(!this.lineChartData.datasets.length) return;
-    this.setChartGradient();
-  }
-
-  setChartGradient(){
-    const ctx = this.chart?.chart?.ctx;
-
-    if (!ctx) return;
-
-    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-
-    gradient.addColorStop(0, 'rgba(168, 218, 255, 0.8)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-    this.lineChartData.datasets[0].backgroundColor = gradient;
-    this.lineChartData.datasets[0].fill = true;
-  }
 }
