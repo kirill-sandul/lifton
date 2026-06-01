@@ -1,0 +1,14 @@
+<div class="widget">
+  <div class="top-block">
+    <h3>Your clients</h3>
+    <button class="circular" liftonButton>
+      <svg lucideArrowUpRight></svg>
+    </button>
+  </div>
+  <div class="count">5</div>
+  <div class="clients-list">
+    @for (client of clientsList; track client.id) {
+      <app-client-preview [type]="'statusActivity'" [clientUser]="client" />
+    }
+  </div>
+</div>

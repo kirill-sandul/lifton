@@ -1,0 +1,23 @@
+.widget {
+  .top-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      margin-bottom: 10px;
+    }
+  }
+
+  .count {
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  .clients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 15px;
+  }
+}
