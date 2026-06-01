@@ -1,0 +1,40 @@
+.widget {
+  .top-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .wrapper {
+    display: flex;
+
+    .progress {
+      flex: 0.8;
+    }
+
+    .analytics {
+      display: flex;
+      flex-direction: column;
+      flex: 0.25;
+      align-self: center;
+      gap: 30px;
+
+      .row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
+
+        .title {
+          font-size: 19px;
+          font-weight: 400;
+        }
+
+        .percentage {
+          font-size: 32px;
+        }
+      }
+    }
+  }
+}
