@@ -1,0 +1,61 @@
+.widget {
+  .todo {
+    .add-task-btn {
+      cursor: pointer;
+    }
+
+    .tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+
+      .task {
+        &-wrapper {
+          display: flex;
+          align-items: center;
+        }
+
+        .column {
+          display: flex;
+          flex: 1;
+        }
+
+        .content {
+          position: relative;
+          flex: 1;
+          max-width: 300px;
+          margin-left: 14px;
+
+          &.completed {
+            text-decoration: line-through;
+          }
+        }
+
+        .remove-task-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: none;
+          color: var(--primary-error);
+          transition: .2s;
+
+          svg {
+            width: 20px;
+          }
+
+          &:active {
+            transform: scale(1.2);
+          }
+        }
+
+        .line {
+          width: 90%;
+          height: 1px;
+          background-color: var(--primary-grey-light);
+          margin: 12px auto;
+        }
+      }
+    }
+  }
+}
