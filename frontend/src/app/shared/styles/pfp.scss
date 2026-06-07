@@ -1,0 +1,18 @@
+.pfp-style {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  border: 1px solid var(--primary-grey);
+  background-size: cover;
+
+  &.mini {
+    width: 35px;
+    height: 35px;
+  }
+
+  &.bigger {
+    width: 200px;
+    height: 200px;
+  }
+}

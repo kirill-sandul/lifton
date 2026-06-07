@@ -31,7 +31,13 @@ export class UserService {
 
       const resolvedTrainer = await this.prisma.user.findUnique({
         where: { id: trainerProfile?.userId },
-        include: { trainerProfile: true },
+        include: {
+          trainerProfile: {
+            include: {
+              user: true,
+            },
+          },
+        },
       });
 
       return {
@@ -44,7 +50,13 @@ export class UserService {
     } else if (found && found.trainerProfile) {
       const trainerProfile = await this.prisma.trainerProfile.findUnique({
         where: { userId: found.id },
-        include: { clients: true },
+        include: {
+          clients: {
+            include: {
+              user: true,
+            },
+          },
+        },
       });
 
       return {

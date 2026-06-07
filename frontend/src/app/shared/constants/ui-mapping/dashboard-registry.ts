@@ -119,5 +119,22 @@ export const NO_DATA_WIDGET_REGISTRY: DashboardWidgetRegistry = {
       grid: 'grid-rows-1-2 grid-cols-2-3',
     },
   ],
-  TRAINER: [],
+  TRAINER: [
+    {
+      component: ClientsListWidgetComponent,
+      grid: 'grid-rows-1-2',
+    },
+    {
+      component: TrainerScheduleWidgetComponent,
+      grid: 'grid-rows-1-2',
+    },
+    {
+      component: TodoWidgetComponent,
+      grid: 'grid-rows-2-3',
+    },
+    {
+      component: ClientsProgressChartComponent,
+      grid: 'grid-rows-2-3',
+    },
+  ],
 };

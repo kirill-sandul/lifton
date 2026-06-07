@@ -3,6 +3,7 @@
 @use './app/shared/styles/quiz';
 @use './app/shared/styles/widget';
 @use './app/shared/styles/embla';
+@use './app/shared/styles/pfp';
 
 /* Sora global font */
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
@@ -12,7 +13,7 @@
   --primary-blue-light: #60BAFA;
   --primary-blue-lighter: #A6DAFF;
   --primary-grey: #535353;
-  --primary-grey-light: #D2D2D2;
+  --primary-grey-light: #eaeaea;
   --primary-error: #FF3737;
   --primary-error-light: #ff5959;
   --primary-error-lighter: #ff8686;
@@ -74,25 +75,6 @@ input {
 
 .icon-theme-color {
   stroke: var(--primary-text)
-}
-
-.pfp-style {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  border-radius: 100%;
-  border: 1px solid var(--primary-grey);
-  background-size: cover;
-
-  &.mini {
-    width: 35px;
-    height: 35px;
-  }
-
-  &.bigger {
-    width: 200px;
-    height: 200px;
-  }
 }
 
 .highlight {

@@ -4,11 +4,11 @@
   [acceptOption]="'Save changes'"
   [discardOption]="'Discard'"
   [acceptBtnDisabled]="this.pfpControl.invalid"
-  (onSubmit)="onSubmit()" 
+  (onSubmit)="onSubmit()"
   (onDiscard)="onClose.emit()"
 >
   <div class="wrapper">
-    <div class="pfp-preview pfp-style bigger" [style.backgroundImage]="`url(${previewImgUrl()})`" alt="preview image"></div>
+    <div class="pfp-preview bigger" pfpCircle [pfpUrl]="previewImgUrl()"></div>
     <app-file-input
       id="pfp"
       placeholder="Upload a new profile picture"

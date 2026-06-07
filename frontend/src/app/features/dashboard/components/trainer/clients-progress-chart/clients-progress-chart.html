@@ -1,10 +1,13 @@
 <div class="widget">
   <div class="top-block">
     <h3>Clients progress trend</h3>
-    <app-client-selector [options]="generateClientsOptions()" [control]="selectClientControl" />
+    @if(clients().length){
+      <app-client-selector [options]="generateClientsOptions()" [control]="selectClientControl" />
+    }
   </div>
   <div class="wrapper">
-    <div class="progress">
+    @if(clients().length){
+      <div class="progress">
       @if(this.chartData.data.length){
         <div class="progress-chart">
           <div class="chart">
@@ -15,16 +18,20 @@
       @else {
         <span class="grey">No progress yet</span>
       }
-    </div>
-    <div class="analytics">
-      <div class="row">
-        <span class="title">Alicia's progress last weeks:</span>
-        <span class="warn percentage">4.2%</span>
       </div>
-      <div class="row">
-        <span class="title">Average progress rate of your clients:</span>
-        <span class="success percentage">12.1%</span>
+      <div class="analytics">
+        <div class="row">
+          <span class="title">Alicia's progress last weeks:</span>
+          <span class="warn percentage">4.2%</span>
+        </div>
+        <div class="row">
+          <span class="title">Average progress rate of your clients:</span>
+          <span class="success percentage">12.1%</span>
+        </div>
       </div>
-    </div>
+    }
+    @else {
+      <span class="grey">There is no progress to analyze yet</span>
+    }
   </div>
 </div>

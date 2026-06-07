@@ -14,9 +14,9 @@ export class TabsButtonComponent {
   optionsLinks = input([''])
   selectedOption = input('')
   style = input<TabsButtonStyle>('primary');
-  
+
   selectorStep = signal(0)
-  
+
   tabElements = viewChildren('tab')
   currentTabWidth = signal(0)
   selectionBgPos = signal(0)
@@ -32,7 +32,7 @@ export class TabsButtonComponent {
     effect(() => {
       const selectedRef = this.tabElements()[this.selectorStep()] as ElementRef;
       if(!selectedRef) return;
-      
+
       const selectedElemRelPos = selectedRef.nativeElement.getBoundingClientRect().left - selectedRef.nativeElement.parentElement.getBoundingClientRect().left;
 
       const selectedElemWidth = selectedRef.nativeElement.getBoundingClientRect().width;

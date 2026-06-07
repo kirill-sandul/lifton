@@ -1,14 +1,24 @@
+@let noClients = !(clientsList.length);
+
 <div class="widget">
   <div class="top-block">
     <h3>Your clients</h3>
-    <button class="circular" liftonButton>
-      <svg lucideArrowUpRight></svg>
-    </button>
+    @if (!noClients){
+      <button class="circular" liftonButton>
+        <svg lucideArrowUpRight></svg>
+      </button>
+    }
   </div>
-  <div class="count">5</div>
+  <div class="count">{{ clientsList.length }}</div>
   <div class="clients-list">
     @for (client of clientsList; track client.id) {
       <app-client-preview [type]="'statusActivity'" [clientUser]="client" />
     }
   </div>
+  @if (noClients) {
+    <span class="grey">No clients yet</span>
+    <a liftonButton class="search-clients-btn" [icon]="'arrowUp'">
+      Search for clients
+    </a>
+  }
 </div>

@@ -4,24 +4,13 @@
       <img src="/assets/lifton-logo.png" alt="">
     </div>
     <nav>
-      <!-- <ul class="tabs">
-          <li class="tab" routerLink="">
-            Overview
-          </li>
-          <li class="tab" routerLink="">
-            Clients
-          </li>
-          <li class="tab" routerLink="">
-            Programs library
-          </li>
-        </ul> -->
-        <app-tabs-button
-          [options]="['Overview', 'Workouts', 'Start workout']"
-          [optionsLinks]="['', '', '']"
-          [selectedOption]="selectedTab()"
-          [style]="'dark'"
-        />
-      </nav>
+      <app-tabs-button
+        [options]="navOptions().labels"
+        [optionsLinks]="navOptions().links"
+        [selectedOption]="selectedTab()"
+        [style]="'dark'"
+      />
+    </nav>
   </div>
 
   <nav>
@@ -34,11 +23,6 @@
       <li>
         <button>
           <svg lucideBell></svg>
-        </button>
-      </li>
-      <li>
-        <button>
-          <svg lucideMail></svg>
         </button>
       </li>
       <li routerLink="/profile">

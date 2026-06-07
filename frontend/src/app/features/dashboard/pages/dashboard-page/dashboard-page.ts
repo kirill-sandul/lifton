@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { UserService } from '@core/services/user/user.service';
 import { DashboardLayoutComponent } from '@layouts/dashboard-layout/dashboard-layout';
 import {
@@ -6,6 +6,9 @@ import {
   NO_DATA_WIDGET_REGISTRY,
 } from '@shared/constants/ui-mapping/dashboard-registry';
 import { DashboardService } from '@features/dashboard/services/dashboard.service';
+import { UserRole } from '@core/models/user.models';
+import { TrainerService } from '@core/services/roles/trainer/trainer.service';
+import { ClientService } from '@core/services/roles/client/client.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -16,6 +19,26 @@ import { DashboardService } from '@features/dashboard/services/dashboard.service
 export class DashboardPageComponent {
   userService = inject(UserService);
   dashboardService = inject(DashboardService);
+
+  trainerService = inject(TrainerService);
+  clientService = inject(ClientService);
+
   widgetRegistry = DASHBOARD_WIDGET_REGISTRY;
   noDataWidgetRegistry = NO_DATA_WIDGET_REGISTRY;
+
+  getWidgetRegistry = computed(() => {
+    if (this.userService.userProfile()?.role === UserRole.CLIENT) {
+      return this.clientService.noData() ? this.noDataWidgetRegistry : this.widgetRegistry;
+    } else {
+      return this.trainerService.noData() ? this.noDataWidgetRegistry : this.widgetRegistry;
+    }
+  });
+
+  ifNoData() {
+    if (this.userService.userProfile()?.role === UserRole.CLIENT) {
+      return this.clientService.noData();
+    } else {
+      return this.trainerService.noData();
+    }
+  }
 }

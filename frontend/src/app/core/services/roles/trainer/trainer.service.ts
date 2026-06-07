@@ -66,60 +66,14 @@ export class TrainerService {
       },
     },
   ];
-  clients: UserProfile[] = [
-    {
-      id: 'fepwdlpwf',
-      fullName: 'Alicia Martinez',
-      pfpUrl:
-        'https://rdphpqnmuyeljhoecrfm.supabase.co/storage/v1/object/public/lifton/avatars/cd70a1a6-463a-4bbc-ad35-3c6bb45ed328.jpg',
-      age: 25,
-      active: true,
-      email: 'lohevol@mailer.com',
-      goal: UserGoal.MUSCLES,
-      role: UserRole.CLIENT,
-      phone: '+34651754534',
-      password: '$2b$10$p./GaYvLtKO/dZ5MyqbTAOPOYNryHEP4HjtRXYKkIvSrHaphibENi',
-    },
-    {
-      id: 'fepw2lpwf',
-      fullName: 'John Martinez',
-      pfpUrl:
-        'https://rdphpqnmuyeljhoecrfm.supabase.co/storage/v1/object/public/lifton/avatars/284aac1e-55bf-431e-9f58-b815e344d001.png',
-      age: 25,
-      active: true,
-      email: 'lohevol@mailer.com',
-      goal: UserGoal.MUSCLES,
-      role: UserRole.CLIENT,
-      phone: '+34651754534',
-      password: '$2b$10$p./GaYvLtKO/dZ5MyqbTAOPOYNryHEP4HjtRXYKkIvSrHaphibENi',
-    },
-    {
-      id: 'fepw1lpwf',
-      fullName: 'Alicia Martinez',
-      pfpUrl:
-        'https://rdphpqnmuyeljhoecrfm.supabase.co/storage/v1/object/public/lifton/avatars/cd70a1a6-463a-4bbc-ad35-3c6bb45ed328.jpg',
-      age: 25,
-      active: true,
-      email: 'lohevol@mailer.com',
-      goal: UserGoal.MUSCLES,
-      role: UserRole.CLIENT,
-      phone: '+34651754534',
-      password: '$2b$10$p./GaYvLtKO/dZ5MyqbTAOPOYNryHEP4HjtRXYKkIvSrHaphibENi',
-    },
-    {
-      id: 'fepw6lpwf',
-      fullName: 'Alicia Martinez',
-      pfpUrl:
-        'https://rdphpqnmuyeljhoecrfm.supabase.co/storage/v1/object/public/lifton/avatars/cd70a1a6-463a-4bbc-ad35-3c6bb45ed328.jpg',
-      age: 25,
-      active: true,
-      email: 'lohevol@mailer.com',
-      goal: UserGoal.MUSCLES,
-      role: UserRole.CLIENT,
-      phone: '+34651754534',
-      password: '$2b$10$p./GaYvLtKO/dZ5MyqbTAOPOYNryHEP4HjtRXYKkIvSrHaphibENi',
-    },
-  ];
+
+  clients = computed(() => {
+    const trainerProfile = this.userService.userProfile()?.trainerProfile;
+
+    if (!trainerProfile) return [];
+
+    return trainerProfile.clients;
+  });
 
   noData = computed((): boolean => {
     return !this.userService.userProfile()?.trainerProfile!.clients?.length;

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ClientPreviewComponent } from '@shared/components/client-preview/client-preview';
 import { TrainerService } from '@core/services/roles/trainer/trainer.service';
 import { ButtonComponent } from '@shared/components/button/button';
@@ -12,5 +12,5 @@ import { LucideArrowUpRight } from '@lucide/angular';
 })
 export class ClientsListWidgetComponent {
   trainerService = inject(TrainerService);
-  clientsList = this.trainerService.clients.slice(0, 3);
+  clientsList = this.trainerService.clients().slice(0, 3);
 }

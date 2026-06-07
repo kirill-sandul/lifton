@@ -2,6 +2,6 @@
 <app-dashboard-layout
   [userFullName]="userService.userProfile()!.fullName"
   [userRole]="userService.userProfile()!.role"
-  [widgetRegistry]="dashboardService.noData() ? noDataWidgetRegistry : widgetRegistry"
-  [noData]="dashboardService.noData()"
+  [widgetRegistry]="getWidgetRegistry()"
+  [noData]="ifNoData()"
 />

@@ -1,3 +1,7 @@
+input, textarea {
+  font-family: "Sora", sans-serif;
+}
+
 .input-wrapper {
   display: flex;
   justify-content: space-between;
@@ -27,7 +31,6 @@
   input, textarea {
     align-self: flex-end;
     flex-grow: 2;
-    font-family: "Sora", sans-serif;
     font-size: 15px;
     font-weight: 300;
     border: none;

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
 import { TrainerService } from '@core/services/roles/trainer/trainer.service';
@@ -13,7 +13,7 @@ import { ClientSelectorComponent, SelectInputOption } from '../client-selector/c
 })
 export class ClientsProgressChartComponent {
   trainerService = inject(TrainerService);
-  clients = this.trainerService.clients;
+  clients = computed(() => this.trainerService.clients());
 
   lineChartType: 'line' = 'line';
 
@@ -63,12 +63,12 @@ export class ClientsProgressChartComponent {
     },
   };
 
-  selectClientControl = new FormControl(this.clients[0].id);
+  selectClientControl = new FormControl(this.clients().length ? this.clients()[0].id : '');
 
   generateClientsOptions() {
     const options: SelectInputOption[] = [];
 
-    this.clients.forEach((client) => {
+    this.clients().forEach((client) => {
       const firstName = client.fullName.split(' ')[0];
 
       options.push({
