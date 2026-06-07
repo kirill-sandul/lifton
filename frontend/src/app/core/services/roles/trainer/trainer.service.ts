@@ -1,7 +1,7 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { UserService } from '@core/services/user/user.service';
 import { ClientWorkoutOnDay } from '@core/models/training.models';
-import { UserGoal, UserProfile, UserRole } from '@core/models/user.models';
+import { UserGoal, UserRole } from '@core/models/user.models';
 
 @Injectable({
   providedIn: 'root',
