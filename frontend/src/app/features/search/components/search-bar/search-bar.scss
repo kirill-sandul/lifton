@@ -1,0 +1,20 @@
+.search-bar {
+  display: flex;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid #fff;
+  border-radius: 35px;
+  padding: 20px 40px;
+
+  input {
+    flex: 1;
+    font-size: 15.5px;
+    border: none;
+    outline: none;
+  }
+
+  svg {
+    width: 20px;
+  }
+}

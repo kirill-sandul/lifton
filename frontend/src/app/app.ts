@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TooltipService } from '@core/services/tooltip/tooltip';
+import { TooltipComponent } from '@shared/components/tooltip/tooltip';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, TooltipComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
-export class App {}
+export class App {
+  tooltipService = inject(TooltipService);
+}

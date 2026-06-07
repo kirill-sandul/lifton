@@ -1,0 +1,11 @@
+<div class="search-bar">
+  <input
+    #input
+    type="text"
+    [(ngModel)]="searchQuery"
+    [placeholder]="placeholder()"
+    (input)="startTyping()"
+    (keyup)="endTyping()"
+  />
+  <svg lucideSearch (click)="input.focus()"></svg>
+</div>

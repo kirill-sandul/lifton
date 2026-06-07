@@ -3,12 +3,13 @@ import { LowerCasePipe } from '@angular/common';
 import { LucideMoveRight } from '@lucide/angular';
 import { UserRolePipe } from '@core/pipes/user-role.pipe';
 import { UserProfile } from '@core/models/user.models';
+import { PfpCircleComponent } from '@shared/components/pfp-circle/pfp-circle';
 
 type ProfileWidgetColor = 'light' | 'dark';
 
 @Component({
   selector: 'app-profile-widget',
-  imports: [LowerCasePipe, LucideMoveRight, UserRolePipe],
+  imports: [LowerCasePipe, LucideMoveRight, UserRolePipe, PfpCircleComponent],
   templateUrl: './profile-widget.html',
   styleUrl: './profile-widget.scss',
 })

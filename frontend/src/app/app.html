@@ -1,1 +1,10 @@
 <router-outlet />
+
+<div class="tooltips">
+  @if(tooltipService.tooltip(); as tooltip){
+    <app-tooltip
+      [tooltip]="tooltip"
+      animate.leave="tooltip-hide"
+    />
+  }
+</div>

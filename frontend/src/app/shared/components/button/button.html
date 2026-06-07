@@ -5,6 +5,14 @@
   }
 
   @if(icon() == "msg") {
-    <svg class="icon" lucideSendHorizonal></svg>
+    <svg class="icon" lucideSend></svg>
   }
+
+  @if(icon() == "arrowUp") {
+    <svg class="icon" lucideArrowUpRight></svg>
+  }
+}
+
+@if(tooltip() && showTooltip()){
+  <div class="tooltip" animate.leave="tooltip-deleting">{{ tooltip() }}</div>
 }

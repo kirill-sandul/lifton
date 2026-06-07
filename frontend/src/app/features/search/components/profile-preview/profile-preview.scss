@@ -1,0 +1,45 @@
+.profile-preview-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  .card-wrapper {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    color: #fff;
+    font-weight: 300;
+    background: var(--primary-dark-gradient);
+    padding: 10px 23px 10px 17px;
+    border-radius: 35px;
+    cursor: pointer;
+    gap: 11px;
+
+    .pfp {
+      width: 35px;
+      height: 35px;
+      background-size: cover;
+      border-radius: 100%;
+    }
+
+    .email {
+      color: var(--primary-grey-light);
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      background: #fff;
+      border-radius: 100%;
+    }
+
+    .active-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: inherit;
+      margin-left: auto;
+    }
+  }
+}

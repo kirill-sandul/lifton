@@ -42,15 +42,48 @@
 
   &.circular {
     display: flex;
-
     align-items: center;
     justify-content: center;
     padding: 9px;
     border-radius: 100%;
+
+    svg {
+      position: static;
+      width: 18px;
+      height: 18px;
+    }
   }
 
   &:disabled {
     opacity: 0.9;
     pointer-events: none;
+  }
+
+  .tooltip {
+    position: absolute;
+    display: flex;
+    width: max-content;
+    top: calc(100% + 7px);
+    color: #fff;
+    font-weight: 300;
+    background: var(--primary-dark-gradient);
+    opacity: 1;
+    border-radius: 15px;
+    font-size: 14px;
+    padding: 5px 10px;
+    pointer-events: none;
+    transform: scale(1);
+    transition: 0.2s;
+
+    @starting-style {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+
+  .tooltip-deleting {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: 0.2s;
   }
 }

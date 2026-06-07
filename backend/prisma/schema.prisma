@@ -28,7 +28,54 @@ model User {
   clientProfile  ClientProfile?
   trainerProfile TrainerProfile?
 
+  notifications Notification[]
+
   refreshTokens RefreshToken[]
+}
+
+model Notification {
+  id String @id @default(uuid())
+
+  type NotificationType
+
+  data Json?
+
+  archived Boolean
+
+  fromUserId String?
+
+  toUser   User   @relation(fields: [toUserId], references: [id])
+  toUserId String
+
+  inviteId String?
+  invite   Invite? @relation(fields: [inviteId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([toUserId])
+}
+
+enum NotificationType {
+  INVITE_SENT
+  INVITE_ACCEPTED
+  INVITE_DENIED
+  PROGRAM_ASSIGNED
+}
+
+model Invite {
+  id String @id @default(uuid())
+
+  fromUserId String
+  toUserId   String
+
+  status InviteStatus
+
+  notifications Notification[]
+}
+
+enum InviteStatus {
+  ACCEPTED
+  DECLINED
 }
 
 model ClientProfile {
@@ -38,6 +85,8 @@ model ClientProfile {
 
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
+
+  workoutsHistory Workout[]
 
   currentProgram    TrainingProgram? @relation(fields: [trainingProgramId], references: [id])
   trainingProgramId String?
@@ -67,6 +116,9 @@ model Workout {
 
   trainingProgram   TrainingProgram? @relation(fields: [trainingProgramId], references: [id])
   trainingProgramId String?
+
+  doneByUser   ClientProfile? @relation(fields: [doneByUserId], references: [id])
+  doneByUserId String?
 }
 
 model Exercise {
