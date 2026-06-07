@@ -9,7 +9,14 @@ import { TrainerModule } from './features/trainer/trainer.module';
 import { SearchModule } from './features/search/search.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UserModule, ClientModule, TrainerModule, SearchModule],
+  imports: [
+    PrismaModule,
+    AuthModule,
+    UserModule,
+    ClientModule,
+    TrainerModule,
+    SearchModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
   exports: [],

@@ -1,4 +1,4 @@
-import { Component, HostBinding, HostListener, input, signal } from '@angular/core';
+import { Component, HostListener, input, signal } from '@angular/core';
 import { LucideArrowUpRight, LucidePlay, LucideSend } from '@lucide/angular';
 
 type IconName = 'play' | 'msg' | 'arrowUp' | '';

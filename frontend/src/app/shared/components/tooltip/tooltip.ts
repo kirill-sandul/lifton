@@ -1,12 +1,4 @@
-import {
-  afterNextRender,
-  Component,
-  effect,
-  ElementRef,
-  input,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, effect, ElementRef, input, signal, viewChild } from '@angular/core';
 import { ITooltip } from '@core/services/tooltip/tooltip';
 
 @Component({
