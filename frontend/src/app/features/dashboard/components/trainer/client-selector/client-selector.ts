@@ -1,6 +1,7 @@
 import { Component, input, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { LucideArrowDown, LucideCheck } from '@lucide/angular';
+import { PfpCircleComponent } from '@shared/components/pfp-circle/pfp-circle';
 
 export interface SelectInputOption {
   clientPfpUrl: string;
@@ -10,7 +11,7 @@ export interface SelectInputOption {
 
 @Component({
   selector: 'app-client-selector',
-  imports: [LucideArrowDown, LucideCheck],
+  imports: [LucideArrowDown, LucideCheck, PfpCircleComponent],
   templateUrl: './client-selector.html',
   styleUrl: './client-selector.scss',
 })

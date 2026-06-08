@@ -1,6 +1,6 @@
 <div class="client-selector">
   <div class="selected input-wrapper" (click)="isOpen.set(!isOpen())">
-    <div class="client-pfp" [style.background-image]="`url(${selectedOption?.clientPfpUrl})`"></div>
+    <div class="client-pfp" pfpCircle [pfpUrl]="selectedOption?.clientPfpUrl"></div>
     <div class="scale-wrapper">
       <div class="selected-value">
         {{ selectedOption?.clientFirstName }}
@@ -15,7 +15,7 @@
         [class.selected]="control().value === option.value"
         (click)="control().setValue(option.value); isOpen.set(false)"
       >
-        <div class="client-pfp" [style.background-image]="`url(${option.clientPfpUrl})`"></div>
+        <div class="client-pfp" pfpCircle [pfpUrl]="option.clientPfpUrl"></div>
         <span>{{ option.clientFirstName }}</span>
         @if(control().value === option.value){
           <svg lucideCheck class="check-icon"></svg>

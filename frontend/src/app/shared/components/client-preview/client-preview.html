@@ -2,7 +2,7 @@
   @let client = clientWithWorkout()!;
 
   <div class="client-preview">
-    <div class="client-pfp" [style.background-image]="`url(${client.pfpUrl})`"></div>
+    <div class="client-pfp" pfpCircle [pfpUrl]="client.pfpUrl"></div>
     <div class="info">
       <span class="client-name">{{ client.fullName }}</span>
       <div class="line"></div>
@@ -15,7 +15,7 @@
   @let activeDisplay = client.active ? 'Active' : 'Inactive';
 
   <div class="client-preview" [class.statusActivity]="type() === 'statusActivity'">
-    <div class="client-pfp" [style.background-image]="`url(${client.pfpUrl})`"></div>
+    <div class="client-pfp" pfpCircle [pfpUrl]="client.pfpUrl"></div>
     <div class="info">
       <div class="client-name">{{ client.fullName }}</div>
       <div class="dot"></div>
