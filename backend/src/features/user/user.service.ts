@@ -23,7 +23,7 @@ export class UserService {
 
     if (found && found.clientProfile) {
       const trainerId = found.clientProfile.assignedTrainerProfileId;
-      if (!trainerId) return;
+      if (!trainerId) return found;
 
       const trainerProfile = await this.prisma.trainerProfile.findUnique({
         where: { id: trainerId },
