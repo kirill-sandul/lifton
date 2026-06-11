@@ -2,14 +2,17 @@ import { computed, inject, Injectable } from '@angular/core';
 import { UserService } from '@core/services/user/user.service';
 import { ClientWorkoutOnDay } from '@core/models/training.models';
 import { UserGoal, UserRole } from '@core/models/user.models';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TrainerService {
+  private http = inject(HttpClient);
+
   userService = inject(UserService);
 
-  detailedProfile = {};
   clientsWorkoutsOnDay: ClientWorkoutOnDay[] = [
     {
       id: 'fepwlpwf',
@@ -23,6 +26,7 @@ export class TrainerService {
       role: UserRole.CLIENT,
       phone: '+34651754534',
       password: '$2b$10$p./GaYvLtKO/dZ5MyqbTAOPOYNryHEP4HjtRXYKkIvSrHaphibENi',
+      receivedNotifications: [],
       plannedWorkout: {
         id: 'w1',
         name: 'Powerlifting',
