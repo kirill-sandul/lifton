@@ -1,27 +1,48 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../core/modules/prisma/prisma.service';
+import { Role } from '../../generated/prisma/enums';
 
 @Injectable()
 export class SearchService {
   constructor(private prisma: PrismaService) {}
 
-  searchClients(searchQuery: string) {
+  searchUsers(searchQuery: string, role: Role) {
     if (searchQuery === '') return [];
     else if (!searchQuery) throw new BadRequestException('No search query');
 
+    const reverseRole = role === Role.CLIENT ? Role.TRAINER : Role.CLIENT;
+
     return this.prisma.user.findMany({
       where: {
-        role: 'CLIENT',
+        role: reverseRole,
         OR: [
           {
-            fullName: {
-              contains: searchQuery,
+            clientProfile: {
+              is: {
+                assignedTrainerProfileId: null,
+              },
             },
           },
           {
-            email: {
-              contains: searchQuery,
-            },
+            clientProfile: null,
+          },
+        ],
+        AND: [
+          {
+            OR: [
+              {
+                fullName: {
+                  contains: searchQuery,
+                  mode: 'insensitive',
+                },
+              },
+              {
+                email: {
+                  contains: searchQuery,
+                  mode: 'insensitive',
+                },
+              },
+            ],
           },
         ],
       },
