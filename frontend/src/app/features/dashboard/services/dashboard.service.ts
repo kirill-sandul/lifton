@@ -90,14 +90,14 @@ export class DashboardService {
   ];
 
   assignedTrainer = computed(() => {
-    if (this.userService.userProfile()?.role !== 'CLIENT') return null;
+    if (this.userService.role() !== 'CLIENT') return null;
 
     return this.userService.userProfile()?.clientProfile!.assignedTrainer;
   });
 
   noData = computed((): boolean => {
-    if (this.userService.userProfile()?.role === 'CLIENT') {
-      return !this.userService.userProfile()?.clientProfile!.currentProgram;
+    if (this.userService.role() === 'CLIENT') {
+      return !this.userService.userProfile()?.clientProfile!.trainingProgramId;
     } else {
       return !this.userService.userProfile()?.trainerProfile!.clients?.length;
     }

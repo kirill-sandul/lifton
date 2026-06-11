@@ -11,8 +11,8 @@
   </div>
   <div class="count">{{ clientsList.length }}</div>
   <div class="clients-list">
-    @for (client of clientsList; track client.id) {
-      <app-client-preview [type]="'statusActivity'" [clientUser]="client" />
+    @for (client of clientsList; track client.user.id) {
+      <app-client-preview [type]="'statusActivity'" [clientUser]="client.user" />
     }
   </div>
   @if (noClients) {

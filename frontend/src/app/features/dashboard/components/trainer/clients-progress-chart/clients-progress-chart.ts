@@ -63,18 +63,18 @@ export class ClientsProgressChartComponent {
     },
   };
 
-  selectClientControl = new FormControl(this.clients().length ? this.clients()[0].id : '');
+  selectClientControl = new FormControl(this.clients().length ? this.clients()[0].user.id : '');
 
   generateClientsOptions() {
     const options: SelectInputOption[] = [];
 
     this.clients().forEach((client) => {
-      const firstName = client.fullName.split(' ')[0];
+      const firstName = client.user.fullName.split(' ')[0];
 
       options.push({
-        clientPfpUrl: client.pfpUrl!,
+        clientPfpUrl: client.user.pfpUrl!,
         clientFirstName: firstName,
-        value: client.id!,
+        value: client.user.id!,
       });
     });
 

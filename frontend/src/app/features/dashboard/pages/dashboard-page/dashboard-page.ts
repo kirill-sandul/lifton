@@ -27,7 +27,7 @@ export class DashboardPageComponent {
   noDataWidgetRegistry = NO_DATA_WIDGET_REGISTRY;
 
   getWidgetRegistry = computed(() => {
-    if (this.userService.userProfile()?.role === UserRole.CLIENT) {
+    if (this.userService.role() === UserRole.CLIENT) {
       return this.clientService.noData() ? this.noDataWidgetRegistry : this.widgetRegistry;
     } else {
       return this.trainerService.noData() ? this.noDataWidgetRegistry : this.widgetRegistry;
@@ -35,7 +35,7 @@ export class DashboardPageComponent {
   });
 
   ifNoData() {
-    if (this.userService.userProfile()?.role === UserRole.CLIENT) {
+    if (this.userService.role() === UserRole.CLIENT) {
       return this.clientService.noData();
     } else {
       return this.trainerService.noData();
