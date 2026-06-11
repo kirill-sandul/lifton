@@ -1,5 +1,4 @@
-// export type UserRole = 'TRAINER' | 'CLIENT';
-// export type UserGoal = 'STRENGTH' | 'MUSCLES' | 'FATLOSS';
+import { Notification } from '@core/models/notification.models';
 
 export enum UserRole {
   TRAINER = 'TRAINER',
@@ -24,17 +23,24 @@ export interface UserProfile {
   pfpUrl?: string;
   description?: string;
   active: boolean;
-  clientProfile?: {
-    bodyWeight: number;
-    height: number;
-    assignedTrainer: UserProfile;
-    assignedAt: Date;
-    currentProgram: any;
-  };
-  trainerProfile?: {
-    experience: number;
-    clients: UserProfile[];
-  };
+  receivedNotifications: Notification[];
+  clientProfile?: ClientProfile;
+  trainerProfile?: TrainerProfile;
+}
+
+export interface ClientProfile {
+  bodyWeight: number;
+  height: number;
+  assignedTrainer: UserProfile;
+  assignedAt: Date;
+  trainingProgramId: string;
+}
+
+export type TrainerClients = (ClientProfile & { user: UserProfile })[];
+
+export interface TrainerProfile {
+  experience: number;
+  clients: TrainerClients;
 }
 
 export interface EditProfileDto {
@@ -49,4 +55,9 @@ export interface EditProfileDto {
   bodyWeight?: number;
   height?: number;
   experience?: number;
+}
+
+export interface UserToInvite {
+  id: string;
+  fullName: string;
 }

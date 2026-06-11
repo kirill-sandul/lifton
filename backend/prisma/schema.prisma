@@ -28,7 +28,8 @@ model User {
   clientProfile  ClientProfile?
   trainerProfile TrainerProfile?
 
-  notifications Notification[]
+  sentNotifications     Notification[] @relation("NotificationSender")
+  receivedNotifications Notification[] @relation("NotificationReceiver")
 
   refreshTokens RefreshToken[]
 }
@@ -38,14 +39,15 @@ model Notification {
 
   type NotificationType
 
-  data Json?
+  actions NotificationActions[]
 
-  archived Boolean
+  archived Boolean @default(false)
 
   fromUserId String?
+  fromUser   User?   @relation("NotificationSender", fields: [fromUserId], references: [id])
 
-  toUser   User   @relation(fields: [toUserId], references: [id])
   toUserId String
+  toUser   User   @relation("NotificationReceiver", fields: [toUserId], references: [id])
 
   inviteId String?
   invite   Invite? @relation(fields: [inviteId], references: [id])
@@ -58,8 +60,15 @@ model Notification {
 enum NotificationType {
   INVITE_SENT
   INVITE_ACCEPTED
-  INVITE_DENIED
+  INVITE_DECLINED
   PROGRAM_ASSIGNED
+}
+
+enum NotificationActions {
+  ACCEPT
+  DECLINE
+  ARCHIVE
+  SEE_PROFILE
 }
 
 model Invite {
@@ -68,14 +77,18 @@ model Invite {
   fromUserId String
   toUserId   String
 
-  status InviteStatus
+  status InviteStatus @default(PENDING)
 
   notifications Notification[]
+
+  expiresAt DateTime?
 }
 
 enum InviteStatus {
+  PENDING
   ACCEPTED
   DECLINED
+  EXPIRED
 }
 
 model ClientProfile {
