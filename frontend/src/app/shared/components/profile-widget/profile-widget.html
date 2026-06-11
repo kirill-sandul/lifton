@@ -1,6 +1,4 @@
 <div class="profile-widget" [class.dark]="color() === 'dark'">
-<!--  <div class="pfp pfp-style mini" [style.backgroundImage]="`url(${profile()?.pfpUrl ?? '/assets/no-pfp.png'})`"></div>-->
-<!--  <app-pfp-circle class="pfp" [pfpUrl]="profile()?.pfpUrl" />-->
   <div class="pfp mini" pfpCircle [pfpUrl]="profile()?.pfpUrl"></div>
   <div class="wrapper">
     <div class="text">
