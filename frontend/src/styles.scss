@@ -17,8 +17,11 @@
   --primary-error: #FF3737;
   --primary-error-light: #ff5959;
   --primary-error-lighter: #ff8686;
+  --primary-error-accent: #ffc9c9;
   --primary-warn: #9D7800;
+  --primary-warn-accent: #ffea99;
   --primary-success: #008066;
+  --primary-success-accent: #9cffe4;
 
   --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light), var(--primary-blue-lighter));
   --primary-blue-bg-gradient: linear-gradient(to right, var(--primary-blue-lighter), #D8DEE3);
@@ -95,4 +98,8 @@ input {
 
 .error {
   color: var(--primary-error-light);
+}
+
+.transparent-backdrop {
+  background: none !important;
 }
