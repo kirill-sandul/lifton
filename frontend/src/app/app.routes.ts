@@ -14,8 +14,7 @@ import { RegisterQuizPage } from '@features/auth/pages/register-quiz-page/regist
 import { DashboardPageComponent } from '@features/dashboard/pages/dashboard-page/dashboard-page';
 
 import { ProfilePageComponent } from '@features/profile/pages/profile-page/profile-page';
-import { SearchClientsPageComponent } from '@features/search/pages/search-clients-page/search-clients-page';
-import { SearchTrainersPageComponent } from '@features/search/pages/search-trainers-page/search-trainers-page';
+import { SearchPageComponent } from '@features/search/pages/search-page/search-page';
 
 export const routes: Routes = [
   {
@@ -42,12 +41,8 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
           {
-            path: 'clients',
-            component: SearchClientsPageComponent,
-          },
-          {
-            path: 'trainers',
-            component: SearchTrainersPageComponent,
+            path: '',
+            component: SearchPageComponent,
           },
         ],
       },
