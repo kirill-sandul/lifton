@@ -1,0 +1,60 @@
+.snackbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 40px;
+  color: #fff;
+  font-weight: 300;
+  background: var(--primary-dark-gradient);
+  padding: 5px 10px 5px 20px;
+  min-width: 320px;
+  border-radius: 30px;
+  opacity: 1;
+  transform: scale(1);
+  gap: 20px;
+  transition: 0.2s;
+
+  @starting-style {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  &-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .closeBtn {
+    background: none;
+    font-weight: 500;
+    color: var(--primary-blue-light);
+    padding: 10px;
+    border-radius: inherit;
+    transition: 0.15s;
+
+    &:hover {
+      background-color: #56687a;
+    }
+  }
+
+  .msg-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    svg {
+      width: 20px;
+    }
+  }
+}
+
+.snackbar-leaving {
+  opacity: 0;
+  transition: 0.1s;
+
+  .snackbar {
+    transform: scale(0.85);
+  }
+}

@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchTrainersPage } from './search-trainers-page';
+import { SnackbarContainer } from './snackbar-container';
 
-describe('SearchTrainersPage', () => {
-  let component: SearchTrainersPage;
-  let fixture: ComponentFixture<SearchTrainersPage>;
+describe('SnackbarContainer', () => {
+  let component: SnackbarContainer;
+  let fixture: ComponentFixture<SnackbarContainer>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearchTrainersPage],
+      imports: [SnackbarContainer],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SearchTrainersPage);
+    fixture = TestBed.createComponent(SnackbarContainer);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
