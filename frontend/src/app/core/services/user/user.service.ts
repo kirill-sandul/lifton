@@ -9,33 +9,38 @@ import { tap } from 'rxjs';
 export class UserService {
   http = inject(HttpClient);
 
-  private user = signal<UserProfile | null>(null)
+  private user = signal<UserProfile | null>(null);
 
-  userProfile = computed(() => this.user())
+  userProfile = computed(() => this.user());
+  role = computed(() => this.user()?.role);
 
-  getProfile(){
-    return this.http.get<UserProfile>('user/getProfile', {}).pipe(
-      tap(userData => this.user.set(userData))
-    )
+  getProfile() {
+    return this.http
+      .get<UserProfile>('user/getProfile', {})
+      .pipe(tap((userData) => this.updateProfile(userData)));
   }
 
-  editPfp(newFile: File){
+  updateProfile(userProfile: UserProfile) {
+    this.user.set(userProfile);
+  }
+
+  editPfp(newFile: File) {
     const formData = new FormData();
 
     formData.append('newImg', newFile);
 
-    return this.http.post<UserProfile>('user/editPfp', formData).pipe(
-      tap(userData => this.user.set(userData))
-    )
+    return this.http
+      .post<UserProfile>('user/editPfp', formData)
+      .pipe(tap((userData) => this.updateProfile(userData)));
   }
 
-  editProfile(profileChanges: EditProfileDto){
-    return this.http.patch<UserProfile>('user/editProfile', profileChanges).pipe(
-      tap(userData => this.user.set(userData))
-    )
+  editProfile(profileChanges: EditProfileDto) {
+    return this.http
+      .patch<UserProfile>('user/editProfile', profileChanges)
+      .pipe(tap((userData) => this.updateProfile(userData)));
   }
 
-  clear(){
+  clear() {
     this.user.set(null);
   }
 }
