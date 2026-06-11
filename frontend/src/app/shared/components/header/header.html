@@ -20,10 +20,37 @@
           <svg lucideSun></svg>
         </button>
       </li>
-      <li>
-        <button>
+      <li class="notifications-group">
+        <button
+          cdkOverlayOrigin
+          #dropdownTrigger="cdkOverlayOrigin"
+          class="notificationBtn"
+          [class.opened]="notificationsFacade.showNotifications()"
+          (click)="notificationsFacade.toggleNotifications()"
+        >
+          @let notifLength = notificationsLength();
+          @if(notifLength !== 0){
+            <span
+              class="count"
+              [class.two-digits]="notifLength > 9"
+              [class.max-length]="notifLength > 99"
+            >
+              {{ notifLength <= 99 ? notifLength : '99+' }}
+            </span>
+          }
           <svg lucideBell></svg>
         </button>
+        <ng-template
+          cdkConnectedOverlay
+          [cdkConnectedOverlayOrigin]="dropdownTrigger"
+          [cdkConnectedOverlayOpen]="notificationsFacade.showNotifications()"
+          [cdkConnectedOverlayHasBackdrop]="true"
+          [cdkConnectedOverlayPositions]="notificationsFacade.backdropPositions"
+          cdkConnectedOverlayBackdropClass="transparent-backdrop"
+          (backdropClick)="notificationsFacade.toggleNotifications()"
+        >
+          <app-notifications-dropdown [dropdownTrigger]="dropdownTrigger" (onClose)="notificationsFacade.toggleNotifications()" />
+        </ng-template>
       </li>
       <li routerLink="/profile">
         @if (profile; as p){

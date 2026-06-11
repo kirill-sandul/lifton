@@ -1,0 +1,24 @@
+<div class="notifications">
+  <h3 class="title">Notifications</h3>
+  @for (notification of notifications(); track notification.id) {
+    <div class="notification" [class.archived]="notification.archived">
+      <div class="pfp" pfpCircle [pfpUrl]="notification.fromUser.pfpUrl"></div>
+      <div class="column">
+        <div class="msg">{{ NOTIFICATION_MESSAGES[notification.type](notification) }}</div>
+        <div class="row">
+          <span class="time grey">{{ notification.createdAt | timeAgo }}</span>
+        </div>
+
+          @if(!notification.archived){
+            <app-notification-actions
+              [notification]="notification"
+              (onAction)="handleNotificationAction($event, notification.id)"
+            />
+          }
+      </div>
+    </div>
+  }
+  @if(!notifications().length){
+    <span class="empty grey">No notifications yet</span>
+  }
+</div>

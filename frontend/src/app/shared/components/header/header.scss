@@ -88,8 +88,48 @@ header {
               }
             }
           }
+        }
+      }
 
+      li.notifications-group {
+        position: relative;
 
+        .notificationBtn {
+          position: relative;
+
+          &.opened {
+            background: var(--primary-dark-gradient);
+            color: #fff;
+          }
+
+          .count {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 11px;
+            color: #fff;
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            width: 17px;
+            height: 17px;
+            background: var(--primary-error-light);
+            padding: 5px;
+            border-radius: 100%;
+
+            &.two-digits {
+              width: 20px;
+              height: 20px;
+              right: 9px;
+            }
+
+            &.max-length {
+              width: 25px;
+              height: 20px;
+              right: 6px;
+              border-radius: 5px;
+            }
+          }
         }
       }
     }
