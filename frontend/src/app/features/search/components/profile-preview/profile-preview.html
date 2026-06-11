@@ -16,5 +16,6 @@
     tooltip="Invite this client"
     icon="msg"
     class="circular inviteBtn"
+    (click)="onInvite.emit({ id: userId(), fullName: fullName() })"
   ></button>
 </div>
