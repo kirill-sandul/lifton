@@ -3,11 +3,10 @@ import { DatePipe } from '@angular/common';
 import { ButtonComponent } from '@shared/components/button/button';
 import { ProfileWidgetComponent } from '@shared/components/profile-widget/profile-widget';
 import { UserService } from '@core/services/user/user.service';
-import { LucideArrowUpRight } from '@lucide/angular';
 
 @Component({
   selector: 'app-trainer-info-widget',
-  imports: [ButtonComponent, ProfileWidgetComponent, DatePipe, LucideArrowUpRight],
+  imports: [ButtonComponent, ProfileWidgetComponent, DatePipe],
   templateUrl: './trainer-info-widget.html',
   styleUrl: './trainer-info-widget.scss',
 })
