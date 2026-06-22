@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { authGuard } from '@core/guards/auth.guard';
 import { guestGuard } from '@core/guards/guest.guard';
+import { trainerRoleGuard } from '@core/guards/trainer-role.guard';
 
 import { AuthLayoutComponent } from '@layouts/auth-layout/auth-layout';
 import { AppLayoutComponent } from '@layouts/app-layout/app-layout';
@@ -15,6 +16,7 @@ import { DashboardPageComponent } from '@features/dashboard/pages/dashboard-page
 
 import { ProfilePageComponent } from '@features/profile/pages/profile-page/profile-page';
 import { SearchPageComponent } from '@features/search/pages/search-page/search-page';
+import { CreateProgramPageComponent } from '@features/programs/create-program/pages/create-program-page/create-program-page';
 
 export const routes: Routes = [
   {
@@ -45,6 +47,11 @@ export const routes: Routes = [
             component: SearchPageComponent,
           },
         ],
+      },
+      {
+        path: 'create-program',
+        component: CreateProgramPageComponent,
+        canActivate: [authGuard, trainerRoleGuard],
       },
     ],
   },
