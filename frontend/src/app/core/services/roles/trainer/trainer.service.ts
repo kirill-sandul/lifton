@@ -1,8 +1,7 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { UserService } from '@core/services/user/user.service';
-import { ClientWorkoutOnDay } from '@core/models/training.models';
+import { ClientWorkoutOnDay, WeekDay } from '@core/models/training.models';
 import { UserGoal, UserRole } from '@core/models/user.models';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -30,7 +29,7 @@ export class TrainerService {
       plannedWorkout: {
         id: 'w1',
         name: 'Powerlifting',
-        day: 'SUNDAY',
+        day: WeekDay.SUNDAY,
         trainingPlanId: 'plan_1',
         exercises: [
           {

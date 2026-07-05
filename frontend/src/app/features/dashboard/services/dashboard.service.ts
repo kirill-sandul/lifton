@@ -1,6 +1,6 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { UserService } from '@core/services/user/user.service';
-import { Target, Workout } from '@core/models/training.models';
+import { Target, WeekDay, Workout } from '@core/models/training.models';
 import { UserGoal } from '@core/models/user.models';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class DashboardService {
     {
       id: 'w1',
       name: 'Powerlifting',
-      day: 'WEDNESDAY',
+      day: WeekDay.WEDNESDAY,
       trainingPlanId: 'plan_1',
       exercises: [
         {
