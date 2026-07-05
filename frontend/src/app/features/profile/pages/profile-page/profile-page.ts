@@ -7,11 +7,18 @@ import { ButtonComponent } from '@shared/components/button/button';
 import { EditProfileModalComponent } from '@features/profile/components/edit-profile-modal/edit-profile-modal';
 import { EditPfpModalComponent } from '@features/profile/components/edit-pfp-modal/edit-pfp-modal';
 import { UserGoal, UserRole } from '@core/models/user.models';
-import { UserGoalPipe } from '@core/pipes/user-goal.pipe';
+import { UserGoalPipe } from '@core/pipes/user-goal/user-goal.pipe';
 
 @Component({
   selector: 'app-profile-page',
-  imports: [LucidePencil, LucideLogOut, ButtonComponent, EditProfileModalComponent, EditPfpModalComponent, UserGoalPipe],
+  imports: [
+    LucidePencil,
+    LucideLogOut,
+    ButtonComponent,
+    EditProfileModalComponent,
+    EditPfpModalComponent,
+    UserGoalPipe,
+  ],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss',
 })
@@ -27,9 +34,9 @@ export class ProfilePageComponent {
   readonly UserRole = UserRole;
   readonly UserGoal = UserGoal;
 
-  logout(){
+  logout() {
     this.authService.logout().subscribe({
-      next: () => this.router.navigate(['/auth'])
+      next: () => this.router.navigate(['/auth']),
     });
   }
 }

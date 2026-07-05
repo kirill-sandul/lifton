@@ -2,7 +2,7 @@
   <h1 class="title">Your profile</h1>
   <div class="profile-widget">
     <div class="row">
-      <div class="pfp pfp-style" [style.backgroundImage]="`url(${userProfile()?.pfpUrl ?? '/assets/no-pfp.png'})`">
+      <div class="pfp pfp-style" [style.background-image]="`url(${userProfile()?.pfpUrl ?? '/assets/no-pfp.png'})`">
         <button liftonButton class="editPfpBtn circular" (click)="showEditPfpModal.set(true)">
           <svg lucidePencil></svg>
         </button>
@@ -81,7 +81,11 @@
 </div>
 
 @if(userProfile() && showEditProfileModal()){
-  <app-edit-profile-modal [userRole]="userProfile()!.role" [defaultValues]="userProfile()" (onClose)="showEditProfileModal.set(false)"></app-edit-profile-modal>
+  <app-edit-profile-modal
+    [userRole]="userProfile()!.role"
+    [defaultValues]="userProfile()"
+    (onClose)="showEditProfileModal.set(false)"
+  ></app-edit-profile-modal>
 }
 
 @if(userProfile() && showEditPfpModal()){
