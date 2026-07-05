@@ -1,11 +1,10 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PfpCircleComponent } from '@shared/components/pfp-circle/pfp-circle';
 import { NotificationActions, NotificationType } from '@core/models/notification.models';
-import { NotificationsFacadeService } from '@features/notifications/services/notifications-facade.service';
+import { NotificationsFacade } from '@features/notifications/facade/notifications.facade';
 import { NotificationActionsComponent } from '@features/notifications/components/notification-actions/notification-actions';
 import { NOTIFICATION_MESSAGES } from '@shared/constants/ui-mapping/notification-registry';
-import { TimeAgoPipe } from '@core/pipes/time-ago-pipe';
-import { CdkOverlayOrigin } from '@angular/cdk/overlay';
+import { TimeAgoPipe } from '@core/pipes/time-ago/time-ago.pipe';
 
 @Component({
   selector: 'app-notifications-dropdown',
@@ -14,10 +13,7 @@ import { CdkOverlayOrigin } from '@angular/cdk/overlay';
   styleUrl: './notifications-dropdown.scss',
 })
 export class NotificationsDropdownComponent {
-  notificationsFacade = inject(NotificationsFacadeService);
-
-  dropdownTrigger = input.required<CdkOverlayOrigin>();
-  onClose = output();
+  notificationsFacade = inject(NotificationsFacade);
 
   notifications = this.notificationsFacade.notifications;
 

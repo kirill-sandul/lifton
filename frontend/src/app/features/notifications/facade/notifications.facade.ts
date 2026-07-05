@@ -10,7 +10,7 @@ import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationsFacadeService {
+export class NotificationsFacade {
   userService = inject(UserService);
   notificationsService = inject(NotificationsService);
   inviteService = inject(InviteService);
