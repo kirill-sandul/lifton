@@ -1,0 +1,55 @@
+<app-modal
+  title="Add exercise to workout"
+  acceptOption="Save exercise"
+  discardOption="Cancel"
+  [acceptBtnDisabled]="this.exerciseForm.invalid"
+  (onSubmit)="onSubmit()"
+  (onDiscard)="onClose.emit()"
+>
+  <form class="exercise-modal-form" (submit)="$event.preventDefault()">
+    <app-input
+      class="control"
+      placeholder="Exercise name"
+      name="Exercise name"
+      [control]="exerciseForm.controls.name"
+    />
+    <app-input
+      class="control"
+      placeholder="Unit"
+      name="Unit"
+      [control]="exerciseForm.controls.unit"
+    />
+    <button class="add-set" (click)="addSet()">
+      <span>Add set</span>
+      <svg lucidePlus></svg>
+    </button>
+    <div class="sets">
+      @for (set of sets.controls; track $index){
+        <div class="set">
+          <div class="top-block">
+            <span class="label">Set {{ $index + 1 }}</span>
+            @if($index !== 0){
+              <button class="remove-set" (click)="removeSet($index)">
+                <svg lucideCircleX></svg>
+              </button>
+            }
+          </div>
+          <app-input
+            class="control mini"
+            type="number"
+            placeholder="Reps"
+            name="Reps count"
+            [control]="set.controls.reps"
+          />
+          <app-input
+            class="control mini"
+            type="number"
+            placeholder="Target"
+            name="Target value"
+            [control]="set.controls.targetValue"
+          />
+        </div>
+      }
+    </div>
+  </form>
+</app-modal>
