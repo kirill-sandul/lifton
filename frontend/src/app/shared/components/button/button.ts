@@ -1,16 +1,14 @@
 import { Component, HostListener, input, signal } from '@angular/core';
-import { LucideArrowUpRight, LucidePlay, LucideSend } from '@lucide/angular';
-
-type IconName = 'play' | 'msg' | 'arrowUp' | '';
+import { LucideDynamicIcon } from '@lucide/angular';
 
 @Component({
   selector: 'button[liftonButton], a[liftonButton]',
-  imports: [LucidePlay, LucideSend, LucideArrowUpRight],
+  imports: [LucideDynamicIcon],
   templateUrl: './button.html',
   styleUrl: './button.scss',
 })
 export class ButtonComponent {
-  icon = input<IconName>('');
+  icon = input('');
   circular = input(false);
   tooltip = input<string>();
 
