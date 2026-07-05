@@ -112,7 +112,11 @@ model ClientProfile {
 
 model TrainingProgram {
   id    String @id @default(uuid())
+  name  String
   cycle Cycle  @default(WEEK)
+
+  startDate DateTime
+  endDate   DateTime
 
   workouts       Workout[]
   targets        Target[]
@@ -124,6 +128,7 @@ model Workout {
 
   name String?
   day  WorkoutDay
+  week Int
 
   exercises Exercise[]
 
