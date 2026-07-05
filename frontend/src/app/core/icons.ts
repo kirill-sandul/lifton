@@ -1,4 +1,27 @@
-import { LucideAtSign, LucideEye, LucideEyeClosed, LucideFlaskConical, LucideMail, LucidePencil, LucidePhone, LucideRuler, LucideUserRound, LucideWeight } from "@lucide/angular";
+import {
+  LucideArrowDown,
+  LucideArrowUp,
+  LucideArrowUpRight,
+  LucideAtSign,
+  LucideBell,
+  LucideCircleX,
+  LucideEye,
+  LucideEyeClosed,
+  LucideFlaskConical,
+  LucideMail,
+  LucideMoveLeft,
+  LucideMoveRight,
+  LucidePencil,
+  LucidePhone,
+  LucidePlay,
+  LucidePlus,
+  LucideRuler,
+  LucideSend,
+  LucideSun,
+  LucideTrash,
+  LucideUserRound,
+  LucideWeight,
+} from '@lucide/angular';
 
 export const APP_ICONS = [
   LucideEye,
@@ -10,5 +33,17 @@ export const APP_ICONS = [
   LucideFlaskConical,
   LucidePhone,
   LucideMail,
-  LucideAtSign
+  LucideAtSign,
+  LucidePlay,
+  LucideSend,
+  LucideArrowUpRight,
+  LucideArrowUp,
+  LucideArrowDown,
+  LucideMoveLeft,
+  LucideMoveRight,
+  LucideSun,
+  LucideBell,
+  LucidePlus,
+  LucideTrash,
+  LucideCircleX,
 ];
