@@ -103,3 +103,20 @@ input {
 .transparent-backdrop {
   background: none !important;
 }
+
+.card-style {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 25px;
+  border: 1px solid #AAA;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: .2s;
+
+  &:hover {
+    color: #000 !important;
+    border-color: #000;
+  }
+}
