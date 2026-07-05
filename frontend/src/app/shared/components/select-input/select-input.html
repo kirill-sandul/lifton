@@ -1,5 +1,5 @@
 <div class="select-input">
-  <div class="selected input-wrapper" (click)="isOpen.set(!isOpen())">
+  <div class="selected input-wrapper" [class.compact]="compact()" (click)="isOpen.set(!isOpen())">
     <div class="scale-wrapper">
       <div class="selected-value">
         {{ selectedOption?.label }}

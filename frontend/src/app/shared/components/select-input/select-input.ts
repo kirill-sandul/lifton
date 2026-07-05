@@ -16,10 +16,12 @@ export interface SelectInputOption {
 export class SelectInputComponent {
   control = input<FormControl<any>>(new FormControl());
   options = input.required<SelectInputOption[]>();
+  compact = input<boolean>(false);
 
   isOpen = signal(false);
 
   get selectedOption() {
-    return this.options().find((o) => o.value === this.control().value);
+    const controlValue = this.control().value ?? this.options()[0].value;
+    return this.options().find((o) => o.value === controlValue);
   }
 }
