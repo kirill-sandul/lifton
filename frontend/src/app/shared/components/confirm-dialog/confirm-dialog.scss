@@ -1,0 +1,52 @@
+.confirm-dialog {
+  color: #000;
+  background: #fff;
+  border-radius: 15px;
+  padding: 10px 15px;
+  border: 1px solid var(--primary-grey-light);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -11px;
+    left: calc(50% - 5px);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent var(--primary-grey-light) transparent;
+  }
+
+  .text {
+    margin-bottom: 5px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+
+    .action {
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 15px;
+      background: none;
+      font-size: 16px;
+      transition: .2s;
+
+      &.approve {
+        color: var(--primary-success);
+
+        &:hover {
+          background-color: var(--primary-success-accent);
+        }
+      }
+
+      &.dismiss {
+        color: var(--primary-error);
+
+        &:hover {
+          background-color: var(--primary-error-accent);
+        }
+      }
+    }
+  }
+}

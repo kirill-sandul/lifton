@@ -1,0 +1,17 @@
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOpen]="cdkOpen()"
+  [cdkConnectedOverlayOrigin]="cdkOrigin()"
+  [cdkConnectedOverlayPositions]="confirmDialogPositions"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  cdkConnectedOverlayBackdropClass="transparent-backdrop"
+  (backdropClick)="onDismiss.emit()"
+>
+  <div class="confirm-dialog">
+    <div class="text">{{ confirmText() }}</div>
+    <div class="actions">
+      <button class="action approve" (click)="onApprove.emit()">Yes</button>
+      <button class="action dismiss" (click)="onDismiss.emit()">Dismiss</button>
+    </div>
+  </div>
+</ng-template>
