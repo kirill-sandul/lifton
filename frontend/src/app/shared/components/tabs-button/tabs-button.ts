@@ -1,5 +1,19 @@
-import { Component, effect, ElementRef, input, signal, viewChildren } from '@angular/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  input,
+  model,
+  output,
+  signal,
+  viewChildren,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
+
+export interface TabOption {
+  label: string;
+  link?: string;
+}
 
 export type TabsButtonStyle = 'primary' | 'dark';
 
@@ -10,12 +24,13 @@ export type TabsButtonStyle = 'primary' | 'dark';
   styleUrl: './tabs-button.scss',
 })
 export class TabsButtonComponent {
-  options = input(['']);
-  optionsLinks = input(['']);
-  selectedOption = input('');
+  options = input.required<TabOption[]>();
+  defaultOption = input(0);
   style = input<TabsButtonStyle>('primary');
 
-  selectorStep = signal(0);
+  onSelectOption = output<number>();
+
+  selectorStep = model(0);
 
   tabElements = viewChildren('tab');
   currentTabWidth = signal(0);
@@ -23,10 +38,7 @@ export class TabsButtonComponent {
 
   constructor() {
     effect(() => {
-      let selectedOptionIdx = this.options().findIndex((o) => o == this.selectedOption());
-      if (selectedOptionIdx == -1) selectedOptionIdx = 0;
-
-      this.selectorStep.set(selectedOptionIdx);
+      this.selectorStep.set(this.defaultOption());
     });
 
     effect(() => {

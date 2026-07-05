@@ -5,9 +5,8 @@
     </div>
     <nav>
       <app-tabs-button
-        [options]="navOptions().labels"
-        [optionsLinks]="navOptions().links"
-        [selectedOption]="selectedTab()"
+        [options]="navOptions()"
+        [defaultOption]="selectedTab()"
         [style]="'dark'"
       />
     </nav>
@@ -17,7 +16,7 @@
     <ul class="profile">
       <li>
         <button>
-          <svg lucideSun></svg>
+          <svg lucideIcon="sun"></svg>
         </button>
       </li>
       <li class="notifications-group">
@@ -38,7 +37,7 @@
               {{ notifLength <= 99 ? notifLength : '99+' }}
             </span>
           }
-          <svg lucideBell></svg>
+          <svg lucideIcon="bell"></svg>
         </button>
         <ng-template
           cdkConnectedOverlay
@@ -49,7 +48,7 @@
           cdkConnectedOverlayBackdropClass="transparent-backdrop"
           (backdropClick)="notificationsFacade.toggleNotifications()"
         >
-          <app-notifications-dropdown [dropdownTrigger]="dropdownTrigger" (onClose)="notificationsFacade.toggleNotifications()" />
+          <app-notifications-dropdown />
         </ng-template>
       </li>
       <li routerLink="/profile">

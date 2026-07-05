@@ -1,33 +1,32 @@
 import { Component, computed, HostBinding, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '@core/services/user/user.service';
-import { TabsButtonComponent } from '../tabs-button/tabs-button';
-import { LucideBell, LucideSun } from '@lucide/angular';
+import { TabOption, TabsButtonComponent } from '../tabs-button/tabs-button';
 import { ScrollService } from '@core/services/scroll/scroll';
 import { ProfileWidgetComponent } from '@shared/components/profile-widget/profile-widget';
 import { UserRole } from '@core/models/user.models';
 import { NotificationsDropdownComponent } from '@features/notifications/components/notifications-dropdown/notifications-dropdown';
 import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
-import { NotificationsFacadeService } from '@features/notifications/services/notifications-facade.service';
+import { NotificationsFacade } from '@features/notifications/facade/notifications.facade';
+import { LucideDynamicIcon } from '@lucide/angular';
 
 @Component({
   selector: 'app-header',
   imports: [
     RouterLink,
     TabsButtonComponent,
-    LucideSun,
-    LucideBell,
     ProfileWidgetComponent,
     NotificationsDropdownComponent,
     CdkOverlayOrigin,
     CdkConnectedOverlay,
+    LucideDynamicIcon,
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class HeaderComponent {
   userService = inject(UserService);
-  notificationsFacade = inject(NotificationsFacadeService);
+  notificationsFacade = inject(NotificationsFacade);
   scrollService = inject(ScrollService);
   router = inject(Router);
 
@@ -37,21 +36,43 @@ export class HeaderComponent {
   selectedTab = computed(() => {
     const currentPageUrl = this.router.url;
 
-    const linkIndex = this.navOptions().links.findIndex((l) => l === currentPageUrl);
-
-    return this.navOptions().labels[linkIndex];
+    return this.navOptions().findIndex((opt) => opt.link === currentPageUrl);
   });
   isScrolled = computed(() => this.scrollService.isScrolled());
 
-  clientNav = {
-    labels: ['Overview', 'Start workout', 'Search trainers'],
-    links: ['', '', '/search'],
-  };
+  clientNav: TabOption[] = [
+    {
+      label: 'Overview',
+      link: '/dashboard',
+    },
+    {
+      label: 'Start workout',
+      link: '',
+    },
+    {
+      label: 'Search trainers',
+      link: '/search',
+    },
+  ];
 
-  trainerNav = {
-    labels: ['Overview', 'Clients', 'Programs', 'Search clients'],
-    links: ['', '', '', '/search'],
-  };
+  trainerNav: TabOption[] = [
+    {
+      label: 'Overview',
+      link: '/dashboard',
+    },
+    {
+      label: 'Clients',
+      link: '',
+    },
+    {
+      label: 'Programs',
+      link: '',
+    },
+    {
+      label: 'Search',
+      link: '/search',
+    },
+  ];
 
   navOptions = computed(() => {
     if (this.userService.role() === UserRole.CLIENT) return this.clientNav;

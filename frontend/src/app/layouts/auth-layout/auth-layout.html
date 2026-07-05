@@ -4,9 +4,9 @@
     <h1 class="title">Gym training SaaS</h1>
     <div class="line"></div>
     <p class="project-description">A training platform for trainer-client interaction including gym programmes, progress and analytics</p>
-    
+
     <div class="form-wrapper">
-      <app-tabs-button [options]="['Sign in', 'Join Lifton']" [optionsLinks]="['login', 'register']" [selectedOption]="selectedTab()!"  />
+      <app-tabs-button [options]="authTabs" [defaultOption]="selectedTab()!"  />
       <router-outlet />
     </div>
   </div>
