@@ -1,0 +1,16 @@
+<div class="week">
+  <div class="dropdown-trigger card-style" [class.active]="weekExpanded()" (click)="expandWeek()">
+    <span>Week {{ weekIndex() + 1 }}</span>
+    <svg lucideIcon="arrow-down" class="icon"></svg>
+  </div>
+  <div class="dropdown" [class.expanded]="weekExpanded()">
+    <div class="dropdown-content">
+      <app-workout-generator #generator [weekIndex]="weekIndex()" />
+      <app-workouts-list
+        [workoutsList]="getWorkouts()"
+        [weekIndex]="weekIndex()"
+        (editWorkout)="generator.editWorkoutMode($event.index, $event.workout)"
+      />
+    </div>
+  </div>
+</div>

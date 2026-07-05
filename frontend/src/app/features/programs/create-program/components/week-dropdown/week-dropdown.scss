@@ -1,0 +1,41 @@
+.week {
+  .dropdown-trigger {
+    margin-bottom: 10px;
+
+    .icon {
+      transition: .2s;
+    }
+
+    &.active {
+      border-color: var(--primary-blue);
+      color: var(--primary-blue) !important;
+
+      .icon {
+        transform: rotate(-180deg);
+      }
+    }
+
+    svg {
+      width: 20px;
+    }
+  }
+
+  .dropdown {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+
+    &-content {
+      overflow: hidden;
+    }
+
+    &.expanded {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  .dropdown {
+    margin: auto;
+    max-width: 520px;
+  }
+}
