@@ -1,4 +1,4 @@
-import { Exercise, ExerciseSet } from '@core/models/training.models';
+import { Exercise, ExerciseSet, Target } from '@core/models/training.models';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 
@@ -12,6 +12,19 @@ export interface ConfirmDialogData {
   show: boolean;
   origin: CdkOverlayOrigin;
   elemIndex: number;
+}
+
+export interface TargetModalData {
+  show: boolean;
+  defaultValues: Target | null;
+  editTargetIdx: number;
+}
+
+export interface TargetForm {
+  name: FormControl<string | null>;
+  unit: FormControl<string | null>;
+  initialValue: FormControl<number | null>;
+  targetValue: FormControl<number | null>;
 }
 
 export interface ExerciseForm {
@@ -29,6 +42,13 @@ export interface ExerciseModalDefaults {
   name: string;
   unit: string;
   sets: ExerciseSet[];
+}
+
+export interface TargetModalDefaults {
+  name: string;
+  unit: string;
+  initialValue: number;
+  targetValue: number;
 }
 
 export interface EditingWorkout {

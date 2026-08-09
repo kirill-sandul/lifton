@@ -3,7 +3,7 @@ import { BaseInputComponent } from '@shared/components/base-input/base-input';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { Exercise, ExerciseSet, WeekDay, Workout } from '@core/models/training.models';
 import { FormControl, FormsModule, Validators } from '@angular/forms';
-import { ExerciseModal } from '@features/programs/create-program/components/exercise-modal/exercise-modal';
+import { ExerciseModal } from '@features/programs/create-program/components/schedule/exercise-modal/exercise-modal';
 import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { CreateProgramFacade } from '@features/programs/create-program/facade/create-program.facade';
 import {

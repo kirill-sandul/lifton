@@ -1,15 +1,55 @@
-import { Injectable, signal } from '@angular/core';
-import { TrainingCycle, TrainingProgram, Workout } from '@core/models/training.models';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { Target, TrainingCycle, TrainingProgram, Workout } from '@core/models/training.models';
+import { ProgramsService } from '@features/programs/services/programs.service';
+import { createProgram } from '@angular/compiler-cli';
+import { SnackbarService } from '@core/services/snackbar/snackbar.service';
+import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg-registry';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CreateProgramFacade {
+  programsService = inject(ProgramsService);
+  snackbarService = inject(SnackbarService);
+
   private readonly _trainingProgramModel = signal<TrainingProgram>({
+    name: '',
     cycle: TrainingCycle.WEEK,
+    startDate: null,
+    endDate: null,
     weeks: [{ workouts: [] }],
+    targets: [],
   });
   readonly trainingProgramModel = this._trainingProgramModel.asReadonly();
+
+  trainingProgramValidation = signal({
+    baseInfoInvalid: true,
+    dateRangeInvalid: computed(() => {
+      const startDate = this._trainingProgramModel().startDate;
+      const endDate = this._trainingProgramModel().endDate;
+
+      if (startDate && endDate) {
+        if (!this.isValidDateRange(startDate, endDate)) return true;
+      } else if (!startDate && !endDate) return true;
+
+      return false;
+    }),
+    scheduleInvalid: computed<boolean>(() => {
+      let invalid = false;
+      this._trainingProgramModel().weeks.forEach((w) => {
+        if (!w.workouts.length) invalid = true;
+      });
+
+      return invalid;
+    }),
+  });
+
+  isProgramInvalid = computed<boolean>(
+    () =>
+      this.trainingProgramValidation().baseInfoInvalid ||
+      this.trainingProgramValidation().dateRangeInvalid() ||
+      this.trainingProgramValidation().scheduleInvalid(),
+  );
 
   private getWeeksCount(cycle: TrainingCycle): number {
     switch (cycle) {
@@ -24,6 +64,46 @@ export class CreateProgramFacade {
       default:
         return 1;
     }
+  }
+
+  minProgramDays(): number {
+    switch (this._trainingProgramModel().cycle) {
+      case TrainingCycle.WEEK:
+        return 7;
+
+      case TrainingCycle.TWO_WEEKS:
+        return 14;
+
+      case TrainingCycle.THREE_WEEKS:
+        return 21;
+
+      case TrainingCycle.FOUR_WEEKS:
+        return 28;
+
+      default:
+        return 7;
+    }
+  }
+
+  isValidDateRange(start: Date, end: Date): boolean {
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(0, 0, 0, 0);
+
+    const days = Math.floor((endDate.getTime() - startDate.getTime()) / MS_PER_DAY) + 1;
+
+    return days >= this.minProgramDays();
+  }
+
+  setProgramName(name: string) {
+    this._trainingProgramModel.update((p) => ({
+      ...p,
+      name,
+    }));
   }
 
   setProgramCycle(cycle: TrainingCycle) {
@@ -43,6 +123,14 @@ export class CreateProgramFacade {
         weeks: newWeeks,
       };
     });
+  }
+
+  setDateRange(start: Date, end: Date) {
+    this._trainingProgramModel.update((p) => ({
+      ...p,
+      startDate: start,
+      endDate: end,
+    }));
   }
 
   addWorkout(weekIndex: number, workoutModel: Workout) {
@@ -87,5 +175,37 @@ export class CreateProgramFacade {
           : week,
       ),
     }));
+  }
+
+  addTarget(targetModel: Target) {
+    this._trainingProgramModel.update((p) => ({
+      ...p,
+      targets: [...p.targets, targetModel],
+    }));
+  }
+
+  editTarget(editTargetIdx: number, data: Target) {
+    this._trainingProgramModel.update((p) => ({
+      ...p,
+      targets: p.targets.map((t, idx) => (idx === editTargetIdx ? data : t)),
+    }));
+  }
+
+  removeTarget(targetIndex: number) {
+    this._trainingProgramModel.update((p) => ({
+      ...p,
+      targets: p.targets.filter((_, idx) => idx !== targetIndex),
+    }));
+  }
+
+  createProgram() {
+    this.programsService.createProgram(this.trainingProgramModel()).subscribe({
+      next: () => {
+        this.snackbarService.newSnackbar(SNACKBAR_MSG_REGISTRY.PROGRAM_CREATE, 'success');
+      },
+      error: () => {
+        this.snackbarService.newSnackbar(SNACKBAR_MSG_REGISTRY.PROGRAM_CREATE_FAIL, 'error');
+      },
+    });
   }
 }

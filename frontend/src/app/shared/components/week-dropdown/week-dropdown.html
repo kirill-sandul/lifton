@@ -5,12 +5,7 @@
   </div>
   <div class="dropdown" [class.expanded]="weekExpanded()">
     <div class="dropdown-content">
-      <app-workout-generator #generator [weekIndex]="weekIndex()" />
-      <app-workouts-list
-        [workoutsList]="getWorkouts()"
-        [weekIndex]="weekIndex()"
-        (editWorkout)="generator.editWorkoutMode($event.index, $event.workout)"
-      />
+      <ng-content></ng-content>
     </div>
   </div>
 </div>

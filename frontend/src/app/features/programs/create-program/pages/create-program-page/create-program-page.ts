@@ -1,25 +1,22 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { SelectInputComponent } from '@shared/components/select-input/select-input';
 import { ButtonComponent } from '@shared/components/button/button';
-import { WeekDropdownComponent } from '@features/programs/create-program/components/week-dropdown/week-dropdown';
 import { TrainingCycle } from '@core/models/training.models';
 import { CreateProgramFacade } from '@features/programs/create-program/facade/create-program.facade';
-import { FormControl, Validators } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map, startWith } from 'rxjs';
 import { TabOption, TabsButtonComponent } from '@shared/components/tabs-button/tabs-button';
-import { BaseInputComponent } from '@shared/components/base-input/base-input';
 import { LucideDynamicIcon } from '@lucide/angular';
+import { ScheduleStepComponent } from '@features/programs/create-program/components/schedule/schedule-step/schedule-step';
+import { BaseInfoStep } from '@features/programs/create-program/components/base-info/base-info-step/base-info-step';
+import { TargetsStepComponent } from '@features/programs/create-program/components/targets/targets-step/targets-step';
 
 @Component({
   selector: 'app-create-program-page',
   imports: [
-    SelectInputComponent,
     ButtonComponent,
-    WeekDropdownComponent,
     TabsButtonComponent,
-    BaseInputComponent,
     LucideDynamicIcon,
+    ScheduleStepComponent,
+    BaseInfoStep,
+    TargetsStepComponent,
   ],
   templateUrl: './create-program-page.html',
   styleUrl: './create-program-page.scss',
@@ -36,25 +33,6 @@ export class CreateProgramPageComponent {
     },
     {
       label: 'Targets',
-    },
-  ];
-
-  programSpanOptions = [
-    {
-      label: 'Week',
-      value: TrainingCycle.WEEK,
-    },
-    {
-      label: '2 weeks',
-      value: TrainingCycle.TWO_WEEKS,
-    },
-    {
-      label: '3 weeks',
-      value: TrainingCycle.THREE_WEEKS,
-    },
-    {
-      label: '4 weeks',
-      value: TrainingCycle.FOUR_WEEKS,
     },
   ];
 
@@ -82,16 +60,9 @@ export class CreateProgramPageComponent {
   prevTabDisabled = computed(() => this.selectedTabIdx() === 0);
   readonly maxTabIdx = 2;
 
-  programNameControl = new FormControl<string | null>(null, [Validators.required]);
-  selectSpanControl = new FormControl(TrainingCycle.WEEK, [Validators.required]);
-  selectSpanValue = toSignal(
-    this.selectSpanControl.valueChanges.pipe(
-      startWith(this.selectSpanControl.value),
-      map((v) => (v ? this.createProgramFacade.setProgramCycle(v) : null)),
-    ),
-  );
-
   onChangeTabs(index: number) {
+    if (this.createProgramFacade.trainingProgramValidation().baseInfoInvalid) return;
+
     this.selectedTabIdx.set(index);
   }
 
@@ -108,5 +79,21 @@ export class CreateProgramPageComponent {
     this.selectedTabIdx.update((t) => (t += 1));
   }
 
-  createProgram() {}
+  isThisStepInvalid() {
+    if (this.selectedTabIdx() === 0)
+      return this.createProgramFacade.trainingProgramValidation().baseInfoInvalid;
+    else if (this.selectedTabIdx() === 1)
+      return (
+        this.createProgramFacade.trainingProgramValidation().scheduleInvalid() ||
+        this.createProgramFacade.trainingProgramValidation().dateRangeInvalid()
+      );
+
+    return this.createProgramFacade.isProgramInvalid();
+  }
+
+  createProgram() {
+    if (this.createProgramFacade.isProgramInvalid()) return;
+
+    this.createProgramFacade.createProgram();
+  }
 }

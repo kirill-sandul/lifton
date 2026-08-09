@@ -1,9 +1,11 @@
 .widget {
-  background-color: #fff;
-  border-radius: 25px;
   padding: 15px 30px 30px 30px;
   height: auto;
   //overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 30px;
+  border: 1px solid #fff;
+  backdrop-filter: blur(10px);
 
   .top-text {
     display: flex;

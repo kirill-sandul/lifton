@@ -1,0 +1,10 @@
+<div class="schedule">
+  <div class="schedule-title">Start & End</div>
+  <app-date-range-picker />
+  <span class="schedule-title">Schedule</span>
+  <div class="weeks">
+    @for(week of createProgramFacade.trainingProgramModel().weeks; track $index){
+      <app-week-workouts [weekIndex]="$index" />
+    }
+  </div>
+</div>

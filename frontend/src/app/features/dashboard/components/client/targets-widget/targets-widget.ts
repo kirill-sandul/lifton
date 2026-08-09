@@ -5,8 +5,6 @@ import { ProgressBarComponent } from '@shared/components/progress-bar/progress-b
 import { ButtonComponent } from '@shared/components/button/button';
 import { LucideArrowUpRight } from '@lucide/angular';
 
-
-
 @Component({
   selector: 'app-targets-widget',
   imports: [ProgressBarComponent, ButtonComponent, LucideArrowUpRight],
@@ -17,5 +15,6 @@ export class TargetsWidgetComponent {
   dashboardService = inject(DashboardService);
 
   previewTargets: Target[] = this.dashboardService.clientTargets.slice(0, 2);
-}
 
+  targetCompletionPercent = 0;
+}

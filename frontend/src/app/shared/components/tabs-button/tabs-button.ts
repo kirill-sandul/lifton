@@ -27,6 +27,7 @@ export class TabsButtonComponent {
   options = input.required<TabOption[]>();
   defaultOption = input(0);
   style = input<TabsButtonStyle>('primary');
+  noInteractive = input(false);
 
   onSelectOption = output<number>();
 

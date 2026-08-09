@@ -1,4 +1,4 @@
-import { UserGoal, UserProfile } from '@core/models/user.models';
+import { UserProfile } from '@core/models/user.models';
 
 export enum TrainingCycle {
   WEEK = 'WEEK',
@@ -18,8 +18,12 @@ export enum WeekDay {
 }
 
 export interface TrainingProgram {
+  name: string;
+  startDate: Date | null;
+  endDate: Date | null;
   cycle: TrainingCycle;
   weeks: ProgramWeek[];
+  targets: Target[];
 }
 
 export interface ProgramWeek {
@@ -52,14 +56,14 @@ export interface Workout {
 
 export interface Target {
   id?: string;
-  type: UserGoal;
   name: string;
-  currentValue: number;
+  initialValue: number;
+  currentValue?: number;
   targetValue: number;
   unit: string;
-  completionPercent: number;
+  completionPercent?: number;
   exerciseId?: string | null;
-  trainingPlanId: string;
+  trainingPlanId?: string;
 }
 
 export type ClientWorkoutOnDay = UserProfile & {

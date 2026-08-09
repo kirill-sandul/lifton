@@ -40,7 +40,7 @@
       #exerciseModalTrigger="cdkOverlayOrigin"
       (click)="openExerciseModal()"
     >
-      <span>Add exercise to Monday workout</span>
+      <span>Add exercise to {{ workoutModel().day | weekDay: 'full' }} workout</span>
       <svg lucideIcon="plus"></svg>
     </button>
     @if(noExercises){

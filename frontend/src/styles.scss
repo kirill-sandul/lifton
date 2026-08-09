@@ -120,3 +120,8 @@ input {
     border-color: #000;
   }
 }
+
+ngxsmk-datepicker, .ngxsmk-day-cell, .ngxsmk-close-button {
+  --datepicker-primary-color: var(--primary-blue) !important;
+  --datepicker-range-background: var(--primary-blue-lighter) !important;
+}

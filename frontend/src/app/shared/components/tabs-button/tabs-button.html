@@ -20,12 +20,21 @@
         {{ opt.label }}
       </a>
     }
-    @else {
+    @else if(!noInteractive()) {
       <a
         #tab
         class="select-button"
         [class.selected]="selectorStep() === $index"
         (click)="selectorStep.set($index); onSelectOption.emit($index)"
+      >
+        {{ opt.label }}
+      </a>
+    }
+    @else {
+      <a
+        #tab
+        class="select-button"
+        [class.selected]="selectorStep() === $index"
       >
         {{ opt.label }}
       </a>

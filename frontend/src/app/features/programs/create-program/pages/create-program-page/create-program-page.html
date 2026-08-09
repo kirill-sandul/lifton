@@ -1,9 +1,10 @@
 <div class="create-program">
-  <div class="wrapper">
+  <div class="wrapper widget">
     <header>
       <h1 class="title">Create new training program</h1>
       <app-tabs-button
         class="tabs"
+        [noInteractive]="true"
         [options]="createProgramTabs"
         [style]="'dark'"
         (onSelectOption)="onChangeTabs($event)"
@@ -14,27 +15,13 @@
       @let selectedTab = createProgramTabs[selectedTabIdx()];
       @switch (selectedTab.label) {
         @case ('Base info') {
-          <div class="base-info-field">
-            <label class="label">Program name</label>
-            <app-input class="control" name="Program name" [control]="programNameControl" />
-          </div>
-          <div class="base-info-field">
-            <label class="label">Span type</label>
-            <app-select-input class="control" [control]="selectSpanControl" [compact]="true" [options]="programSpanOptions" />
-          </div>
+          <app-base-info-step />
         }
         @case ('Schedule') {
-          <div class="schedule">
-            <span class="schedule-title">Schedule</span>
-            <div class="weeks">
-              @for(week of createProgramFacade.trainingProgramModel().weeks; track $index){
-                <app-week-dropdown [weekIndex]="$index" />
-              }
-            </div>
-          </div>
+          <app-schedule-step />
         }
         @case ('Targets'){
-
+          <app-targets-step />
         }
       }
     </main>
@@ -48,21 +35,29 @@
         <svg lucideIcon="move-left"></svg>
         <span>Previous step</span>
       </button>
-      <button
-        liftonButton
-        class="next-step-btn compact"
-        (click)="nextTab()"
-      >
-        @if(nextTabDisabled()){
+
+      @if(nextTabDisabled()){
+        <button
+          liftonButton
+          class="next-step-btn compact"
+          [disabled]="isThisStepInvalid()"
+          (click)="nextTab()"
+        >
           <span>Create program</span>
           <svg lucideIcon="plus"></svg>
-        }
-        @else {
+        </button>
+      }
+      @else {
+        <button
+          liftonButton
+          class="next-step-btn compact"
+          [disabled]="isThisStepInvalid()"
+          (click)="nextTab()"
+        >
           <span>Next step</span>
           <svg lucideIcon="move-right"></svg>
-        }
-
-      </button>
+        </button>
+      }
     </footer>
   </div>
 </div>

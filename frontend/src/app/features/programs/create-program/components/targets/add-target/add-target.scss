@@ -1,0 +1,10 @@
+.add-target {
+  color: #AAA;
+  padding: 11px 20px;
+  font-size: 15px;
+  width: 100%;
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
