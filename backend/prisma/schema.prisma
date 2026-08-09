@@ -118,9 +118,20 @@ model TrainingProgram {
   startDate DateTime
   endDate   DateTime
 
-  workouts       Workout[]
+  weeks          ProgramWeek[]
   targets        Target[]
   clientProfiles ClientProfile[]
+
+  trainerAuthor   TrainerProfile @relation(fields: [trainerAuthorId], references: [id])
+  trainerAuthorId String
+}
+
+model ProgramWeek {
+  id       String    @id @default(uuid())
+  workouts Workout[]
+
+  trainingProgram   TrainingProgram? @relation(fields: [trainingProgramId], references: [id])
+  trainingProgramId String?
 }
 
 model Workout {
@@ -128,15 +139,13 @@ model Workout {
 
   name String?
   day  WorkoutDay
-  week Int
 
-  exercises Exercise[]
-
-  trainingProgram   TrainingProgram? @relation(fields: [trainingProgramId], references: [id])
-  trainingProgramId String?
-
+  exercises    Exercise[]
   doneByUser   ClientProfile? @relation(fields: [doneByUserId], references: [id])
   doneByUserId String?
+
+  programWeek   ProgramWeek? @relation(fields: [programWeekId], references: [id])
+  programWeekId String?
 }
 
 model Exercise {
@@ -145,12 +154,11 @@ model Exercise {
   name String
   unit String
 
-  sets ExerciseSet[]
+  sets    ExerciseSet[]
+  targets Target[]
 
   workout   Workout? @relation(fields: [workoutId], references: [id])
   workoutId String?
-
-  targets Target[]
 }
 
 model ExerciseSet {
@@ -166,7 +174,7 @@ model ExerciseSet {
 model Target {
   id String @id @default(uuid())
 
-  metric String
+  name String
 
   initialValue Float
   targetValue  Float
@@ -187,7 +195,8 @@ model TrainerProfile {
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
 
-  clients ClientProfile[]
+  clients  ClientProfile[]
+  programs TrainingProgram[]
 }
 
 enum Cycle {
