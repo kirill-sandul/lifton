@@ -1,6 +1,6 @@
 <div class="profile">
   <h1 class="title">Your profile</h1>
-  <div class="profile-widget">
+  <div class="profile-widget widget">
     <div class="row">
       <div class="pfp pfp-style" [style.background-image]="`url(${userProfile()?.pfpUrl ?? '/assets/no-pfp.png'})`">
         <button liftonButton class="editPfpBtn circular" (click)="showEditPfpModal.set(true)">
