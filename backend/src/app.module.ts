@@ -9,6 +9,7 @@ import { TrainerModule } from './features/trainer/trainer.module';
 import { SearchModule } from './features/search/search.module';
 import { NotificationsModule } from './features/notifications/notifications.module';
 import { InviteModule } from './features/invite/invite.module';
+import { ProgramsModule } from './features/programs/programs.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { InviteModule } from './features/invite/invite.module';
     SearchModule,
     NotificationsModule,
     InviteModule,
+    ProgramsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
