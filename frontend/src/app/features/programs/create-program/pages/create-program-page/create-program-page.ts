@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, HostListener, inject, signal } from '@angular/core';
 import { ButtonComponent } from '@shared/components/button/button';
 import { TrainingCycle } from '@core/models/training.models';
 import { CreateProgramFacade } from '@features/programs/create-program/facade/create-program.facade';
@@ -60,6 +60,15 @@ export class CreateProgramPageComponent {
   prevTabDisabled = computed(() => this.selectedTabIdx() === 0);
   readonly maxTabIdx = 2;
 
+  ngOnInit() {
+    this.createProgramFacade.loadProgramDraft();
+  }
+
+  @HostListener('window:beforeunload')
+  beforeRefresh() {
+    this.createProgramFacade.saveProgramModel();
+  }
+
   onChangeTabs(index: number) {
     if (this.createProgramFacade.trainingProgramValidation().baseInfoInvalid) return;
 
@@ -92,8 +101,6 @@ export class CreateProgramPageComponent {
   }
 
   createProgram() {
-    if (this.createProgramFacade.isProgramInvalid()) return;
-
     this.createProgramFacade.createProgram();
   }
 }

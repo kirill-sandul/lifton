@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { Target, TrainingCycle, TrainingProgram, Workout } from '@core/models/training.models';
 import { ProgramsService } from '@features/programs/services/programs.service';
-import { createProgram } from '@angular/compiler-cli';
 import { SnackbarService } from '@core/services/snackbar/snackbar.service';
 import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg-registry';
 
@@ -11,6 +11,9 @@ import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg
 export class CreateProgramFacade {
   programsService = inject(ProgramsService);
   snackbarService = inject(SnackbarService);
+  router = inject(Router);
+
+  private localStorageKey = 'create-program-draft';
 
   private readonly _trainingProgramModel = signal<TrainingProgram>({
     name: '',
@@ -198,10 +201,32 @@ export class CreateProgramFacade {
     }));
   }
 
+  saveProgramModel() {
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this._trainingProgramModel()));
+  }
+
+  loadProgramDraft() {
+    const draft = localStorage.getItem(this.localStorageKey);
+
+    if (!draft) return;
+
+    const draftJson = JSON.parse(draft);
+
+    this._trainingProgramModel.set(draftJson);
+  }
+
+  removeProgramDraft() {
+    localStorage.removeItem(this.localStorageKey);
+  }
+
   createProgram() {
+    if (this.isProgramInvalid()) return;
+
     this.programsService.createProgram(this.trainingProgramModel()).subscribe({
       next: () => {
         this.snackbarService.newSnackbar(SNACKBAR_MSG_REGISTRY.PROGRAM_CREATE, 'success');
+        this.removeProgramDraft();
+        this.router.navigateByUrl('/programs');
       },
       error: () => {
         this.snackbarService.newSnackbar(SNACKBAR_MSG_REGISTRY.PROGRAM_CREATE_FAIL, 'error');

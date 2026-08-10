@@ -1,6 +1,5 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { DatepickerValue, NgxsmkDatepickerComponent } from 'ngxsmk-datepicker';
-import { TrainingCycle } from '@core/models/training.models';
 import { CreateProgramFacade } from '@features/programs/create-program/facade/create-program.facade';
 
 @Component({
@@ -24,6 +23,12 @@ export class DateRangePicker {
   today = new Date();
   startDate: Date = new Date();
   endDate: Date = new Date();
+
+  ngAfterContentChecked() {
+    if (!this.datepickerValue().start && !this.datepickerValue().end) return;
+
+    this.touched = true;
+  }
 
   onDateChange(value: DatepickerValue) {
     if (!value || value instanceof Date || Array.isArray(value)) return;
