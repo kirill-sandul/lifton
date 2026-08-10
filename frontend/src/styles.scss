@@ -3,6 +3,7 @@
 @use './app/shared/styles/quiz';
 @use './app/shared/styles/widget';
 @use './app/shared/styles/embla';
+@use './app/shared/styles/ngxsmk-datepicker';
 @use './app/shared/styles/pfp';
 
 /* Sora global font */
@@ -119,9 +120,4 @@ input {
     color: #000 !important;
     border-color: #000;
   }
-}
-
-ngxsmk-datepicker, .ngxsmk-day-cell, .ngxsmk-close-button {
-  --datepicker-primary-color: var(--primary-blue) !important;
-  --datepicker-range-background: var(--primary-blue-lighter) !important;
 }

@@ -8,8 +8,13 @@ input, textarea {
   align-items: center;
   background-color: #fff;
   border: 1px solid #fff;
-  border-radius: 22px;
+  border-radius: 30px;
   padding: 15px;
+  transition: border-color .2s;
+
+  &:hover {
+    border-color: var(--primary-blue) !important;
+  }
 
   &.compact {
     padding: 12px 15px;
@@ -40,19 +45,25 @@ input, textarea {
   input, textarea {
     align-self: flex-end;
     font-size: 15px;
-    font-weight: 300;
+    font-weight: 400;
     border: none;
     outline: none;
     margin-right: 10px;
     flex: 1;
     z-index: 2;
 
+    &[type="number"]{
+      max-width: 100%;
+    }
+
     &::placeholder {
       transition: .2s;
     }
 
-    &:focus::placeholder {
-      opacity: 0;
+    &:focus {
+      &::placeholder {
+        opacity: 0;
+      }
     }
   }
 
