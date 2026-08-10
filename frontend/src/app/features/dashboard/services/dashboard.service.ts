@@ -1,7 +1,6 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { UserService } from '@core/services/user/user.service';
 import { Target, WeekDay, Workout } from '@core/models/training.models';
-import { UserGoal } from '@core/models/user.models';
 
 @Injectable({
   providedIn: 'root',
@@ -56,8 +55,8 @@ export class DashboardService {
   clientTargets: Target[] = [
     {
       id: 't1',
-      type: UserGoal.STRENGTH,
       name: 'Bench press',
+      initialValue: 40,
       currentValue: 60,
       targetValue: 100,
       unit: 'kg',
@@ -67,8 +66,8 @@ export class DashboardService {
     },
     {
       id: 't2',
-      type: UserGoal.FATLOSS,
       name: 'Body weight',
+      initialValue: 40,
       currentValue: 78,
       targetValue: 72,
       unit: 'kg',
@@ -78,8 +77,8 @@ export class DashboardService {
     },
     {
       id: 't3',
-      type: UserGoal.FATLOSS,
       name: '5km run',
+      initialValue: 1000,
       currentValue: 1600,
       targetValue: 1400,
       unit: 'sec',
