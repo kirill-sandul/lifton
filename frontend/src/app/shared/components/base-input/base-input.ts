@@ -36,6 +36,7 @@ export class BaseInputComponent {
       min: `${this.name()} is too small`,
       max: `${this.name()} is too large`,
       serverEmailError: 'An account linked to this email already exists',
+      empty: 'Value cannot be empty',
     };
   }
 

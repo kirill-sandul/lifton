@@ -6,6 +6,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { TrainingCycle } from '@core/models/training.models';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, startWith } from 'rxjs';
+import { noEmptyValidator } from '@shared/validators/noEmpty.validator';
 
 @Component({
   selector: 'app-base-info-step',
@@ -37,7 +38,7 @@ export class BaseInfoStep {
 
   programNameControl = new FormControl<string | null>(
     this.createProgramFacade.trainingProgramModel().name,
-    [Validators.required],
+    [Validators.required, noEmptyValidator()],
   );
   programNameControlValue = toSignal(
     this.programNameControl.valueChanges.pipe(
