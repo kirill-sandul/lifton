@@ -7,6 +7,8 @@ import { LucideDynamicIcon } from '@lucide/angular';
 import { ScheduleStepComponent } from '@features/programs/create-program/components/schedule/schedule-step/schedule-step';
 import { BaseInfoStep } from '@features/programs/create-program/components/base-info/base-info-step/base-info-step';
 import { TargetsStepComponent } from '@features/programs/create-program/components/targets/targets-step/targets-step';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-create-program-page',
@@ -23,6 +25,7 @@ import { TargetsStepComponent } from '@features/programs/create-program/componen
 })
 export class CreateProgramPageComponent {
   createProgramFacade = inject(CreateProgramFacade);
+  router = inject(Router);
 
   createProgramTabs: TabOption[] = [
     {
@@ -62,6 +65,10 @@ export class CreateProgramPageComponent {
 
   ngOnInit() {
     this.createProgramFacade.loadProgramDraft();
+
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.createProgramFacade.saveProgramModel();
+    });
   }
 
   @HostListener('window:beforeunload')

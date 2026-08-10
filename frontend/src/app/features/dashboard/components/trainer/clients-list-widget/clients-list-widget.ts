@@ -3,10 +3,11 @@ import { ClientPreviewComponent } from '@shared/components/client-preview/client
 import { TrainerService } from '@core/services/roles/trainer/trainer.service';
 import { ButtonComponent } from '@shared/components/button/button';
 import { LucideArrowUpRight } from '@lucide/angular';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-clients-list-widget',
-  imports: [ClientPreviewComponent, ButtonComponent, LucideArrowUpRight],
+  imports: [ClientPreviewComponent, ButtonComponent, LucideArrowUpRight, RouterLink],
   templateUrl: './clients-list-widget.html',
   styleUrl: './clients-list-widget.scss',
 })
