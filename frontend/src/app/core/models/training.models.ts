@@ -1,4 +1,4 @@
-import { ClientProfile, ClientProfileWithUser, UserProfile } from '@core/models/user.models';
+import { ClientProfileWithUser, UserProfile } from '@core/models/user.models';
 
 export enum TrainingCycle {
   WEEK = 'WEEK',

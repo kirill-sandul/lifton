@@ -1,7 +1,5 @@
 import { Component, input } from '@angular/core';
 import { PfpCircleComponent } from '@shared/components/pfp-circle/pfp-circle';
-import { ClientProfile } from '@core/models/user.models';
-import { ClientProfileWhitelist } from '@features/programs/programs-lib/models/programs-lib.models';
 
 @Component({
   selector: 'app-client-chip',

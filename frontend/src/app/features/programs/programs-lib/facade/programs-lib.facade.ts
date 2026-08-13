@@ -8,7 +8,6 @@ import {
   TrainingProgramWhitelist,
 } from '@features/programs/programs-lib/models/programs-lib.models';
 import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg-registry';
-import { init } from 'vitest/worker';
 
 @Injectable({
   providedIn: 'root',
