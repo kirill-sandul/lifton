@@ -1,6 +1,21 @@
-import { Exercise, ExerciseSet, Target } from '@core/models/training.models';
+import {
+  Exercise,
+  ExerciseSet,
+  ProgramWeek,
+  Target,
+  TrainingCycle,
+} from '@core/models/training.models';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
+
+export interface TrainingProgramDraft {
+  name: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  cycle: TrainingCycle;
+  weeks: ProgramWeek[];
+  targets: Target[];
+}
 
 export interface ExerciseModalData {
   show: boolean;

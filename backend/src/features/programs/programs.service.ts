@@ -28,6 +28,79 @@ export class ProgramsService {
     }));
   }
 
+  async getTrainerPrograms(trainerUserId: string) {
+    const trainer = await this.prisma.trainerProfile.findUnique({
+      where: { userId: trainerUserId },
+      include: {
+        programs: {
+          include: {
+            clientProfiles: {
+              include: {
+                user: true,
+              },
+            },
+            weeks: {
+              include: {
+                workouts: {
+                  include: {
+                    exercises: {
+                      include: {
+                        sets: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            targets: true,
+          },
+        },
+      },
+    });
+
+    if (!trainer) throw new NotFoundException();
+
+    return trainer.programs;
+  }
+
+  async assignClient(
+    programId: string,
+    clientId: string,
+    trainerUserId: string,
+  ) {
+    await this.prisma.trainingProgram.update({
+      where: { id: programId },
+      data: {
+        clientProfiles: {
+          connect: {
+            id: clientId,
+          },
+        },
+      },
+    });
+
+    return this.getTrainerPrograms(trainerUserId);
+  }
+
+  async removeClient(
+    programId: string,
+    clientId: string,
+    trainerUserId: string,
+  ) {
+    await this.prisma.trainingProgram.update({
+      where: { id: programId },
+      data: {
+        clientProfiles: {
+          disconnect: {
+            id: clientId,
+          },
+        },
+      },
+    });
+
+    return this.getTrainerPrograms(trainerUserId);
+  }
+
   async createProgram(trainerId: string, createProgramDto: CreateProgramDto) {
     const { name, cycle, startDate, endDate, weeks, targets } =
       createProgramDto;

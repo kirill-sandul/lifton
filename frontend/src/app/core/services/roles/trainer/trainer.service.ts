@@ -24,7 +24,6 @@ export class TrainerService {
       goal: UserGoal.MUSCLES,
       role: UserRole.CLIENT,
       phone: '+34651754534',
-      password: '$2b$10$p./GaYvLtKO/dZ5MyqbTAOPOYNryHEP4HjtRXYKkIvSrHaphibENi',
       receivedNotifications: [],
       plannedWorkout: {
         id: 'w1',

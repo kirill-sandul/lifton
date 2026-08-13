@@ -1,0 +1,23 @@
+.client-chip {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-weight: 300;
+  background: var(--primary-dark-gradient);
+  border-radius: 25px;
+  cursor: pointer;
+  transition: .15s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  .pfp {
+    width: 40px;
+    height: 40px;
+  }
+
+  .client-name {
+    padding: 10px 20px 10px 10px;
+  }
+}

@@ -2,12 +2,17 @@
   <div class="modal-window">
     <header class="top-row">
       <h2>{{ title() }}</h2>
+      @if(subTitle()){
+        <p class="subtitle grey">{{ subTitle() }}</p>
+      }
     </header>
     <main class="content">
       <ng-content />
     </main>
     <footer class="bottom-row">
-      <button liftonButton (click)="onSubmit.emit()" [disabled]="acceptBtnDisabled()">{{ acceptOption() }}</button>
+      @if(acceptOption()){
+        <button liftonButton (click)="onSubmit.emit()" [disabled]="acceptBtnDisabled()">{{ acceptOption() }}</button>
+      }
       <button liftonButton (click)="onDiscard.emit()" class="red-tone">{{ discardOption() }}</button>
     </footer>
   </div>

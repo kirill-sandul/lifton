@@ -1,0 +1,118 @@
+<div class="programs-lib-page">
+  <h1 class="page-title">Programs library</h1>
+
+  <div class="widgets">
+    <div class="programs widget">
+      <header>
+        <div class="column">
+          <h2 class="title">Created programs</h2>
+          @if(programsLibFacade.programs().length === 0){
+            <p class="info grey">You haven't created any training program yet</p>
+          } @else {
+            <p class="info grey">Tap to see each program's info</p>
+          }
+        </div>
+        <div class="column-count">
+          <div class="count">{{ programsLibFacade.programs().length }}</div>
+        </div>
+      </header>
+
+      @let _selectedProgram = programsLibFacade.selectedProgram();
+
+      <main>
+        <div class="programs-list">
+          @for (program of programsLibFacade.programs(); track program.id){
+            <div class="program-card" [class.selected]="programsLibFacade.selectedProgramId() === program.id" (click)="programsLibFacade.selectProgramId(program.id)">
+              <span class="name">{{ program.name }}</span>
+              <div class="dot"></div>
+              <span class="cycle">{{ displayProgramCycle(program.cycle) }}</span>
+              <div class="dot"></div>
+              <div class="clients-count">{{ program.clientProfiles.length }} clients</div>
+            </div>
+          }
+        </div>
+      </main>
+
+      <footer>
+        <a routerLink="/create-program" liftonButton class="create-program-btn circular" [tooltip]="'Create new program'">
+          <svg lucideIcon="plus"></svg>
+        </a>
+      </footer>
+    </div>
+
+    @if(_selectedProgram){
+      <div class="selected-program widget">
+        <div class="column left">
+          <h1 class="title">{{ _selectedProgram.name }}</h1>
+          <div class="wrapper">
+            <div class="props">
+              <div class="prop">
+                <span class="prop-name">Span: </span>
+                <span class="value grey">{{ displayProgramCycle(_selectedProgram.cycle) }}</span>
+              </div>
+              <div class="prop">
+                <span class="prop-name">Assigned clients: </span>
+                <span
+                  class="value grey clients-list-link"
+                  (click)="openWhitelistModal()"
+                >
+                  Assign this program to a client <svg lucideIcon="move-right"></svg>
+                </span>
+              </div>
+            </div>
+            <div class="assigned-clients-list">
+                @if(_selectedProgram.clientProfiles.length === 0){
+                  <span class="grey">No assigned clients yet</span>
+                } @else {
+                  @for(client of _selectedProgram.clientProfiles; track client.id){
+                    <app-client-chip [pfpUrl]="client.user.pfpUrl" [fullName]="client.user.fullName" />
+                  }
+                }
+                @if(_selectedProgram.clientProfiles.length > 5){
+                  <span class="etc-chip">
+                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                  </span>
+                }
+              <button
+                liftonButton
+                class="circular add-client-chip"
+                icon="plus"
+                tooltip="Assign new client"
+                (click)="openWhitelistModal()"
+              ></button>
+            </div>
+            <div class="targets">
+              <h3 class="targets-title">Targets</h3>
+              <div class="targets-list">
+                @for(target of _selectedProgram.targets; track target.id){
+                  <div class="target-card">
+                    <h3 class="name">{{ target.name }}</h3>
+                    <div class="values">
+                      <span>Initially: <span class="warn">{{ target.initialValue }}{{ target.unit }}</span></span>
+                      <svg lucideIcon="move-right"></svg>
+                      <span>Target: <span class="success">{{ target.targetValue }}{{ target.unit }}</span></span>
+                    </div>
+                    <span class="completion">Completion: 40% (by current data)</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column right">
+          <h2 class="title">Plan</h2>
+          <p class="info grey">Click to see each week programmed workouts</p>
+          <div class="weeks">
+            @for(week of _selectedProgram.weeks; track week.id){
+              <app-week-schedule [weekIndex]="$index" [weekData]="week" />
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+@if(whitelistModal()){
+  <app-clients-whitelist-modal (onClose)="closeWhitelistModal()" />
+}

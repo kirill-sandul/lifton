@@ -1,6 +1,9 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { TrainingProgram } from '@core/models/training.models';
 import { HttpClient } from '@angular/common/http';
+import { finalize, tap } from 'rxjs';
+import { TrainingProgramDraft } from '@features/programs/create-program/models/create-program.models';
+import { AssignClientToProgramResponse } from '@features/programs/programs-lib/models/programs-lib.models';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +11,52 @@ import { HttpClient } from '@angular/common/http';
 export class ProgramsService {
   http = inject(HttpClient);
 
-  createProgram(programModel: TrainingProgram) {
+  private readonly _programs = signal<TrainingProgram[]>([]);
+  readonly programs = this._programs.asReadonly();
+
+  isLoading = signal<boolean>(false);
+
+  getTrainingPrograms() {
+    return this.http
+      .get<TrainingProgram[]>('programs/get')
+      .pipe(tap((programs) => this._programs.set(programs)));
+  }
+
+  assignClient(programId: string, clientId: string) {
+    this.isLoading.set(true);
+
+    return this.http
+      .patch<AssignClientToProgramResponse>(`programs/${programId}/assign`, {
+        clientId,
+      })
+      .pipe(
+        tap(({ updatedPrograms }) => {
+          this._programs.set(updatedPrograms);
+        }),
+        finalize(() => {
+          this.isLoading.set(false);
+        }),
+      );
+  }
+
+  removeClient(programId: string, clientId: string) {
+    this.isLoading.set(true);
+
+    return this.http
+      .patch<AssignClientToProgramResponse>(`programs/${programId}/remove`, {
+        clientId,
+      })
+      .pipe(
+        tap(({ updatedPrograms }) => {
+          this._programs.set(updatedPrograms);
+        }),
+        finalize(() => {
+          this.isLoading.set(false);
+        }),
+      );
+  }
+
+  createProgram(programModel: TrainingProgramDraft) {
     return this.http.post('programs/create', programModel);
   }
 }

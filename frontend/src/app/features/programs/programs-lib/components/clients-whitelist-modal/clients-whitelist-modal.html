@@ -1,0 +1,63 @@
+<app-modal
+  title="Clients whitelist"
+  discardOption="Close"
+  (onDiscard)="onClose.emit()"
+  [subTitle]="`Add/remove clients on “${programsLibFacade.selectedProgram().name}”`"
+>
+  <div class="search-bar" (click)="input.focus()">
+    <input #input type="text" placeholder="Filter by client’s name or email..." [(ngModel)]="searchValue" />
+    <svg lucideIcon="search" class="search-icon"></svg>
+  </div>
+  <div class="clients-list">
+    @if(trainerService.clients().length === 0){
+      <p>You have no invited clients</p>
+    } @else {
+      @for(client of filteredWhitelist(); track client.id){
+        <div class="whitelist-client">
+          <div class="chip-container">
+            <app-client-chip [pfpUrl]="client.user.pfpUrl" [fullName]="client.user.fullName" />
+
+            @if(client.assignedToProgram){
+              <div class="wrapper">
+                <svg lucideIcon="check" class="assignedIcon"></svg>
+                <button
+                  cdkOverlayOrigin
+                  #removeClientTrigger="cdkOverlayOrigin"
+                  liftonButton
+                  class="circular redGradient actionBtn"
+                  tooltip="Remove from this program"
+                  icon="minus"
+                  (click)="openRemoveClientDialog(client.id, removeClientTrigger)"
+                ></button>
+              </div>
+            } @else {
+              <button
+                liftonButton
+                class="circular greenGradient actionBtn"
+                tooltip="Assign to this program"
+                icon="plus"
+                (click)="assignClient(client.id)"
+              ></button>
+            }
+          </div>
+          @if(client.assignedToOtherProgram){
+            <div class="info grey">
+              <svg lucideIcon="circle-alert"></svg>
+              <span>Assigned to another program</span>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</app-modal>
+
+@if(confirmDialog()){
+  <app-confirm-dialog
+    [cdkOpen]="confirmDialog()!.show"
+    [cdkOrigin]="confirmDialog()!.origin"
+    confirmText="Are you sure to remove this client from the program?"
+    (onApprove)="removeClient()"
+    (onDismiss)="closeRemoveClientDialog()"
+  />
+}

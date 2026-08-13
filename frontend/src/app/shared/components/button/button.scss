@@ -59,6 +59,16 @@
     pointer-events: none;
   }
 
+  &.redGradient {
+    background: linear-gradient(to right, #FF3737, #FF7676);
+    color: #fff;
+  }
+
+  &.greenGradient {
+    background: linear-gradient(to right, #03AC8A, #1FDFB9);;
+    color: #fff;
+  }
+
   .tooltip {
     position: absolute;
     display: flex;
@@ -73,6 +83,7 @@
     padding: 5px 10px;
     pointer-events: none;
     transform: scale(1);
+    z-index: 999;
     transition: 0.2s;
 
     @starting-style {

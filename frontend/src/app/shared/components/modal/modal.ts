@@ -8,18 +8,19 @@ import { ButtonComponent } from '../button/button';
   styleUrl: './modal.scss',
 })
 export class ModalComponent {
-  title = input.required<string>()
-  acceptOption = input.required<string>()
-  discardOption = input.required<string>()
-  
-  acceptBtnDisabled = input<boolean>()
+  title = input.required<string>();
+  subTitle = input<string>();
+  acceptOption = input<string>();
+  discardOption = input.required<string>();
+
+  acceptBtnDisabled = input<boolean>();
 
   onSubmit = output();
   onDiscard = output();
-  
-  onOutClick(event: PointerEvent){
-    const clickTarget = (event.target as HTMLElement);
 
-    if(clickTarget?.className == 'modal-window-wrapper') this.onDiscard.emit();
+  onOutClick(event: PointerEvent) {
+    const clickTarget = event.target as HTMLElement;
+
+    if (clickTarget?.className == 'modal-window-wrapper') this.onDiscard.emit();
   }
 }

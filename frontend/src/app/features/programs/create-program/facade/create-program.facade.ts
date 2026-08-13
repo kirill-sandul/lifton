@@ -1,9 +1,10 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Target, TrainingCycle, TrainingProgram, Workout } from '@core/models/training.models';
+import { Target, TrainingCycle, Workout } from '@core/models/training.models';
 import { ProgramsService } from '@features/programs/services/programs.service';
 import { SnackbarService } from '@core/services/snackbar/snackbar.service';
 import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg-registry';
+import { TrainingProgramDraft } from '@features/programs/create-program/models/create-program.models';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class CreateProgramFacade {
 
   private localStorageKey = 'create-program-draft';
 
-  private readonly _trainingProgramModel = signal<TrainingProgram>({
+  private readonly _trainingProgramModel = signal<TrainingProgramDraft>({
     name: '',
     cycle: TrainingCycle.WEEK,
     startDate: null,

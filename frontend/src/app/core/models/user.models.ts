@@ -16,7 +16,6 @@ export interface UserProfile {
   fullName: string;
   email: string;
   phone: string;
-  password: string;
   role: UserRole;
   goal: UserGoal;
   age: number;
@@ -29,6 +28,7 @@ export interface UserProfile {
 }
 
 export interface ClientProfile {
+  id: string;
   bodyWeight: number;
   height: number;
   assignedTrainer: UserProfile;
@@ -36,7 +36,9 @@ export interface ClientProfile {
   trainingProgramId: string;
 }
 
-export type TrainerClients = (ClientProfile & { user: UserProfile })[];
+export type ClientProfileWithUser = ClientProfile & { user: UserProfile };
+
+export type TrainerClients = ClientProfileWithUser[];
 
 export interface TrainerProfile {
   experience: number;

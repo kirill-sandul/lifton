@@ -66,7 +66,7 @@ export class HeaderComponent {
     },
     {
       label: 'Programs',
-      link: '',
+      link: '/programs',
     },
     {
       label: 'Search',

@@ -17,6 +17,7 @@ import { DashboardPageComponent } from '@features/dashboard/pages/dashboard-page
 import { ProfilePageComponent } from '@features/profile/pages/profile-page/profile-page';
 import { SearchPageComponent } from '@features/search/pages/search-page/search-page';
 import { CreateProgramPageComponent } from '@features/programs/create-program/pages/create-program-page/create-program-page';
+import { ProgramsLibPageComponent } from '@features/programs/programs-lib/pages/programs-lib-page/programs-lib-page';
 
 export const routes: Routes = [
   {
@@ -51,6 +52,11 @@ export const routes: Routes = [
       {
         path: 'create-program',
         component: CreateProgramPageComponent,
+        canActivate: [authGuard, trainerRoleGuard],
+      },
+      {
+        path: 'programs',
+        component: ProgramsLibPageComponent,
         canActivate: [authGuard, trainerRoleGuard],
       },
     ],
