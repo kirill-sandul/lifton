@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   UploadedFile,
@@ -23,6 +24,12 @@ export class UserController {
   @UseGuards(JwtGuard)
   getProfile(@CurrentUser() user: { sub: string; role: Role }) {
     return this.userService.getProfile(user.sub);
+  }
+
+  @Get('getProfile/:id')
+  @UseGuards(JwtGuard)
+  getProfileById(@Param('id') id: string) {
+    return this.userService.getProfile(id);
   }
 
   @Post('editPfp')

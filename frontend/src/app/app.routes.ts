@@ -23,7 +23,12 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'dashboard',
+    redirectTo: '',
+  },
+  {
+    path: 'profile',
+    redirectTo: '',
+    pathMatch: 'full',
   },
   {
     path: '',
@@ -31,11 +36,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'dashboard',
+        path: '',
         component: DashboardPageComponent,
       },
       {
-        path: 'profile',
+        path: 'profile/:id',
         component: ProfilePageComponent,
       },
       {
@@ -85,5 +90,9 @@ export const routes: Routes = [
     path: 'auth/register/quiz',
     component: RegisterQuizPage,
     canActivate: [guestGuard],
+  },
+  {
+    path: '**',
+    redirectTo: '',
   },
 ];

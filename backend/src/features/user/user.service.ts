@@ -18,6 +18,9 @@ export class UserService {
   async getProfile(userId: string) {
     const found = await this.prisma.user.findUnique({
       where: { id: userId },
+      omit: {
+        password: true,
+      },
       include: {
         clientProfile: true,
         trainerProfile: true,
@@ -34,12 +37,11 @@ export class UserService {
 
       const resolvedTrainer = await this.prisma.user.findUnique({
         where: { id: trainerProfile?.userId },
+        omit: {
+          password: true,
+        },
         include: {
-          trainerProfile: {
-            include: {
-              user: true,
-            },
-          },
+          trainerProfile: true,
         },
       });
 
@@ -56,7 +58,11 @@ export class UserService {
         include: {
           clients: {
             include: {
-              user: true,
+              user: {
+                omit: {
+                  password: true,
+                },
+              },
             },
           },
         },

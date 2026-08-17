@@ -16,8 +16,12 @@ export class UserService {
 
   getProfile() {
     return this.http
-      .get<UserProfile>('user/getProfile', {})
+      .get<UserProfile>(`user/getProfile`, {})
       .pipe(tap((userData) => this.updateProfile(userData)));
+  }
+
+  getProfileById(id: string) {
+    return this.http.get<UserProfile>(`user/getProfile/${id}`, {});
   }
 
   updateProfile(userProfile: UserProfile) {

@@ -51,7 +51,7 @@
           <app-notifications-dropdown />
         </ng-template>
       </li>
-      <li routerLink="/profile">
+      <li routerLink="/profile/{{ profile?.id }}">
         @if (profile; as p){
           <app-profile-widget [profile]="p" />
         }
