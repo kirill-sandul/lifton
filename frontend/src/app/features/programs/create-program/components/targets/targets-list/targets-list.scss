@@ -1,0 +1,69 @@
+.targets {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .target-card {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #AAA;
+    border-radius: 25px;
+    padding: 10px 25px;
+
+    .name {
+      font-weight: 600;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      background-color: #AAA;
+      border-radius: 100%;
+      margin: 0 8px;
+    }
+
+    .values {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      .initial-value {
+        color: var(--primary-warn);
+      }
+
+      .target-value {
+        color: var(--primary-success);
+      }
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+      gap: 7px;
+
+      .action {
+        width: 20px;
+        cursor: pointer;
+
+        &.edit {
+          transition: .2s;
+
+          &:hover {
+            color: var(--primary-success);
+          }
+        }
+        &.remove {
+          transition: .2s;
+
+          &:hover {
+            color: var(--primary-error-light);
+          }
+        }
+      }
+    }
+  }
+}

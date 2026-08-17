@@ -1,0 +1,42 @@
+<app-modal
+  title="Add target to the program"
+  acceptOption="Save target"
+  discardOption="Cancel"
+  [acceptBtnDisabled]="this.targetForm.invalid"
+  (onSubmit)="onSubmit()"
+  (onDiscard)="onClose.emit()"
+>
+  <form class="target-modal-form" (submit)="$event.preventDefault()">
+    <app-input
+      class="control"
+      placeholder="Target label"
+      name="Target label"
+      [control]="targetForm.controls.name"
+    />
+    <app-input
+      class="control"
+      placeholder="Unit"
+      name="Unit"
+      [control]="targetForm.controls.unit"
+    />
+    <div class="values">
+      <app-input
+        type="number"
+        class="control"
+        placeholder="Initial value"
+        name="Initial value"
+        [control]="targetForm.controls.initialValue"
+      />
+
+      <svg lucideIcon="move-right"></svg>
+
+      <app-input
+        type="number"
+        class="control"
+        placeholder="Target value"
+        name="Target value"
+        [control]="targetForm.controls.targetValue"
+      />
+    </div>
+  </form>
+</app-modal>

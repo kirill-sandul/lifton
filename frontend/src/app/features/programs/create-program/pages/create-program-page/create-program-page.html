@@ -1,0 +1,63 @@
+<div class="create-program">
+  <div class="wrapper widget">
+    <header>
+      <h1 class="title">Create new training program</h1>
+      <app-tabs-button
+        class="tabs"
+        [noInteractive]="true"
+        [options]="createProgramTabs"
+        [style]="'dark'"
+        (onSelectOption)="onChangeTabs($event)"
+        [(selectorStep)]="selectedTabIdx"
+      />
+    </header>
+    <main class="form">
+      @let selectedTab = createProgramTabs[selectedTabIdx()];
+      @switch (selectedTab.label) {
+        @case ('Base info') {
+          <app-base-info-step />
+        }
+        @case ('Schedule') {
+          <app-schedule-step />
+        }
+        @case ('Targets'){
+          <app-targets-step />
+        }
+      }
+    </main>
+    <footer>
+      <button
+        liftonButton
+        class="next-step-btn compact"
+        [disabled]="prevTabDisabled()"
+        (click)="prevTab()"
+      >
+        <svg lucideIcon="move-left"></svg>
+        <span>Previous step</span>
+      </button>
+
+      @if(nextTabDisabled()){
+        <button
+          liftonButton
+          class="next-step-btn compact"
+          [disabled]="isThisStepInvalid()"
+          (click)="nextTab()"
+        >
+          <span>Create program</span>
+          <svg lucideIcon="plus"></svg>
+        </button>
+      }
+      @else {
+        <button
+          liftonButton
+          class="next-step-btn compact"
+          [disabled]="isThisStepInvalid()"
+          (click)="nextTab()"
+        >
+          <span>Next step</span>
+          <svg lucideIcon="move-right"></svg>
+        </button>
+      }
+    </footer>
+  </div>
+</div>

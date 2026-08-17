@@ -1,5 +1,5 @@
 import { Component, output } from '@angular/core';
-import { UserRole } from '@features/auth/models/auth.models';
+import { UserRole } from '@core/models/user.models';
 
 @Component({
   selector: 'app-quiz-step-role',
@@ -7,5 +7,6 @@ import { UserRole } from '@features/auth/models/auth.models';
   templateUrl: './quiz-step-role.html'
 })
 export class QuizStepRoleComponent {
+  readonly UserRole = UserRole;
   selected = output<UserRole>()
 }

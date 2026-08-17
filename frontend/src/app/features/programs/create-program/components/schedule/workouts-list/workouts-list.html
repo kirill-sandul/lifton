@@ -1,0 +1,31 @@
+<div class="workouts">
+  @for(workout of workoutsList(); track $index){
+    <div class="workout">
+      <span class="name">{{ workout.name }}</span>
+      <div class="dot"></div>
+      <span class="week-day">{{ workout.day | weekDay: 'full' }}</span>
+      <div class="dot"></div>
+      <div class="exercises-count">{{ displayWorkoutExercises(workout.exercises) }}</div>
+      <div class="actions">
+        <svg lucideIcon="pencil" class="action edit" (click)="editWorkout.emit({ index: $index, workout })"></svg>
+        <svg
+          cdkOverlayOrigin
+          #removeWorkoutTrigger="cdkOverlayOrigin"
+          lucideIcon="trash"
+          class="action remove"
+          (click)="openRemoveDialog(removeWorkoutTrigger, $index)"
+        ></svg>
+      </div>
+    </div>
+  }
+</div>
+
+@if(confirmDialog()){
+  <app-confirm-dialog
+    [cdkOrigin]="confirmDialog()!.origin"
+    [cdkOpen]="confirmDialog()!.show"
+    confirmText="Are you sure to remove this workout?"
+    (onApprove)="removeWorkout()"
+    (onDismiss)="closeRemoveDialog()"
+  />
+}

@@ -1,5 +1,10 @@
+@use './app/shared/styles/grid';
 @use './app/shared/styles/input';
 @use './app/shared/styles/quiz';
+@use './app/shared/styles/widget';
+@use './app/shared/styles/embla';
+@use './app/shared/styles/ngxsmk-datepicker';
+@use './app/shared/styles/pfp';
 
 /* Sora global font */
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
@@ -9,12 +14,29 @@
   --primary-blue-light: #60BAFA;
   --primary-blue-lighter: #A6DAFF;
   --primary-grey: #535353;
-  --primary-grey-light: #D2D2D2;
+  --primary-grey-light: #eaeaea;
   --primary-error: #FF3737;
-  --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light),var(--primary-blue-lighter));
+  --primary-error-light: #ff5959;
+  --primary-error-lighter: #ff8686;
+  --primary-error-accent: #ffc9c9;
+  --primary-warn: #9D7800;
+  --primary-warn-accent: #ffea99;
+  --primary-success: #008066;
+  --primary-success-accent: #9cffe4;
+
+  --primary-blue-gradient: linear-gradient(to right, var(--primary-blue-light), var(--primary-blue-lighter));
+  --primary-blue-bg-gradient: linear-gradient(to right, var(--primary-blue-lighter), #D8DEE3);
+  --primary-blue-dark-gradient: linear-gradient(to bottom, var(--primary-blue), #60B5F2);
+  --primary-error-gradient: linear-gradient(to right, var(--primary-error-light), var(--primary-error-lighter));
+  --primary-success-gradient: linear-gradient(to bottom, #026652, #00BD97);
+  --primary-dark-gradient: linear-gradient(to bottom, #000, #6b6b6b);
 
   --primary-text: #000;
   --primary-bg: #fff;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -28,6 +50,15 @@ body {
     --primary-grey: var(--primary-grey-light);
     --primary-bg: #121212;
   }
+
+  &.default-bg {
+    height: 100vh;
+    background: var(--primary-blue-bg-gradient);
+  }
+}
+
+ul {
+    list-style-type: none;
 }
 
 button {
@@ -38,6 +69,7 @@ button {
 
 a {
   text-decoration: none;
+  color: #000;
   cursor: pointer;
 }
 
@@ -49,3 +81,43 @@ input {
   stroke: var(--primary-text)
 }
 
+.highlight {
+  color: var(--primary-blue);
+}
+
+.warn {
+  color: var(--primary-warn);
+}
+
+.success {
+  color: var(--primary-success);
+}
+
+.grey {
+  color: var(--primary-grey);
+}
+
+.error {
+  color: var(--primary-error-light);
+}
+
+.transparent-backdrop {
+  background: none !important;
+}
+
+.card-style {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 25px;
+  border: 1px solid #AAA;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: .2s;
+
+  &:hover {
+    color: #000 !important;
+    border-color: #000;
+  }
+}

@@ -8,9 +8,9 @@ import {
   ClientProfileFormControls,
   TrainerProfileFormControls,
   RegisterCredentialsFormControls,
-  RegistrationModel,
-  UserRole
+  RegistrationModel
 } from '@features/auth/models/auth.models';
+import { UserGoal, UserRole } from '@core/models/user.models';
 import { QuizStepCredentialsComponent } from '@features/auth/components/register-quiz/quiz-step-credentials/quiz-step-credentials';
 import { phoneValidator } from '@shared/validators/phone.validator';
 import { digitsOnlyValidator } from '@shared/validators/digitsOnly.validator';
@@ -36,8 +36,8 @@ export class RegisterQuizPage {
   step = signal(1)
 
   registrationModel: RegistrationModel = {
-    role: 'CLIENT',
-    goal: 'STRENGTH'
+    role: UserRole.CLIENT,
+    goal: UserGoal.STRENGTH
   }
 
   registerProfileForm: FormGroup = new FormGroup({});
@@ -74,7 +74,7 @@ export class RegisterQuizPage {
       ]),
     }
 
-    if(this.registrationModel.role === 'CLIENT'){
+    if(this.registrationModel.role === UserRole.CLIENT){
       return new FormGroup<ClientProfileFormControls>({
         ...baseFields,
         bodyWeight: new FormControl<number | null>(null, [

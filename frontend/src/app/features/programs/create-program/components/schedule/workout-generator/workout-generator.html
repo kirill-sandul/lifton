@@ -1,0 +1,101 @@
+<form class="workout-form" (ngSubmit)="createWorkout()">
+  <div class="week-days-selector">
+    @for (day of weekDays; track day) {
+      <div class="week-day" [class.selected]="workoutModel().day === day" (click)="setSelectedDay(day)">
+        {{ day | weekDay: 'short' }}
+      </div>
+    }
+  </div>
+  <app-input
+    class="control workout-name"
+    placeholder="Enter workout name"
+    name='Workout name'
+    [control]="workoutNameControl"
+    [value]="workoutModel().name"
+  />
+  <div class="exercises-list">
+    @for(exercise of workoutModel().exercises; track $index){
+      <div class="exercise-preview-item">
+        <span class="name">{{ exercise.name }}</span>
+        <div class="sets">{{ displayExerciseSets(exercise.sets) }}</div>
+        <div class="actions">
+          <svg class="editBtn action" lucideIcon="pencil" (click)="openExerciseEdit(exercise, $index)"></svg>
+          <svg
+            cdkOverlayOrigin
+            #removeExerciseTrigger="cdkOverlayOrigin"
+            class="removeBtn action"
+            lucideIcon="trash"
+            (click)="openRemoveExerciseDialog(removeExerciseTrigger, $index)"
+          ></svg>
+        </div>
+      </div>
+    }
+
+    @let noExercises = !workoutModel().exercises.length && this.formTouched();
+    <button
+      type="button"
+      class="add-exercise card-style"
+      [class.invalid]="noExercises"
+      cdkOverlayOrigin
+      #exerciseModalTrigger="cdkOverlayOrigin"
+      (click)="openExerciseModal()"
+    >
+      <span>Add exercise to {{ workoutModel().day | weekDay: 'full' }} workout</span>
+      <svg lucideIcon="plus"></svg>
+    </button>
+    @if(noExercises){
+      <div class="no-exercises">A workout requires at least one exercise</div>
+    }
+  </div>
+  <footer>
+    @let editingData = editingMode();
+    @if(editingData){
+      <div class="workout-editing">
+        <div class="chip">
+          <span>{{ editingData.workoutName }}: editing</span>
+          <svg lucideIcon="x-circle" class="close-icon" (click)="closeEditingWorkout()"></svg>
+        </div>
+      </div>
+      <button class="edit-created-workout" type="submit">
+        <span>Save changes</span>
+        <svg lucideIcon="pencil"></svg>
+      </button>
+    }
+    @else {
+      <button class="add-created-workout" type="submit">
+        <span>Add this workout</span>
+        <svg lucideIcon="plus"></svg>
+      </button>
+    }
+  </footer>
+</form>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOpen]="exerciseModalState().show"
+  [cdkConnectedOverlayOrigin]="exerciseModalTrigger"
+>
+  @if(exerciseModalState().defaultValues){
+    <app-exercise-modal
+      [defaultValues]="exerciseModalState().defaultValues!"
+      (onCreate)="editExercise($event)"
+      (onClose)="closeExerciseModal()"
+    />
+  } @else {
+    <app-exercise-modal
+      (onCreate)="addExercise($event)"
+      (onClose)="closeExerciseModal()"
+    />
+  }
+</ng-template>
+
+
+@if(confirmDialog()){
+  <app-confirm-dialog
+    [cdkOrigin]="confirmDialog()!.origin"
+    [cdkOpen]="confirmDialog()!.show"
+    confirmText="Are you sure to remove this workout?"
+    (onApprove)="removeExercise(confirmDialog()!.elemIndex)"
+    (onDismiss)="closeRemoveExerciseDialog()"
+  />
+}

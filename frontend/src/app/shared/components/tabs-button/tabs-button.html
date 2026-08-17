@@ -1,12 +1,44 @@
-<div class="tabs-button">
-  <div class="selection-bg" [style]="{'width': `${100 / options().length}%`, 'transform': `translate(${selectionBgPos()}%)`}"></div>
-  @for (tab of options(); track $index) {
-    <a
-      class="select-button"
-      (click)="selectorStep.set($index)"
-      [routerLink]="optionsLinks()[$index]"
-    >
-      {{ tab }}
-    </a>
+<div
+  class="tabs-button"
+  [class.primary]="style() === 'primary'"
+  [class.dark]="style() === 'dark'"
+>
+  <div
+    class="selection-bg"
+    [style]="{'width': `${currentTabWidth()}px`, 'transform': `translate(${selectionBgPos()}px)`}"
+  ></div>
+
+  @for (opt of options(); track $index) {
+    @if(opt.link){
+      <a
+        #tab
+        class="select-button"
+        [class.selected]="selectorStep() === $index"
+        (click)="selectorStep.set($index)"
+        [routerLink]="opt.link"
+      >
+        {{ opt.label }}
+      </a>
+    }
+    @else if(!noInteractive()) {
+      <a
+        #tab
+        class="select-button"
+        [class.selected]="selectorStep() === $index"
+        (click)="selectorStep.set($index); onSelectOption.emit($index)"
+      >
+        {{ opt.label }}
+      </a>
+    }
+    @else {
+      <a
+        #tab
+        class="select-button"
+        [class.selected]="selectorStep() === $index"
+      >
+        {{ opt.label }}
+      </a>
+    }
   }
+
 </div>

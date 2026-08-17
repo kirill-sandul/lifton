@@ -1,0 +1,54 @@
+<app-week-dropdown [weekIndex]="weekIndex()">
+  <div class="content-wrapper">
+    <div class="week-days-selector">
+      @for (day of weekDays; track day) {
+        <div class="week-day" [class.selected]="selectedWeekDay() === day" (click)="selectedWeekDay.set(day)">
+          {{ day | weekDay: 'short' }}
+        </div>
+      }
+    </div>
+
+    <div class="selected-day-workout">
+      @let _selectedDayWorkout = selectedDayWorkout();
+      @if(_selectedDayWorkout){
+        <h1 class="workout-name">“{{ _selectedDayWorkout.name }}”</h1>
+        <table class="workout-table">
+          <tr class="header">
+            <th>Exercise</th>
+            <th>Sets</th>
+            <th>Total reps</th>
+            <th style="min-width: 140px;">Total volume</th>
+          </tr>
+          @for (exercise of _selectedDayWorkout.exercises; track exercise.id) {
+            <tr class="exercise">
+              <td class="exercise-name" [class.selected]="openedExerciseIndex() === $index" (click)="toggleExerciseDetail($index)">
+                <svg class="open-icon" lucideIcon="arrow-down"></svg>
+                {{ exercise.name }}
+              </td>
+              <td>{{ exercise.sets.length }}</td>
+              <td>{{ getTotalReps(exercise.sets) }}</td>
+              <td>{{ getTotalVolume(exercise.sets) }}{{ exercise.unit }}</td>
+            </tr>
+            @if(openedExerciseIndex() === $index){
+              <tr>
+                <td colspan="4">
+                  <div class="exercise-sets-detail">
+                    @for(set of exercise.sets; track set.id){
+                      <div class="set">
+                        Set #{{ $index + 1 }} - <span class="blue">{{ set.targetValue }}{{ exercise.unit }} × {{ set.reps }}reps</span>
+                      </div>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+        </table>
+      } @else {
+        <div class="no-workout">
+          <span class="grey">No workout on {{ selectedWeekDay() | weekDay: 'full' }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</app-week-dropdown>

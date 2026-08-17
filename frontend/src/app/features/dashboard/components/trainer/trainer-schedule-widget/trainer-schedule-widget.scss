@@ -1,0 +1,50 @@
+.client-workouts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+
+  .top-block {
+    display: flex;
+    justify-content: space-between;
+
+    .title {
+      font-size: 18px;
+    }
+
+    .slider-nav {
+      display: flex;
+      gap: 17px;
+
+      .nav-btn {
+        cursor: pointer;
+        background: none;
+        transition: .2s;
+
+        &:disabled {
+          color: var(--primary-grey-light);
+          pointer-events: none;
+        }
+
+        &:hover {
+          color: var(--primary-blue);
+        }
+
+        &:active {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  .workouts {
+    .embla__slide {
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+  }
+
+  .no-workout {
+    font-size: 17px;
+    margin: auto;
+  }
+}

@@ -1,0 +1,26 @@
+<div class="widget">
+  <h3>To-Do actions</h3>
+  <div class="todo">
+    <app-input [name]="'Task text'" [control]="taskControl" [placeholder]="'Add a task...'">
+      <svg lucidePlus class="add-task-btn" (click)="addTask()"></svg>
+    </app-input>
+    @if(tasks.length){
+      <div class="tasks">
+        @for (task of tasks; track task.id) {
+          <div class="task">
+            <div class="task-wrapper">
+              <div class="column">
+                <app-checkbox (onCheck)="onComplete(task.id, $event)" />
+                <div class="content" [class.completed]="task.completed">{{ task.content }}</div>
+              </div>
+              <button class="remove-task-btn">
+                <svg lucideCircleX (click)="removeTask(task.id)"></svg>
+              </button>
+            </div>
+            <div class="line"></div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

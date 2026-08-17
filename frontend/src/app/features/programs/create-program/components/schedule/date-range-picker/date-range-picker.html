@@ -1,0 +1,7 @@
+<div class="datepicker-wrapper">
+  <ngxsmk-datepicker mode="range" [value]="datepickerValue()" [minDate]="today" (valueChange)="onDateChange($event)"></ngxsmk-datepicker>
+
+  @if(touched && createProgramFacade.trainingProgramValidation().dateRangeInvalid()){
+    <p class="invalid-date-range-msg">The date range should be at least {{ createProgramFacade.minProgramDays() }} days</p>
+  }
+</div>

@@ -1,0 +1,97 @@
+<div class="profile">
+  <h1 class="title">Your profile</h1>
+  <div class="profile-widget widget">
+    <div class="row">
+      <div class="pfp pfp-style" [style.background-image]="`url(${profile()?.pfpUrl ?? '/assets/no-pfp.png'})`">
+        @if(isOwnProfile()){
+          <button liftonButton class="editPfpBtn circular" (click)="showEditPfpModal.set(true)">
+            <svg lucidePencil></svg>
+          </button>
+        }
+      </div>
+      <div class="text">
+        <div class="text-top-row">
+          <h3 class="fullName">{{ profile()?.fullName }}</h3>
+          <span>•</span>
+          <h4 class="role">{{ profile()?.role }}</h4>
+        </div>
+        <div class="description">
+          <span class="label">Description</span>
+          <p>{{ profile()?.description || 'No added description yet' }}</p>
+        </div>
+        <div class="props">
+          <div class="column">
+            <div class="prop">
+              <span class="label">Age</span>
+              <span class="value">{{ profile()?.age }} years old</span>
+            </div>
+            @if (profile()?.role == UserRole.CLIENT){
+              <div class="prop">
+                <span class="label">Body weight</span>
+                <span class="value">{{ profile()?.clientProfile?.bodyWeight }}kg</span>
+              </div>
+              <div class="prop">
+                <span class="label">Height</span>
+                <span class="value">{{ profile()?.clientProfile?.height }}cm</span>
+              </div>
+            }
+            @if (profile()?.role === UserRole.TRAINER){
+              <div class="prop">
+                <span class="label">Experience</span>
+                <span class="value">{{ profile()?.trainerProfile?.experience }} years</span>
+              </div>
+            }
+          </div>
+          <div class="column">
+            <div class="prop">
+              <span class="label">Training goal</span>
+              <span class="value">{{ profile()?.goal | userGoal }}</span>
+            </div>
+            <div class="prop">
+              <span class="label">Email</span>
+              <span class="value">{{ profile()?.email }}</span>
+            </div>
+          </div>
+          <div class="column">
+            @if(profile()?.role == UserRole.CLIENT){
+              <div class="prop">
+                <span class="label">Assigned trainer</span>
+                <span class="value">{{ getTrainerName() }}</span>
+              </div>
+            }
+            <div class="prop">
+              <span class="label">Phone number</span>
+              <span class="value">{{ profile()?.phone }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    @if(isOwnProfile()){
+      <div class="row">
+        <div class="bottom-ops">
+          <button liftonButton (click)="showEditProfileModal.set(true)">
+            Edit profile
+            <svg lucidePencil></svg>
+          </button>
+          <button liftonButton class="logout red-tone" (click)="logout()">
+            Log out
+            <svg lucideLogOut></svg>
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+@if(isOwnProfile() && showEditProfileModal()){
+  <app-edit-profile-modal
+    [userRole]="profile()!.role"
+    [defaultValues]="profile()"
+    (onClose)="showEditProfileModal.set(false); loadProfile()"
+  ></app-edit-profile-modal>
+}
+
+@if(isOwnProfile() && showEditPfpModal()){
+  <app-edit-pfp-modal (onClose)="showEditPfpModal.set(false); loadProfile()"></app-edit-pfp-modal>
+}

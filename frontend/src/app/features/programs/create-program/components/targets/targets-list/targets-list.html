@@ -1,0 +1,48 @@
+<div class="targets" #targetModalOrigin>
+  @for(target of targetsList(); track $index){
+    <div class="target-card">
+      <span class="name">{{ target.name }}</span>
+      <div class="dot"></div>
+      <div class="values">
+        <span class="initial-value">{{ target.initialValue }}{{ target.unit }}</span>
+        <svg lucideIcon="move-right"></svg>
+        <span class="target-value">{{ target.targetValue }}{{ target.unit }}</span>
+      </div>
+
+      <div class="actions">
+        <svg lucideIcon="pencil" class="action edit" (click)="openEditTargetModal($index, target)"></svg>
+        <svg
+          cdkOverlayOrigin
+          #removeWorkoutTrigger="cdkOverlayOrigin"
+          lucideIcon="trash"
+          class="action remove"
+          (click)="openRemoveDialog(removeWorkoutTrigger, $index)"
+        ></svg>
+      </div>
+    </div>
+  }
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="targetModalOrigin"
+  [cdkConnectedOverlayOpen]="editTargetModal().show"
+>
+  @if(editTargetModal().defaultValues){
+    <app-target-modal
+      [defaultValues]="editTargetModal().defaultValues!"
+      (onCreate)="editTarget($event)"
+      (onClose)="closeEditTargetModal()"
+    />
+  }
+</ng-template>
+
+@if(confirmDialog()){
+  <app-confirm-dialog
+    [cdkOrigin]="confirmDialog()!.origin"
+    [cdkOpen]="confirmDialog()!.show"
+    confirmText="Are you sure to remove this workout?"
+    (onApprove)="removeTarget()"
+    (onDismiss)="closeRemoveDialog()"
+  />
+}

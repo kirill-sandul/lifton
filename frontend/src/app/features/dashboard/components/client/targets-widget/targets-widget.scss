@@ -1,0 +1,54 @@
+.widget {
+  .top-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      svg {
+        width: 21px;
+        height: 21px;
+      }
+    }
+  }
+
+  .targets {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 10px 0;
+
+    .target {
+      display: flex;
+      flex-direction: column;
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+
+        .target-name {
+          font-weight: 500;
+          font-size: 18px;
+        }
+
+        .target-completion {
+          font-size: 22px;
+        }
+
+        &.target-info {
+          margin-bottom: 5px;
+        }
+
+        &.target-values {
+          margin-top: 10px;
+          gap: 50px;
+        }
+      }
+    }
+
+    .no-goals {
+      font-weight: 500;
+      font-size: 18px;
+    }
+  }
+}

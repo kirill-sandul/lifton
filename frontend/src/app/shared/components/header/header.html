@@ -1,0 +1,61 @@
+<header>
+  <div class="left-section">
+    <div class="logo" routerLink="/">
+      <img src="/assets/lifton-logo.png" alt="">
+    </div>
+    <nav>
+      <app-tabs-button
+        [options]="navOptions()"
+        [defaultOption]="selectedTab()"
+        [style]="'dark'"
+      />
+    </nav>
+  </div>
+
+  <nav>
+    <ul class="profile">
+      <li>
+        <button>
+          <svg lucideIcon="sun"></svg>
+        </button>
+      </li>
+      <li class="notifications-group">
+        <button
+          cdkOverlayOrigin
+          #dropdownTrigger="cdkOverlayOrigin"
+          class="notificationBtn"
+          [class.opened]="notificationsFacade.showNotifications()"
+          (click)="notificationsFacade.toggleNotifications()"
+        >
+          @let notifLength = notificationsLength();
+          @if(notifLength !== 0){
+            <span
+              class="count"
+              [class.two-digits]="notifLength > 9"
+              [class.max-length]="notifLength > 99"
+            >
+              {{ notifLength <= 99 ? notifLength : '99+' }}
+            </span>
+          }
+          <svg lucideIcon="bell"></svg>
+        </button>
+        <ng-template
+          cdkConnectedOverlay
+          [cdkConnectedOverlayOrigin]="dropdownTrigger"
+          [cdkConnectedOverlayOpen]="notificationsFacade.showNotifications()"
+          [cdkConnectedOverlayHasBackdrop]="true"
+          [cdkConnectedOverlayPositions]="notificationsFacade.backdropPositions"
+          cdkConnectedOverlayBackdropClass="transparent-backdrop"
+          (backdropClick)="notificationsFacade.toggleNotifications()"
+        >
+          <app-notifications-dropdown />
+        </ng-template>
+      </li>
+      <li routerLink="/profile/{{ profile?.id }}">
+        @if (profile; as p){
+          <app-profile-widget [profile]="p" />
+        }
+      </li>
+    </ul>
+  </nav>
+</header>

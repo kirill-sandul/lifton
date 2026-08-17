@@ -1,0 +1,13 @@
+.embla {
+  cursor: grab;
+  overflow: hidden;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.embla__container {
+  display: flex;
+  gap: 12px;
+}

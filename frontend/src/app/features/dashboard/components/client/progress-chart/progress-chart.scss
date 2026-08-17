@@ -1,0 +1,20 @@
+.widget {
+  .top-text {
+    display: flex;
+    justify-content: space-between;
+
+    .percentage {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .percent {
+        font-size: 32px;
+      }
+
+      .date {
+        font-size: 18px;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+ngxsmk-datepicker, .ngxsmk-day-cell, .ngxsmk-close-button, .ngxsmk-clear-button-footer {
+  --datepicker-primary-color: var(--primary-blue) !important;
+  --datepicker-range-background: var(--primary-blue-lighter) !important;
+  --ion-color-primary: var(--primary-blue) !important;
+  --ngxsmk-color-border: var(--primary-grey-lighter);
+  --ngxsmk-font-size-base: 16px;
+  --ngxsmk-radius-md: 30px;
+  --datepicker-radius-md: 30px;
+}
+
+ngxsmk-datepicker * {
+  font-family: 'Sora', sans-serif !important;
+}
+
+.ngxsmk-day-cell.start-date, .ngxsmk-day-cell.end-date {
+  .ngxsmk-day-number {
+    background: var(--primary-blue-dark-gradient) !important;
+  }
+}
+
+.ngxsmk-close-button {
+  background: var(--primary-blue-dark-gradient) !important;
+  border: none !important;
+}
+
+.ngxsmk-input-group {
+  box-shadow: none !important;
+}

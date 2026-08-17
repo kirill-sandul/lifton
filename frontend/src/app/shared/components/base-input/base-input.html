@@ -8,16 +8,19 @@
         [name]="id()"
         [formControl]="control()"
         [placeholder]="placeholder()"
+        [(value)]="value"
       ></textarea>
     }
-    
+
     @if(type() !== "textarea") {
       <input
         [id]="id()"
         [name]="id()"
         [formControl]="control()"
         [type]="dynamicType()"
+        [attr.min]="dynamicType() === 'number' ? 0 : null"
         [placeholder]="placeholder()"
+        [(value)]="value"
       />
     }
 

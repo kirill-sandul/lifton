@@ -1,0 +1,249 @@
+.programs-lib-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 70px;
+
+  .page-title {
+    font-weight: 600;
+  }
+
+  .widgets {
+    display: flex;
+    align-items: flex-start;
+    gap: 50px;
+
+    .programs {
+      display: flex;
+      flex-direction: column;
+
+      header {
+        display: flex;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        width: 100%;
+
+        .column-count {
+          flex: 1;
+          text-align: right;
+          margin-right: 20px;
+        }
+
+        .title {
+          margin: 0;
+        }
+
+        .count {
+          font-size: 30px;
+          font-weight: 600;
+        }
+
+        .info {
+          margin-top: 15px;
+          margin-bottom: 0;
+        }
+      }
+
+      main {
+        display: flex;
+        flex: 1;
+
+        .programs-list {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+
+          .program-card {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            background: var(--primary-dark-gradient);
+            font-weight: 300;
+            padding: 16px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .15s;
+
+            &:hover {
+              opacity: 0.8;
+            }
+
+            &.selected {
+              background: var(--primary-blue-dark-gradient);
+            }
+
+            .dot {
+              background-color: #fff;
+              width: 8px;
+              height: 8px;
+              border-radius: 100%;
+              margin: 0 7px;
+            }
+          }
+        }
+      }
+
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 40px;
+
+        .create-program-btn {
+          display: flex;
+          padding: 11px;
+
+          svg {
+            width: 22px;
+            height: 22px;
+          }
+        }
+      }
+    }
+
+    .selected-program {
+      display: flex;
+      padding-left: 35px;
+      padding-right: 35px;
+      gap: 40px;
+
+      .column {
+        &.left {
+          .title {
+            margin: 20px 0;
+            font-size: 30px;
+          }
+        }
+
+        &.right {
+          max-height: 700px;
+          overflow-y: auto;
+          overflow-x: hidden;
+          margin-top: 50px;
+
+          .title {
+            margin: 0;
+          }
+
+          .weeks {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+          }
+
+          .info {
+            margin: 10px 0 20px 0;
+          }
+        }
+      }
+
+      .props {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 12px;
+
+        .prop {
+          display: flex;
+          align-items: center;
+
+          &-name {
+            margin-right: 7px;
+          }
+
+          .value {
+            font-weight: 600;
+          }
+
+          .clients-list-link {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: .2s;
+
+            svg {
+              margin-left: 5px;
+              transition: .2s;
+            }
+
+            &:hover {
+              color: var(--primary-blue);
+
+              svg {
+                transform: translateX(5px);
+              }
+            }
+          }
+        }
+      }
+
+      .assigned-clients-list {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        max-width: 500px;
+
+        .etc-chip {
+          display: flex;
+          gap: 5px;
+          align-items: center;
+          justify-content: center;
+          color: #fff;
+          font-weight: 300;
+          background: var(--primary-dark-gradient);
+          border-radius: 25px;
+          width: 55px;
+          min-height: 40px;
+
+          .dot {
+            background-color: #fff;
+            width: 6px;
+            height: 6px;
+            border-radius: 100%;
+          }
+        }
+      }
+
+      .targets {
+        margin-top: 30px;
+
+        &-title {
+          font-size: 17px;
+          font-weight: 400;
+        }
+
+        .targets-list {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          max-height: 340px;
+          max-width: 400px;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+
+        .target-card {
+          background-color: #fff;
+          border: 1px solid var(--primary-grey-light);
+          border-radius: 20px;
+          padding: 20px 20px;
+
+          .name {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+          }
+
+          .values {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 4px;
+          }
+        }
+      }
+    }
+  }
+}

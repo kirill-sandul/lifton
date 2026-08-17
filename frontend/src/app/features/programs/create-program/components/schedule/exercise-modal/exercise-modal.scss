@@ -1,0 +1,80 @@
+.exercise-modal-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-width: 350px;
+  gap: 20px;
+
+  .control {
+    width: 100%;
+
+    &.mini {
+      max-width: 200px;
+    }
+  }
+
+  .add-set {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    font-size: 15px;
+    padding: 10px 20px;
+    border: 1px solid var(--primary-grey-light);
+    border-radius: 25px;
+    color: var(--primary-grey);
+    transition: .2s;
+
+    &:hover {
+      border-color: #000;
+      color: #000;
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    svg {
+      width: 20px;
+    }
+  }
+
+  .sets {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 500px;
+    gap: 20px;
+
+    .set {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+
+      .top-block {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .remove-set {
+          display: flex;
+          position: absolute;
+          right: -80%;
+          background: none;
+          padding: 2px;
+          transition: .2s;
+
+          &:hover {
+            color: var(--primary-error-light)
+          }
+
+          svg {
+            width: 20px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+.schedule {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  &-title {
+    margin-bottom: 12px;
+  }
+
+  .add-week {
+    color: #AAA;
+  }
+
+  .weeks {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 620px;
+  }
+}

@@ -1,0 +1,21 @@
+<div class="profile-preview-card">
+  <div class="card-wrapper">
+    <div class="pfp" pfpCircle [pfpUrl]="pfpUrl()"></div>
+    <span>{{ fullName() }}</span>
+    <div class="dot"></div>
+    <span class="email">{{ email() }}</span>
+
+    @let activeDisplay = active() ? 'Active' : 'Inactive';
+    <div class="active-wrapper">
+      <div class="dot"></div>
+      <span [class.success]="active()" [class.error]="!active()">{{ activeDisplay }}</span>
+    </div>
+  </div>
+  <button
+    liftonButton
+    tooltip="Invite this client"
+    icon="send"
+    class="circular inviteBtn"
+    (click)="onInvite.emit({ id: userId(), fullName: fullName() })"
+  ></button>
+</div>

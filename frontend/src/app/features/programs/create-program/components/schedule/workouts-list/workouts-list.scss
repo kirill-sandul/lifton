@@ -1,0 +1,60 @@
+.workouts {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+
+  .workout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #AAA;
+    border-radius: 25px;
+    padding: 10px 25px;
+
+    .name {
+      font-weight: 600;
+    }
+
+    .week-day, .exercises-count {
+      color: var(--primary-blue);
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      background-color: #AAA;
+      border-radius: 100%;
+      margin: 0 10px;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+      gap: 7px;
+
+      .action {
+        width: 20px;
+        cursor: pointer;
+
+        &.edit {
+          transition: .2s;
+
+          &:hover {
+            color: var(--primary-success);
+          }
+        }
+        &.remove {
+          transition: .2s;
+
+          &:hover {
+            color: var(--primary-error-light);
+          }
+        }
+      }
+    }
+  }
+}

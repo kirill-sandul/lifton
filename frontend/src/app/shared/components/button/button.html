@@ -1,6 +1,9 @@
 <ng-content />
+
 @if (icon()) {
-  @if(icon() == "play") {
-    <svg class="icon" lucidePlay></svg>
-  }
+  <svg class="icon" [lucideIcon]="icon()"></svg>
+}
+
+@if(tooltip() && showTooltip()){
+  <div class="tooltip" animate.leave="tooltip-deleting">{{ tooltip() }}</div>
 }

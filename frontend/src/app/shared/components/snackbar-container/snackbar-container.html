@@ -1,0 +1,18 @@
+@let snackbar = snackbarService.snackbarState();
+
+@if(snackbar.show){
+  <div class="snackbar-wrapper" animate.leave="snackbar-leaving">
+    <div class="snackbar">
+      <div class="msg-wrapper">
+        @if(snackbar.status === 'success'){
+          <svg lucideCheck></svg>
+        }
+        @else if(snackbar.status === 'error'){
+          <svg lucideCircleAlert></svg>
+        }
+        <span class="msg">{{ snackbarService.snackbarState().message }}</span>
+      </div>
+      <button class="closeBtn" (click)="snackbarService.closeSnackbar()">Close</button>
+    </div>
+  </div>
+}

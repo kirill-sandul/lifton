@@ -2,7 +2,7 @@
   <h1>Add some more information to your profile</h1>
   <div class="line"></div>
 
-  @if(role() == "CLIENT") {
+  @if(role() == UserRole.CLIENT) {
     <form class="register-form" [formGroup]="formGroup()">
       <app-file-input
         id="pfp"
@@ -53,7 +53,7 @@
     </form>
   }
 
-  @if(role() == "TRAINER") {
+  @if(role() == UserRole.TRAINER) {
     <form class="register-form" [formGroup]="formGroup()">
       <app-file-input
         id="pfp"

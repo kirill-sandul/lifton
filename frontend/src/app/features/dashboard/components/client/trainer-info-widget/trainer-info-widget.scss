@@ -1,0 +1,26 @@
+.widget {
+  .top-text {
+    justify-content: space-between;
+  }
+
+  .trainer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 20px;
+
+    .prop {
+      .value {
+        color: var(--primary-grey);
+        font-weight: 600;
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .bottom-btn {
+    .searchTrainerBtn {
+      font-weight: 600;
+    }
+  }
+}

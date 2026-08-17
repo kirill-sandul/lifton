@@ -13,6 +13,7 @@
 
   &:hover {
     --x: 100%;
+    box-shadow: 0 0 15px var(--c2);
   }
 
   svg {
@@ -20,8 +21,80 @@
     right: 30px;
   }
 
+  &.red-tone {
+    --c1: var(--primary-error-light);
+    --c2: var(--primary-error-lighter);
+    background: linear-gradient(90deg, var(--c1, var(--primary-error-lighter)), var(--c2, var(--primary-error-lighter)) 51%, var(--c1, var(--primary-error-light))) var(--x, 0) / 200%;
+  }
+
+  &.compact {
+    display: inline-flex;
+    justify-content: space-between;
+    width: auto;
+    padding: 13px 25px;
+    gap: 30px;
+
+    svg {
+      position: relative;
+      right: 0;
+    }
+  }
+
+  &.circular {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px;
+    border-radius: 100%;
+
+    svg {
+      position: static;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
   &:disabled {
     opacity: 0.9;
     pointer-events: none;
+  }
+
+  &.redGradient {
+    background: linear-gradient(to right, #FF3737, #FF7676);
+    color: #fff;
+  }
+
+  &.greenGradient {
+    background: linear-gradient(to right, #03AC8A, #1FDFB9);;
+    color: #fff;
+  }
+
+  .tooltip {
+    position: absolute;
+    display: flex;
+    width: max-content;
+    top: calc(100% + 7px);
+    color: #fff;
+    font-weight: 300;
+    background: var(--primary-dark-gradient);
+    opacity: 1;
+    border-radius: 15px;
+    font-size: 14px;
+    padding: 5px 10px;
+    pointer-events: none;
+    transform: scale(1);
+    z-index: 999;
+    transition: 0.2s;
+
+    @starting-style {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+
+  .tooltip-deleting {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: 0.2s;
   }
 }

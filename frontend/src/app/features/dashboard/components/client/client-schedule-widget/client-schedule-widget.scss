@@ -1,0 +1,23 @@
+.workout {
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    font-size: 18px;
+  }
+
+  .exercises {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 15px;
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 22px;
+  }
+
+  .no-workout {
+    font-size: 17px;
+    margin: auto;
+  }
+}

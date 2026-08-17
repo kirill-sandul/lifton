@@ -25,4 +25,10 @@ export class StorageService {
 
     return data.publicUrl;
   }
+
+  async deleteFile(urlToDelete: string){
+    return await this.supabase.storage
+      .from('lifton')
+      .remove(['avatars/' + urlToDelete])
+  }
 }

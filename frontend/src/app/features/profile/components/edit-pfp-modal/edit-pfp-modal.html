@@ -1,0 +1,21 @@
+<app-modal
+  [title]="'Edit avatar picture'"
+  [acceptOption]="'Save changes'"
+  [discardOption]="'Discard'"
+  [acceptBtnDisabled]="this.pfpControl.invalid"
+  (onSubmit)="onSubmit()"
+  (onDiscard)="onClose.emit()"
+>
+  <div class="wrapper">
+    <div class="pfp-preview bigger" pfpCircle [pfpUrl]="previewImgUrl()"></div>
+    <app-file-input
+      id="pfp"
+      placeholder="Upload a new profile picture"
+      class="fileInput"
+      [control]="pfpControl"
+      [style]="'outlined'"
+      (onSelected)="getPreview()"
+    >
+    </app-file-input>
+  </div>
+</app-modal>

@@ -1,35 +1,21 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthResponse, LoginDto, RegisterDto } from '@features/auth/models/auth.models';
-import { catchError, of, retry, tap, throwError } from 'rxjs';
+import { catchError, Observable, of, switchMap, take, tap } from 'rxjs';
+import { UserService } from '@core/services/user/user.service';
+import { UserProfile } from '@core/models/user.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
-  
+  private userService = inject(UserService);
+
   private readonly _accessToken = signal<string | null>(null);
   readonly accessToken = this._accessToken.asReadonly();
 
-  private isRefreshing = false;
-
-  register(registerDto: RegisterDto){
-    const formData = this.toFormData(registerDto);
-
-    return this.http.post<AuthResponse>('auth/register', formData).pipe(
-      tap(({ accessToken }) => this._accessToken.set(accessToken))
-    )
-  }
-
-  login({ email, password }: LoginDto){
-    return this.http.post<AuthResponse>('auth/login', {
-      email,
-      password
-    }).pipe(
-      tap(({ accessToken }) => this._accessToken.set(accessToken))
-    )
-  }
+   isRefreshing = signal(false);
 
   toFormData(jsonForm: Object){
     const formData = new FormData();
@@ -43,19 +29,49 @@ export class AuthService {
     return formData;
   }
 
-  refresh(){
-    if(this.isRefreshing) return of({ accessToken: this._accessToken() } as AuthResponse);;
-    this.isRefreshing = true;
+  register(registerDto: RegisterDto){
+    const formData = this.toFormData(registerDto);
+
+    return this.http.post<AuthResponse>('auth/register', formData).pipe(
+      tap(({ accessToken }) => this._accessToken.set(accessToken)),
+      switchMap(() => this.userService.getProfile())
+    )
+  }
+
+  login({ email, password }: LoginDto){
+    return this.http.post<AuthResponse>('auth/login', {
+      email,
+      password
+    }).pipe(
+      tap(({ accessToken }) => this._accessToken.set(accessToken)),
+      switchMap(() => this.userService.getProfile())
+    )
+  }
+
+  logout(){
+    this._accessToken.set(null);
+
+    return this.http.post('auth/logout', {}).pipe(
+      tap(() => this.userService.clear())
+    )
+  }
+
+  refresh(): Observable<AuthResponse | UserProfile | null> {
+    if(this.isRefreshing()) return of({ accessToken: this._accessToken() } as AuthResponse);
+    this.isRefreshing.set(true);
 
     return this.http.post<AuthResponse>('auth/refresh', {}).pipe(
-      retry({ count: 1, delay: 300 }),
       tap(({ accessToken }) => {
         this._accessToken.set(accessToken)
       }),
+      switchMap(() => this.userService.getProfile()),
       catchError(() => {
-        this.isRefreshing = false;
+        this.isRefreshing.set(false);
+        this.userService.clear();
+
         return of(null);
-      })
+      }),
+      take(1)
     )
   }
 }

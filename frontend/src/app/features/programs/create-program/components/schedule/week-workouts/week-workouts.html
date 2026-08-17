@@ -1,0 +1,8 @@
+<app-week-dropdown [weekIndex]="weekIndex()">
+  <app-workout-generator #generator [weekIndex]="weekIndex()" />
+  <app-workouts-list
+    [workoutsList]="getWorkouts()"
+    [weekIndex]="weekIndex()"
+    (editWorkout)="generator.editWorkoutMode($event.index, $event.workout)"
+  />
+</app-week-dropdown>

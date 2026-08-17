@@ -1,0 +1,9 @@
+<button
+  class="checkbox"
+  [class.checked]="isChecked()"
+  (click)="isChecked.set(!isChecked()); onCheck.emit(isChecked())"
+>
+  <div class="checkbox-icon">
+    <img src="/assets/icons/check.svg" alt="" />
+  </div>
+</button>

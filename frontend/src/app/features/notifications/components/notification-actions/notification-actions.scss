@@ -1,0 +1,42 @@
+.actions {
+  display: flex;
+  justify-self: flex-end;
+  margin-top: 5px;
+  gap: 5px;
+
+  .actionBtn {
+    font-size: 14.5px;
+    background: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: .2s;
+
+    &.success:hover {
+      background-color: var(--primary-success-accent);
+    }
+
+    &.error:hover {
+      background-color: var(--primary-error-accent);
+    }
+
+    &.warning {
+      color: var(--primary-warn);
+
+      &:hover {
+        background-color: var(--primary-warn-accent);
+      }
+    }
+
+    &.link {
+      color: var(--primary-blue);
+
+      &:hover {
+        background-color: var(--primary-blue-lighter);
+      }
+    }
+
+    &:active {
+      transform: scale(0.92);
+    }
+  }
+}

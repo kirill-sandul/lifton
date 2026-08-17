@@ -1,0 +1,24 @@
+<button
+  type="button"
+  class="add-target card-style"
+  cdkOverlayOrigin
+  #targetModalTrigger="cdkOverlayOrigin"
+  (click)="openTargetModal()"
+>
+  <span>Add target to the program</span>
+  <svg lucideIcon="plus"></svg>
+</button>
+
+@if(targetModalState()){
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="targetModalTrigger"
+    [cdkConnectedOverlayOpen]="targetModalState()!.show"
+  >
+    <app-target-modal
+      (onCreate)="addTarget($event)"
+      (onClose)="closeTargetModal()"
+    />
+  </ng-template>
+}
+

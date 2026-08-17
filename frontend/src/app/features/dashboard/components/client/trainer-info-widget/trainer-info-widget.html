@@ -1,0 +1,37 @@
+<div class="widget">
+  <div class="top-text">
+    <h3>Your trainer</h3>
+    @if (trainerUser(); as t) {
+      <app-profile-widget [profile]="t" [color]="'dark'" />
+    }
+  </div>
+  <div class="trainer-info">
+    <div class="prop">
+      <span class="name">Age:</span>
+      <span class="value">{{ trainerUser()?.age ?? '-' }}</span>
+    </div>
+    <div class="prop">
+      <span class="name">Specialization:</span>
+      <span class="value">{{ trainerUser()?.goal ?? '-' }}</span>
+    </div>
+    <div class="prop">
+      <span class="name">Experience:</span>
+      <span class="value">{{ trainerUser()?.trainerProfile?.experience ?? '-' }}</span>
+    </div>
+    <div class="prop">
+      <span class="name">Your collaboration start:</span>
+      @if(clientUser?.clientProfile?.assignedAt; as joinDate){
+        <span class="value">{{ joinDate | date: 'd MMMM y'  }}</span>
+      } @else {
+        <span class="value">-</span>
+      }
+    </div>
+  </div>
+  <div class="bottom-btn">
+    @if(trainerUser()){
+      <a liftonButton icon="send" class="compact">Write message to John</a>
+    } @else {
+      <a liftonButton class="searchTrainerBtn" icon="arrow-up-right">Search for a trainer</a>
+    }
+  </div>
+</div>
