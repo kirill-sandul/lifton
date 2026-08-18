@@ -1,39 +1,41 @@
-import { FormControl } from "@angular/forms";
-import { UserGoal, UserRole } from "@core/models/user.models";
-
+import { FormControl } from '@angular/forms';
+import { UserGoal, UserRole } from '@core/models/user.models';
 
 export interface BaseProfileFormControls {
-  pfp: FormControl<File | null>
-  age: FormControl<number | null>
-  description: FormControl<string | null>
+  pfp: FormControl<File | null>;
+  age: FormControl<number | null>;
+  description: FormControl<string | null>;
 }
 
 export interface ClientProfileFormControls extends BaseProfileFormControls {
-  bodyWeight: FormControl<number | null>
-  height: FormControl<number | null>
+  bodyWeight: FormControl<number | null>;
+  height: FormControl<number | null>;
 }
 
 export interface TrainerProfileFormControls extends BaseProfileFormControls {
-  experience: FormControl<number | null>
+  experience: FormControl<number | null>;
 }
 
-export type FullProfileFormControls = BaseProfileFormControls & ClientProfileFormControls & TrainerProfileFormControls
+export type FullProfileFormControls = BaseProfileFormControls &
+  ClientProfileFormControls &
+  TrainerProfileFormControls;
 
 export interface RegisterCredentialsFormControls {
-  fullName: FormControl<string | null>
-  phone: FormControl<string | null>
-  email: FormControl<string | null>
-  password: FormControl<string | null>
+  username: FormControl<string | null>;
+  fullName: FormControl<string | null>;
+  phone: FormControl<string | null>;
+  email: FormControl<string | null>;
+  password: FormControl<string | null>;
 }
 
 export interface RegistrationModel {
-  role: UserRole,
-  goal: UserGoal
+  role: UserRole;
+  goal: UserGoal;
 }
 
 export interface LoginFormControls {
-  email: FormControl<string | null>
-  password: FormControl<string | null>
+  identity: FormControl<string | null>;
+  password: FormControl<string | null>;
 }
 
 export interface RegisterDto {
@@ -42,7 +44,7 @@ export interface RegisterDto {
   phone: string;
   password: string;
   role: UserRole;
-  goal: UserGoal,
+  goal: UserGoal;
   age: number;
   pfpUrl?: string;
   description?: string;
@@ -52,10 +54,10 @@ export interface RegisterDto {
 }
 
 export interface LoginDto {
-  email: string;
+  identity: string;
   password: string;
 }
 
 export interface AuthResponse {
-  accessToken: string
+  accessToken: string;
 }

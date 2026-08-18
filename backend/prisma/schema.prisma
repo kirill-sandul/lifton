@@ -9,16 +9,18 @@ datasource db {
 }
 
 model User {
-  id          String  @id @default(uuid())
-  email       String  @unique
-  phone       String
-  fullName    String
-  password    String
-  pfpUrl      String?
-  age         Int
-  description String?
-  role        Role
-  goal        Goal
+  id                String  @id @default(uuid())
+  username          String
+  usernameCanonical String  @unique
+  email             String  @unique
+  phone             String
+  fullName          String
+  password          String
+  pfpUrl            String?
+  age               Int
+  description       String?
+  role              Role
+  goal              Goal
 
   active Boolean @default(true)
 

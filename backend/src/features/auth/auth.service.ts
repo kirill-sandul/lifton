@@ -25,6 +25,7 @@ export class AuthService {
     if (file) pfpUrl = await this.storageService.uploadFile(file, 'avatars');
 
     const {
+      username,
       fullName,
       email,
       phone,
@@ -38,7 +39,15 @@ export class AuthService {
       experience,
     } = registerDto;
 
+    const usernameCanonical = username.toLowerCase();
+
     const hash = await bcrypt.hash(password, 10);
+
+    const existingUsername = await this.prisma.user.findUnique({
+      where: { usernameCanonical },
+    });
+
+    if (existingUsername) throw new ConflictException('EXISTING_USERNAME');
 
     const existingEmail = await this.prisma.user.findUnique({
       where: { email },
@@ -48,6 +57,8 @@ export class AuthService {
 
     const user = await this.prisma.user.create({
       data: {
+        username,
+        usernameCanonical,
         fullName,
         email,
         phone,
@@ -81,9 +92,22 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    const { email, password } = loginDto;
+    const { identity, password } = loginDto;
 
-    const foundUser = await this.prisma.user.findUnique({ where: { email } });
+    const identityLower = identity.toLowerCase();
+
+    const foundUser = await this.prisma.user.findFirst({
+      where: {
+        OR: [
+          {
+            email: identityLower,
+          },
+          {
+            usernameCanonical: identityLower,
+          },
+        ],
+      },
+    });
     if (!foundUser) throw new UnauthorizedException('INVALID_CREDENTIALS');
 
     const correctPass = await bcrypt.compare(password, foundUser.password);

@@ -28,14 +28,16 @@ export class BaseInputComponent {
   get errorMessages(): Record<string, string> {
     return {
       required: `${this.name()} is required`,
+      usernamePattern: `Only letters, numbers, hyphens, and underscores allowed (must start with a letter)`,
       email: 'Email is invalid',
       phone: 'Phone number is invalid',
       digitsOnly: `${this.name()} should be a number`,
-      minlength: `${this.name()} has to be longer`,
+      minlength: `${this.name()} has to be at least ${this.control().errors?.['minlength']?.requiredLength} symbols long`,
       maxlength: `${this.name()} is too long`,
       min: `${this.name()} is too small`,
       max: `${this.name()} is too large`,
       serverEmailError: 'An account linked to this email already exists',
+      serverUsernameError: 'This username is taken',
       empty: 'Value cannot be empty',
     };
   }

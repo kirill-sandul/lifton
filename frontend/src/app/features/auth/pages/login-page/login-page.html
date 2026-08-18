@@ -1,9 +1,9 @@
 <form class="login-form" [formGroup]="loginForm">
   <app-input
-    id="email"
-    name="Email"
-    placeholder="Enter your email"
-    [control]="loginForm.controls.email"
+    id="identity"
+    name="Identity"
+    placeholder="Enter your username or email"
+    [control]="loginForm.controls.identity"
   >
     <svg lucideAtSign [strokeWidth]="1.5" class="icon-theme-color"></svg>
   </app-input>
@@ -19,9 +19,9 @@
   @if(loginForm.errors?.['serverCredentialsError']){
     <div class="invalid-form-msg">
       <img src="/assets/error.png" alt="">
-      <span>Invalid email or password</span>
+      <span>Invalid username/email or password</span>
     </div>
   }
-  
+
   <button liftonButton (click)="onSubmit()" [disabled]="loginForm.invalid">Log in</button>
 </form>

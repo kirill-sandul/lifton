@@ -8,7 +8,7 @@ import {
   ClientProfileFormControls,
   TrainerProfileFormControls,
   RegisterCredentialsFormControls,
-  RegistrationModel
+  RegistrationModel,
 } from '@features/auth/models/auth.models';
 import { UserGoal, UserRole } from '@core/models/user.models';
 import { QuizStepCredentialsComponent } from '@features/auth/components/register-quiz/quiz-step-credentials/quiz-step-credentials';
@@ -16,6 +16,8 @@ import { phoneValidator } from '@shared/validators/phone.validator';
 import { digitsOnlyValidator } from '@shared/validators/digitsOnly.validator';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { usernameValidator } from '@shared/validators/username.validator';
+import { ApiKnownErrorResType } from '@shared/api-contract/errors';
 
 @Component({
   selector: 'app-register-quiz-page',
@@ -24,40 +26,36 @@ import { Router } from '@angular/router';
     QuizStepRoleComponent,
     QuizStepGoalComponent,
     QuizStepProfileComponent,
-    QuizStepCredentialsComponent
+    QuizStepCredentialsComponent,
   ],
   templateUrl: './register-quiz-page.html',
-  styleUrl: './register-quiz-page.scss'
+  styleUrl: './register-quiz-page.scss',
 })
 export class RegisterQuizPage {
-  authService = inject(AuthService)
+  authService = inject(AuthService);
   router = inject(Router);
 
-  step = signal(1)
+  step = signal(1);
 
   registrationModel: RegistrationModel = {
     role: UserRole.CLIENT,
-    goal: UserGoal.STRENGTH
-  }
+    goal: UserGoal.STRENGTH,
+  };
 
   registerProfileForm: FormGroup = new FormGroup({});
-  
+
   registerCredentialsForm = new FormGroup<RegisterCredentialsFormControls>({
-    fullName: new FormControl<string | null>('', [
-      Validators.required
-    ]), 
-    phone: new FormControl<string | null>('', [
-      phoneValidator(),
-      Validators.required
+    username: new FormControl<string | null>('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(32),
+      usernameValidator(),
     ]),
-    email: new FormControl<string | null>('', [
-      Validators.email,
-      Validators.required
-    ]),
-    password: new FormControl<string | null>('', [
-      Validators.required
-    ])
-  })
+    fullName: new FormControl<string | null>('', [Validators.required, Validators.maxLength(255)]),
+    phone: new FormControl<string | null>('', [phoneValidator(), Validators.required]),
+    email: new FormControl<string | null>('', [Validators.email, Validators.required]),
+    password: new FormControl<string | null>('', [Validators.required, Validators.minLength(8)]),
+  });
 
   buildProfileForm(): FormGroup {
     const baseFields = {
@@ -66,30 +64,30 @@ export class RegisterQuizPage {
         digitsOnlyValidator(),
         Validators.min(1),
         Validators.max(120),
-        Validators.required
+        Validators.required,
       ]),
-       description: new FormControl<string | null>('', [
+      description: new FormControl<string | null>('', [
         Validators.minLength(10),
-        Validators.maxLength(400)
+        Validators.maxLength(400),
       ]),
-    }
+    };
 
-    if(this.registrationModel.role === UserRole.CLIENT){
+    if (this.registrationModel.role === UserRole.CLIENT) {
       return new FormGroup<ClientProfileFormControls>({
         ...baseFields,
         bodyWeight: new FormControl<number | null>(null, [
           digitsOnlyValidator(),
           Validators.min(20),
           Validators.max(300),
-          Validators.required
+          Validators.required,
         ]),
         height: new FormControl<number | null>(null, [
           digitsOnlyValidator(),
           Validators.min(1),
           Validators.max(250),
-          Validators.required
+          Validators.required,
         ]),
-      })
+      });
     }
 
     // TRAINER
@@ -99,41 +97,49 @@ export class RegisterQuizPage {
         digitsOnlyValidator(),
         Validators.min(1),
         Validators.max(50),
-        Validators.required
+        Validators.required,
       ]),
-    })
+    });
   }
 
-  roleSelected($event: UserRole){
+  roleSelected($event: UserRole) {
     this.registrationModel.role = $event;
     this.registerProfileForm = this.buildProfileForm();
-    this.nextStep()
+    this.nextStep();
   }
 
-  nextStep(){
+  nextStep() {
     this.step.set(this.step() + 1);
   }
 
-  checkEmailError({ error }: HttpErrorResponse){
-    if(error.statusCode === 409 && error.message === 'EXISTING_EMAIL') {
+  checkKnownError({ error }: HttpErrorResponse) {
+    if (error.statusCode === 409 && error.message === ApiKnownErrorResType.EXISTING_USERNAME) {
+      this.registerCredentialsForm.get('username')?.setErrors({
+        serverUsernameError: true,
+      });
+
+      this.registerCredentialsForm.get('username')?.markAsTouched();
+    } else if (error.statusCode === 409 && error.message === ApiKnownErrorResType.EXISTING_EMAIL) {
       this.registerCredentialsForm.get('email')?.setErrors({
-        serverEmailError: true
-      })
+        serverEmailError: true,
+      });
 
       this.registerCredentialsForm.get('email')?.markAsTouched();
     }
   }
 
-  onSubmit(){
+  onSubmit() {
     const registrationFinalModel = {
       ...this.registrationModel,
       ...this.registerProfileForm.value,
-      ...this.registerCredentialsForm.value
-    }
+      ...this.registerCredentialsForm.value,
+    };
 
     this.authService.register(registrationFinalModel).subscribe({
       next: () => this.router.navigate(['/']),
-      error: (error) => this.checkEmailError(error)
-    })
+      error: (error) => {
+        this.checkKnownError(error);
+      },
+    });
   }
 }

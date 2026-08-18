@@ -1,6 +1,9 @@
 import { ApiKnownErrorResType } from '@shared/api-contract/errors';
 
 export const SNACKBAR_MSG_REGISTRY = {
+  [ApiKnownErrorResType.INVALID_CREDENTIALS]: '',
+  [ApiKnownErrorResType.EXISTING_USERNAME]: '',
+  [ApiKnownErrorResType.EXISTING_EMAIL]: '',
   [ApiKnownErrorResType.INVITE_ALREADY_EXISTS]: 'Invite has already been sent',
   // local success messages
   INVITE_ACCEPT: 'You have accepted the invitation',

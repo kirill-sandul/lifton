@@ -15,54 +15,54 @@ export class AuthService {
   private readonly _accessToken = signal<string | null>(null);
   readonly accessToken = this._accessToken.asReadonly();
 
-   isRefreshing = signal(false);
+  isRefreshing = signal(false);
 
-  toFormData(jsonForm: Object){
+  toFormData(jsonForm: Object) {
     const formData = new FormData();
 
     Object.entries(jsonForm).forEach(([key, value]) => {
-      if(value !== null && value !== undefined) {
-        formData.append(key, value)
+      if (value !== null && value !== undefined) {
+        formData.append(key, value);
       }
-    })
+    });
 
     return formData;
   }
 
-  register(registerDto: RegisterDto){
+  register(registerDto: RegisterDto) {
     const formData = this.toFormData(registerDto);
 
     return this.http.post<AuthResponse>('auth/register', formData).pipe(
       tap(({ accessToken }) => this._accessToken.set(accessToken)),
-      switchMap(() => this.userService.getProfile())
-    )
+      switchMap(() => this.userService.getProfile()),
+    );
   }
 
-  login({ email, password }: LoginDto){
-    return this.http.post<AuthResponse>('auth/login', {
-      email,
-      password
-    }).pipe(
-      tap(({ accessToken }) => this._accessToken.set(accessToken)),
-      switchMap(() => this.userService.getProfile())
-    )
+  login({ identity, password }: LoginDto) {
+    return this.http
+      .post<AuthResponse>('auth/login', {
+        identity,
+        password,
+      })
+      .pipe(
+        tap(({ accessToken }) => this._accessToken.set(accessToken)),
+        switchMap(() => this.userService.getProfile()),
+      );
   }
 
-  logout(){
+  logout() {
     this._accessToken.set(null);
 
-    return this.http.post('auth/logout', {}).pipe(
-      tap(() => this.userService.clear())
-    )
+    return this.http.post('auth/logout', {}).pipe(tap(() => this.userService.clear()));
   }
 
   refresh(): Observable<AuthResponse | UserProfile | null> {
-    if(this.isRefreshing()) return of({ accessToken: this._accessToken() } as AuthResponse);
+    if (this.isRefreshing()) return of({ accessToken: this._accessToken() } as AuthResponse);
     this.isRefreshing.set(true);
 
     return this.http.post<AuthResponse>('auth/refresh', {}).pipe(
       tap(({ accessToken }) => {
-        this._accessToken.set(accessToken)
+        this._accessToken.set(accessToken);
       }),
       switchMap(() => this.userService.getProfile()),
       catchError(() => {
@@ -71,7 +71,7 @@ export class AuthService {
 
         return of(null);
       }),
-      take(1)
-    )
+      take(1),
+    );
   }
 }
