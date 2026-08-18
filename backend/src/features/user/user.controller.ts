@@ -44,11 +44,8 @@ export class UserController {
 
   @Patch('editProfile')
   @UseGuards(JwtGuard)
-  editProfile(
-    @CurrentUser() user: { sub: string; role: Role },
-    @Body() dto: EditUserDto,
-  ) {
-    return this.userService.editProfile(user.sub, user.role, dto);
+  editProfile(@CurrentUser() user: { sub: string }, @Body() dto: EditUserDto) {
+    return this.userService.editProfile(user.sub, dto);
   }
 
   @Patch('editUsername')

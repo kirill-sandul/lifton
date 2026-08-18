@@ -4,56 +4,59 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsPhoneNumber,
   IsString,
   Matches,
   MaxLength,
+  Min,
   MinLength,
+  ValidateIf,
 } from 'class-validator';
-import { Goal } from 'src/generated/prisma/enums';
+import { Goal, Role } from 'src/generated/prisma/enums';
 
 export class EditUserDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   fullName?: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsEmail()
   email?: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsPhoneNumber()
   phone?: string;
 
-  @IsOptional()
+  @IsEnum(Role)
+  @IsNotEmpty()
+  role!: Role;
+
+  @IsNotEmpty()
   @IsEnum(Goal)
   goal?: Goal;
 
-  @IsOptional()
+  @Min(1)
   @IsNumber()
   @Type(() => Number)
   age?: number;
 
-  @IsOptional()
-  @IsString()
-  pfpUrl?: string;
-
-  @IsOptional()
   @IsString()
   description?: string;
 
-  @IsOptional()
+  @ValidateIf((o) => o.role === Role.CLIENT)
+  @Min(1)
   @IsNumber()
   @Type(() => Number)
   bodyWeight?: number;
 
-  @IsOptional()
+  @ValidateIf((o) => o.role === Role.CLIENT)
+  @Min(1)
   @IsNumber()
   @Type(() => Number)
   height?: number;
 
-  @IsOptional()
+  @ValidateIf((o) => o.role === Role.TRAINER)
+  @Min(1)
   @IsNumber()
   @Type(() => Number)
   experience?: number;

@@ -136,10 +136,11 @@ export class UserService {
     });
   }
 
-  async editProfile(userId: string, role: Role, editProfileDto: EditUserDto) {
+  async editProfile(userId: string, editProfileDto: EditUserDto) {
     const {
       fullName,
       age,
+      role,
       goal,
       phone,
       email,
