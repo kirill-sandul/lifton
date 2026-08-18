@@ -87,8 +87,18 @@ input, textarea {
 .invalid-msg {
   display: flex;
   align-items: center;
+  padding-top: 0;
   margin-left: 15px;
-  margin-top: 12px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.25s ease-out, opacity 0.2s linear, padding 0.25s ease-out;
+
+  &.visible {
+    padding-top: 10px;
+    max-height: 50px;
+    opacity: 1;
+  }
 
   span {
     color: var(--primary-error);

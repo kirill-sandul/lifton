@@ -11,6 +11,7 @@ export const SNACKBAR_MSG_REGISTRY = {
   PROGRAM_CREATE: 'A new training program has been successfully created',
   ASSIGN_CLIENT_TO_PROGRAM: 'New client has been assigned',
   REMOVE_CLIENT_FROM_PROGRAM: 'Removed client from the program',
+  EDIT_USERNAME: 'Edited username successfully',
   // global unknown errors
   SEND_INVITE_FAIL: 'Failed to send an invite',
   NOTIFICATIONS_LOAD_FAIL: 'Failed to load notifications list',
@@ -20,4 +21,5 @@ export const SNACKBAR_MSG_REGISTRY = {
   PROGRAM_CREATE_FAIL: 'Failed to create new training program',
   ASSIGN_CLIENT_TO_PROGRAM_FAIL: 'Failed to assign client to the program',
   REMOVE_CLIENT_FROM_PROGRAM_FAIL: 'Failed to remove client from the program',
+  EDIT_USERNAME_FAIL: 'Failed to edit your username',
 };

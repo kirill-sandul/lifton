@@ -1,5 +1,5 @@
 <div class="modal-window-wrapper" (click)="onOutClick($event)">
-  <div class="modal-window">
+  <div class="modal-window" style="max-width: {{maxWidth()}}px">
     <header class="top-row">
       <h2>{{ title() }}</h2>
       @if(subTitle()){

@@ -37,7 +37,7 @@ export class SnackbarService {
 
       this.autoHideTimeout = setTimeout(() => {
         this.closeSnackbar();
-      }, 2000);
+      }, 2300);
 
       return;
     }

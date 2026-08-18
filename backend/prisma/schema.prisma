@@ -34,6 +34,8 @@ model User {
   receivedNotifications Notification[] @relation("NotificationReceiver")
 
   refreshTokens RefreshToken[]
+
+  lastUsernameChangeAt DateTime?
 }
 
 model Notification {

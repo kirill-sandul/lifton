@@ -11,9 +11,20 @@
       </div>
       <div class="text">
         <div class="text-top-row">
-          <h3 class="fullName">{{ profile()?.fullName }}</h3>
-          <span>•</span>
-          <h4 class="role">{{ profile()?.role }}</h4>
+          <div class="wrapper">
+            <h3 class="fullName">{{ profile()?.fullName }}</h3>
+            <span>•</span>
+            <h4 class="role">{{ profile()?.role }}</h4>
+          </div>
+          @if(isOwnProfile()){
+            <div class="username-wrapper" [class.editable]="isOwnProfile()" (click)="showEditUsernameModal.set(true)">
+              <h4 class="username">&#64;{{ profile()?.username }}</h4>
+
+                <svg lucidePencil class="change-icon"></svg>
+            </div>
+          } @else {
+            <h4 class="username">&#64;{{ profile()?.username }}</h4>
+          }
         </div>
         <div class="description">
           <span class="label">Description</span>
@@ -94,4 +105,8 @@
 
 @if(isOwnProfile() && showEditPfpModal()){
   <app-edit-pfp-modal (onClose)="showEditPfpModal.set(false); loadProfile()"></app-edit-pfp-modal>
+}
+
+@if(isOwnProfile() && showEditUsernameModal()){
+  <app-edit-username-modal (onClose)="showEditUsernameModal.set(false); loadProfile();" ></app-edit-username-modal>
 }

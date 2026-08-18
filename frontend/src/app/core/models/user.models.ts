@@ -13,6 +13,8 @@ export enum UserGoal {
 
 export interface UserProfile {
   id?: string;
+  username: string;
+  usernameCanonical: string;
   fullName: string;
   email: string;
   phone: string;

@@ -1,0 +1,15 @@
+.atention {
+  display: flex;
+  align-items: center;
+  color: var(--primary-warn);
+
+  svg {
+    width: 19px;
+    margin-right: 5px;
+  }
+
+  p {
+    font-weight: 500;
+
+  }
+}

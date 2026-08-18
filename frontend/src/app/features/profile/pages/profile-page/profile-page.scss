@@ -42,16 +42,53 @@
 
       &-top-row {
         display: flex;
-        align-items: center;
+        flex-direction: column;
         margin: 0 0 20px 0;
-        gap: 7px;
+        gap: 2px;
+
+        .wrapper {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+        }
 
         h3, h4 {
           margin: 0;
         }
 
         .role, span {
-          color: var(--primary-grey)
+          color: var(--primary-grey);
+        }
+
+        .username {
+          color: var(--primary-grey);
+          font-weight: 600;
+        }
+
+        .username-wrapper {
+          display: flex;
+          align-items: center;
+
+          &.editable {
+            cursor: pointer;
+
+            &:hover {
+              .username {
+                color: var(--primary-blue);
+              }
+
+              .change-icon {
+                color: var(--primary-blue);
+              }
+            }
+          }
+
+          .change-icon {
+            width: 18px;
+            cursor: pointer;
+            color: var(--primary-grey);
+            margin-left: 5px;
+          }
         }
 
         .fullName {

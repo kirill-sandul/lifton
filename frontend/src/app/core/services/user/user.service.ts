@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { EditProfileDto, UserProfile } from '@core/models/user.models';
-import { tap } from 'rxjs';
+import { pipe, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +20,8 @@ export class UserService {
       .pipe(tap((userData) => this.updateProfile(userData)));
   }
 
-  getProfileById(id: string) {
-    return this.http.get<UserProfile>(`user/getProfile/${id}`, {});
+  getProfileByUsername(username: string) {
+    return this.http.get<UserProfile>(`user/getProfile/${username}`, {});
   }
 
   updateProfile(userProfile: UserProfile) {
@@ -42,6 +42,10 @@ export class UserService {
     return this.http
       .patch<UserProfile>('user/editProfile', profileChanges)
       .pipe(tap((userData) => this.updateProfile(userData)));
+  }
+
+  editUsername(newUsername: string) {
+    return this.http.patch<UserProfile>(`user/editUsername`, { newUsername });
   }
 
   clear() {

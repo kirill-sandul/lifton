@@ -8,8 +8,12 @@
           <svg lucideCheck></svg>
         }
         @else if(snackbar.status === 'error'){
+          <svg lucideCircleX></svg>
+        }
+        @else if(snackbar.status === 'info'){
           <svg lucideCircleAlert></svg>
         }
+
         <span class="msg">{{ snackbarService.snackbarState().message }}</span>
       </div>
       <button class="closeBtn" (click)="snackbarService.closeSnackbar()">Close</button>

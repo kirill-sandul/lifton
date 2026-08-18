@@ -1,0 +1,22 @@
+<app-modal
+  title="Edit username"
+  acceptOption="Save changes"
+  discardOption="Discard"
+  [acceptBtnDisabled]="(usernameControl.statusChanges | async) === 'INVALID' || usernameControl.pristine || isSameUsername()"
+  [maxWidth]="550"
+  (onSubmit)="onSubmit()"
+  (onDiscard)="onClose.emit()"
+>
+  <div class="atention">
+    <svg lucideAlertTriangle></svg>
+    <p class="atention">You can edit your username only one time per 30 days</p>
+  </div>
+  <app-input
+    id="fullName"
+    name="Your full name"
+    placeholder="Change your username"
+    [control]="usernameControl"
+  >
+    <svg lucideAsterisk></svg>
+  </app-input>
+</app-modal>

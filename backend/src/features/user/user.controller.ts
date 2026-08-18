@@ -13,7 +13,7 @@ import { UserService } from './user.service';
 import { JwtGuard } from 'src/core/guards/jwt.guard';
 import { CurrentUser } from 'src/core/decorators/current-user.decorator';
 import { Role } from 'src/generated/prisma/enums';
-import { EditUserDto } from './dto/user.dto';
+import { EditUserDto, EditUsernameDto } from './dto/user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('user')
@@ -26,10 +26,10 @@ export class UserController {
     return this.userService.getProfile(user.sub);
   }
 
-  @Get('getProfile/:id')
+  @Get('getProfile/:username')
   @UseGuards(JwtGuard)
-  getProfileById(@Param('id') id: string) {
-    return this.userService.getProfile(id);
+  getProfileByUsername(@Param('username') username: string) {
+    return this.userService.getProfileByUsername(username);
   }
 
   @Post('editPfp')
@@ -49,5 +49,14 @@ export class UserController {
     @Body() dto: EditUserDto,
   ) {
     return this.userService.editProfile(user.sub, user.role, dto);
+  }
+
+  @Patch('editUsername')
+  @UseGuards(JwtGuard)
+  editUsername(
+    @CurrentUser() user: { sub: string },
+    @Body() dto: EditUsernameDto,
+  ) {
+    return this.userService.editUsername(user.sub, dto.newUsername);
   }
 }

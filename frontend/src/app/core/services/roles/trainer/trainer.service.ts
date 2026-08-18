@@ -15,6 +15,8 @@ export class TrainerService {
   clientsWorkoutsOnDay: ClientWorkoutOnDay[] = [
     {
       id: 'fepwlpwf',
+      username: 'fepwlpwf',
+      usernameCanonical: 'fepwlpwf',
       fullName: 'Alicia Martinez',
       pfpUrl:
         'https://rdphpqnmuyeljhoecrfm.supabase.co/storage/v1/object/public/lifton/avatars/cd70a1a6-463a-4bbc-ad35-3c6bb45ed328.jpg',

@@ -8,6 +8,7 @@ import { EditProfileModalComponent } from '@features/profile/components/edit-pro
 import { EditPfpModalComponent } from '@features/profile/components/edit-pfp-modal/edit-pfp-modal';
 import { UserGoal, UserProfile, UserRole } from '@core/models/user.models';
 import { UserGoalPipe } from '@core/pipes/user-goal/user-goal.pipe';
+import { EditUsernameModal } from '@features/profile/components/edit-username-modal/edit-username-modal';
 
 @Component({
   selector: 'app-profile-page',
@@ -18,6 +19,7 @@ import { UserGoalPipe } from '@core/pipes/user-goal/user-goal.pipe';
     EditProfileModalComponent,
     EditPfpModalComponent,
     UserGoalPipe,
+    EditUsernameModal,
   ],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss',
@@ -34,11 +36,12 @@ export class ProfilePageComponent {
   isOwnProfile = computed(() => {
     const currUser = this.userService.userProfile();
 
-    return !!this.profile() && this.profile()?.id === currUser?.id;
+    return !!this.profile() && this.profile()?.usernameCanonical === currUser?.usernameCanonical;
   });
 
   showEditProfileModal = signal(false);
   showEditPfpModal = signal(false);
+  showEditUsernameModal = signal(false);
 
   readonly UserRole = UserRole;
   readonly UserGoal = UserGoal;
@@ -48,21 +51,25 @@ export class ProfilePageComponent {
   }
 
   loadProfile() {
-    const routeId = this.route.snapshot.paramMap.get('id');
+    const routeUsername = this.route.snapshot.paramMap.get('username');
 
-    if (!routeId) {
+    if (!routeUsername) {
       this.router.navigate(['/']);
       return;
     }
 
-    this.userService.getProfileById(routeId).subscribe({
+    this.userService.getProfileByUsername(routeUsername).subscribe({
       next: (profile: UserProfile) => this.profile.set(profile),
       error: () => this.router.navigate(['/']),
     });
   }
 
   getTrainerName() {
-    return this.profile()?.clientProfile?.assignedTrainer.fullName ?? 'No trainer';
+    const assignedTrainer = this.profile()?.clientProfile?.assignedTrainer;
+
+    if (!assignedTrainer) return 'No trainer';
+
+    return assignedTrainer.fullName;
   }
 
   logout() {

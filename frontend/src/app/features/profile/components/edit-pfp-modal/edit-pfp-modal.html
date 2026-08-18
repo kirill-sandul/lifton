@@ -2,7 +2,7 @@
   [title]="'Edit avatar picture'"
   [acceptOption]="'Save changes'"
   [discardOption]="'Discard'"
-  [acceptBtnDisabled]="this.pfpControl.invalid"
+  [acceptBtnDisabled]="pfpControl.invalid"
   (onSubmit)="onSubmit()"
   (onDiscard)="onClose.emit()"
 >

@@ -40,7 +40,7 @@ export const routes: Routes = [
         component: DashboardPageComponent,
       },
       {
-        path: 'profile/:id',
+        path: 'profile/:username',
         component: ProfilePageComponent,
       },
       {
