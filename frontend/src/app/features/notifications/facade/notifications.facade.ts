@@ -6,17 +6,19 @@ import { UserService } from '@core/services/user/user.service';
 import { NotificationsService } from '@features/notifications/services/notifications.service';
 import { Notification } from '@core/models/notification.models';
 import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg-registry';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationsFacade {
+  router = inject(Router);
   userService = inject(UserService);
   notificationsService = inject(NotificationsService);
   inviteService = inject(InviteService);
   snackbarService = inject(SnackbarService);
 
-  notifications = computed<Notification[]>(() => this.notificationsService.notifications());
+  notifications = this.notificationsService.notifications;
 
   notificationsLength = computed(() => {
     let length = 0;
@@ -84,5 +86,11 @@ export class NotificationsFacade {
         this.snackbarService.newSnackbar(SNACKBAR_MSG_REGISTRY.INVITE_DECLINE_FAIL, 'error');
       },
     });
+  }
+
+  openProfile(username: string) {
+    const url = this.router.serializeUrl(this.router.createUrlTree(['/profile', username]));
+
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 }

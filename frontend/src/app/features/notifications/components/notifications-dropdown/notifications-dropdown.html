@@ -2,7 +2,18 @@
   <h3 class="title">Notifications</h3>
   @for (notification of notifications(); track notification.id) {
     <div class="notification" [class.archived]="notification.archived">
-      <div class="pfp" pfpCircle [pfpUrl]="notification.fromUser.pfpUrl"></div>
+      <a
+        routerLink="/profile/{{notification.fromUser.username}}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="pfp-wrapper"
+      >
+        <div
+          class="pfp"
+          pfpCircle
+          [pfpUrl]="notification.fromUser.pfpUrl"
+        ></div>
+      </a>
       <div class="column">
         <div class="msg">{{ NOTIFICATION_MESSAGES[notification.type](notification) }}</div>
         <div class="row">
@@ -12,7 +23,7 @@
           @if(!notification.archived){
             <app-notification-actions
               [notification]="notification"
-              (onAction)="handleNotificationAction($event, notification.id)"
+              (onAction)="handleNotificationAction($event)"
             />
           }
       </div>

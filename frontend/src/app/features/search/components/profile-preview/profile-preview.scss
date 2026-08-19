@@ -16,6 +16,16 @@
     cursor: pointer;
     gap: 11px;
 
+    &:hover {
+      .fullName {
+        color: var(--primary-blue-light);
+      }
+    }
+
+    .fullName {
+      transition: 0.15s;
+    }
+
     .pfp {
       width: 35px;
       height: 35px;
@@ -23,7 +33,7 @@
       border-radius: 100%;
     }
 
-    .email {
+    .username {
       color: var(--primary-grey-light);
     }
 

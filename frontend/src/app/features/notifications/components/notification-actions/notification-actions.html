@@ -1,5 +1,5 @@
 <div class="actions">
   @for(action of NOTIFICATION_ACTIONS[notification().type]; track $index){
-    <button [class]="`actionBtn ${action.style}`" (click)="onAction.emit(action.type)">{{ action.label }}</button>
+    <button [class]="`actionBtn ${action.style}`" (click)="onAction.emit({ actionType: action.type, notification: notification() })">{{ action.label }}</button>
   }
 </div>

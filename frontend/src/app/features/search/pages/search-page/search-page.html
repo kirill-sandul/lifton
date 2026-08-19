@@ -1,5 +1,5 @@
 @let title = role === UserRole.CLIENT ? 'trainers' : 'clients';
-@let placeholder = role === UserRole.CLIENT ? 'Enter trainer\'s email or name...' : 'Enter client\'s email or name...';
+@let placeholder = role === UserRole.CLIENT ? 'Enter trainer\'s name...' : 'Enter client\'s name...';
 
 <h1>Search for {{ title }}</h1>
 <div class="search-page-wrapper">
@@ -14,7 +14,7 @@
             [userId]="user.id!"
             [pfpUrl]="user.pfpUrl!"
             [fullName]="user.fullName"
-            [email]="user.email"
+            [username]="user.username"
             [active]="true"
             (onInvite)="showInvite($event)"
           />

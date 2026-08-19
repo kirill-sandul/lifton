@@ -48,7 +48,7 @@ export class SearchPageComponent {
 
     this.inviteService.sendInvite(this.userToInvite.id).subscribe({
       next: () => {
-        this.snackbarService.newSnackbar('Invitation sent successfully', 'success');
+        this.snackbarService.newSnackbar(SNACKBAR_MSG_REGISTRY.SEND_INVITE, 'success');
       },
       error: ({ error }: HttpErrorResponse) => {
         const apiError = error as ApiErrorRes;

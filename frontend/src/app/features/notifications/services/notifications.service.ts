@@ -7,12 +7,13 @@ import { tap } from 'rxjs';
   providedIn: 'root',
 })
 export class NotificationsService {
-  notifications = signal<Notification[]>([]);
+  _notifications = signal<Notification[]>([]);
+  notifications = this._notifications.asReadonly();
 
   constructor(private http: HttpClient) {}
 
   updateNotifications(notifications: Notification[]) {
-    this.notifications.set(notifications);
+    this._notifications.set(notifications);
   }
 
   getNotifications() {

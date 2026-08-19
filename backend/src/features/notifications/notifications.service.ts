@@ -18,10 +18,14 @@ export class NotificationsService {
             fromUser: {
               select: {
                 id: true,
+                username: true,
                 fullName: true,
                 pfpUrl: true,
               },
             },
+          },
+          orderBy: {
+            createdAt: 'desc',
           },
         },
       },

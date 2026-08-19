@@ -37,7 +37,7 @@ export class SearchService {
                 },
               },
               {
-                email: {
+                username: {
                   contains: searchQuery,
                   mode: 'insensitive',
                 },

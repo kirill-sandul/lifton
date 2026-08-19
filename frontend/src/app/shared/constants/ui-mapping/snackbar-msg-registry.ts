@@ -6,6 +6,7 @@ export const SNACKBAR_MSG_REGISTRY = {
   [ApiKnownErrorResType.EXISTING_EMAIL]: '',
   [ApiKnownErrorResType.INVITE_ALREADY_EXISTS]: 'Invite has already been sent',
   // local success messages
+  SEND_INVITE: 'Invitation sent successfully',
   INVITE_ACCEPT: 'You have accepted the invitation',
   INVITE_DECLINE: 'You have declined the invitation',
   PROGRAM_CREATE: 'A new training program has been successfully created',

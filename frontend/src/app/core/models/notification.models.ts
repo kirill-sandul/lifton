@@ -3,6 +3,7 @@ export interface Notification {
   fromUserId: string;
   fromUser: {
     id: string;
+    username: string;
     fullName: string;
     pfpUrl?: string;
   };
@@ -12,6 +13,11 @@ export interface Notification {
   actions: NotificationActions;
   archived: boolean;
   createdAt: Date;
+}
+
+export interface NotificationActionData {
+  actionType: NotificationActions;
+  notification: Notification;
 }
 
 export enum NotificationActions {
