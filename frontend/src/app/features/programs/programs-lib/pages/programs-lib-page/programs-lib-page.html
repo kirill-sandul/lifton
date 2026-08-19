@@ -65,7 +65,7 @@
                   <span class="grey">No assigned clients yet</span>
                 } @else {
                   @for(client of _selectedProgram.clientProfiles; track client.id){
-                    <app-client-chip [pfpUrl]="client.user.pfpUrl" [fullName]="client.user.fullName" />
+                    <app-client-chip [pfpUrl]="client.user.pfpUrl" [fullName]="client.user.fullName" [username]="client.user.username" />
                   }
                 }
                 @if(_selectedProgram.clientProfiles.length > 5){

@@ -41,11 +41,11 @@ export class ClientsWhitelistModalComponent {
   filteredWhitelist = computed<TrainingProgramWhitelist>(() => {
     return this.programsLibFacade.selectedProgramWhitelist().filter((client) => {
       const fullName = client.user.fullName.toLowerCase();
-      const email = client.user.email.toLowerCase();
+      const username = client.user.usernameCanonical;
 
       return (
-        fullName?.includes(this.searchValue().toLowerCase()) ||
-        email?.includes(this.searchValue().toLowerCase())
+        fullName.includes(this.searchValue().toLowerCase()) ||
+        username.includes(this.searchValue().toLowerCase())
       );
     });
   });

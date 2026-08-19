@@ -5,7 +5,7 @@
   [subTitle]="`Add/remove clients on “${programsLibFacade.selectedProgram().name}”`"
 >
   <div class="search-bar" (click)="input.focus()">
-    <input #input type="text" placeholder="Filter by client’s name or email..." [(ngModel)]="searchValue" />
+    <input #input type="text" placeholder="Filter by client’s name..." [(ngModel)]="searchValue" />
     <svg lucideIcon="search" class="search-icon"></svg>
   </div>
   <div class="clients-list">
@@ -15,7 +15,7 @@
       @for(client of filteredWhitelist(); track client.id){
         <div class="whitelist-client">
           <div class="chip-container">
-            <app-client-chip [pfpUrl]="client.user.pfpUrl" [fullName]="client.user.fullName" />
+            <app-client-chip [pfpUrl]="client.user.pfpUrl" [fullName]="client.user.fullName" [username]="client.user.username" />
 
             @if(client.assignedToProgram){
               <div class="wrapper">
