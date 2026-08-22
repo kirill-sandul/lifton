@@ -50,6 +50,10 @@ export class CreateExerciseDto {
   @IsString()
   unit: string;
 
+  @Type(() => Number)
+  @IsNumber()
+  order: number;
+
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateExerciseSetDto)

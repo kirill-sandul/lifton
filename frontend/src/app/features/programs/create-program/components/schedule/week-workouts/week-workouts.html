@@ -4,5 +4,6 @@
     [workoutsList]="getWorkouts()"
     [weekIndex]="weekIndex()"
     (editWorkout)="generator.editWorkoutMode($event.index, $event.workout)"
+    (onRemoveWorkout)="generator.resetEditingMode($event.index)"
   />
 </app-week-dropdown>

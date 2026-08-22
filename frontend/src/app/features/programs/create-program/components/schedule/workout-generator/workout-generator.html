@@ -13,25 +13,33 @@
     [control]="workoutNameControl"
     [value]="workoutModel().name"
   />
-  <div class="exercises-list">
-    @for(exercise of workoutModel().exercises; track $index){
-      <div class="exercise-preview-item">
-        <span class="name">{{ exercise.name }}</span>
-        <div class="sets">{{ displayExerciseSets(exercise.sets) }}</div>
-        <div class="actions">
-          <svg class="editBtn action" lucideIcon="pencil" (click)="openExerciseEdit(exercise, $index)"></svg>
-          <svg
-            cdkOverlayOrigin
-            #removeExerciseTrigger="cdkOverlayOrigin"
-            class="removeBtn action"
-            lucideIcon="trash"
-            (click)="openRemoveExerciseDialog(removeExerciseTrigger, $index)"
-          ></svg>
+  <div class="exercises-list-wrapper">
+    <div
+      cdkDropList
+      cdkDropListLockAxis="y"
+      (cdkDropListDropped)="onExerciseDrop($event)"
+      class="exercises-list"
+    >
+      @for(exercise of workoutModel().exercises; track $index){
+        <div cdkDrag cdkDragBoundary=".exercises-list" class="exercise-preview-item">
+          <span class="name">{{ exercise.name }}</span>
+          <div class="sets">{{ displayExerciseSets(exercise.sets) }}</div>
+          <div class="actions">
+            <svg class="editBtn action" lucideIcon="pencil" (click)="openExerciseEdit(exercise, $index)"></svg>
+            <svg
+              cdkOverlayOrigin
+              #removeExerciseTrigger="cdkOverlayOrigin"
+              class="removeBtn action"
+              lucideIcon="trash"
+              (click)="openRemoveExerciseDialog(removeExerciseTrigger, $index)"
+            ></svg>
+            <div cdkDragHandle class="drag-icon">☰</div>
+          </div>
         </div>
-      </div>
-    }
+      }
+    </div>
 
-    @let noExercises = !workoutModel().exercises.length && this.formTouched();
+    @let noExercises = !workoutModel().exercises.length && formTouched();
     <button
       type="button"
       class="add-exercise card-style"
@@ -43,6 +51,7 @@
       <span>Add exercise to {{ workoutModel().day | weekDay: 'full' }} workout</span>
       <svg lucideIcon="plus"></svg>
     </button>
+
     @if(noExercises){
       <div class="no-exercises">A workout requires at least one exercise</div>
     }

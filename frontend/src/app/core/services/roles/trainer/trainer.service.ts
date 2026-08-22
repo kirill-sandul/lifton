@@ -36,6 +36,7 @@ export class TrainerService {
           {
             id: 'ex_1',
             name: 'Bench Press',
+            order: 0,
             workoutId: 'w1',
             unit: 'kg',
             sets: [
@@ -47,6 +48,7 @@ export class TrainerService {
           {
             id: 'ex_2',
             name: 'Squat',
+            order: 1,
             workoutId: 'w2',
             unit: 'kg',
             sets: [
@@ -58,6 +60,7 @@ export class TrainerService {
           {
             id: 'ex_3',
             name: 'Deadlift',
+            order: 2,
             unit: 'kg',
             workoutId: 'w3',
             sets: [

@@ -1,0 +1,49 @@
+.exercise-preview-item {
+  display: flex;
+  align-items: center;
+  color: #000;
+  border: 1px solid var(--primary-blue-light);
+  background-color: #C3E6FF;
+  border-radius: 30px;
+  padding: 11px 20px;
+  gap: 7px;
+  width: 100%;
+  transition: box-shadow 250ms ease-in-out;
+
+  .drag-icon {
+    font-size: 17px;
+    color: var(--primary-grey);
+    cursor: grab;
+  }
+
+  .name {
+    font-weight: 600;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+
+    .action {
+      width: 20px;
+      margin-left: auto;
+      cursor: pointer;
+      transition: .2s;
+
+      &.editBtn:hover {
+        color: var(--primary-success);
+      }
+
+      &.removeBtn:hover {
+        color: var(--primary-error-light);
+      }
+    }
+  }
+}
+
+.cdk-drag-preview.exercise-preview-item {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.2s ease-in-out;
+}

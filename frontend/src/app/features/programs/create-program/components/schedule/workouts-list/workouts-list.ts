@@ -22,6 +22,7 @@ export class WorkoutsListComponent {
   confirmDialog = signal<ConfirmDialogData | null>(null);
 
   editWorkout = output<{ index: number; workout: Workout }>();
+  onRemoveWorkout = output<{ index: number }>();
 
   displayWorkoutExercises(exercises: Exercise[]) {
     return exercises.length > 1 ? `${exercises.length} exercises` : `${exercises.length} exercise`;
@@ -43,6 +44,8 @@ export class WorkoutsListComponent {
     const confirmDialogState = this.confirmDialog();
 
     if (!confirmDialogState) return;
+
+    this.onRemoveWorkout.emit({ index: confirmDialogState.elemIndex });
 
     this.createProgramFacade.removeWorkout(this.weekIndex(), confirmDialogState.elemIndex);
     this.closeRemoveDialog();

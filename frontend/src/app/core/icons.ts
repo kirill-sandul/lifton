@@ -11,6 +11,7 @@ import {
   LucideEyeClosed,
   LucideFlaskConical,
   LucideMail,
+  LucideMenu,
   LucideMinus,
   LucideMoveLeft,
   LucideMoveRight,
@@ -54,4 +55,5 @@ export const APP_ICONS = [
   LucideCheck,
   LucideMinus,
   LucideCircleAlert,
+  LucideMenu,
 ];

@@ -5,6 +5,7 @@
 @use './app/shared/styles/embla';
 @use './app/shared/styles/ngxsmk-datepicker';
 @use './app/shared/styles/pfp';
+@use './app/shared/styles/exercise-preview-item';
 
 /* Sora global font */
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
@@ -120,4 +121,22 @@ input {
     color: #000 !important;
     border-color: #000;
   }
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1),
+  box-shadow 300ms ease-out !important;
+}
+
+.cdk-drop-list-receiving .cdk-drag {
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-dragging {
+  opacity: 0.7;
 }

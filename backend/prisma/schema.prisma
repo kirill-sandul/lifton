@@ -158,11 +158,15 @@ model Exercise {
   name String
   unit String
 
+  order Int
+
   sets    ExerciseSet[]
   targets Target[]
 
   workout   Workout? @relation(fields: [workoutId], references: [id])
   workoutId String?
+
+  @@unique([workoutId, order])
 }
 
 model ExerciseSet {

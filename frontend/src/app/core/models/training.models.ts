@@ -42,8 +42,9 @@ export interface ExerciseSet {
 
 export interface Exercise {
   id?: string;
-  name: string;
   workoutId?: string;
+  order?: number;
+  name: string;
   unit: string;
   sets: ExerciseSet[];
 }

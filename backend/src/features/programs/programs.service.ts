@@ -17,6 +17,7 @@ export class ProgramsService {
             create: workout.exercises.map((exercise) => ({
               name: exercise.name,
               unit: exercise.unit,
+              order: exercise.order,
 
               sets: {
                 create: exercise.sets,

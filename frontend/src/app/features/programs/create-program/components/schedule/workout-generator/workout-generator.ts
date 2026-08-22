@@ -1,4 +1,11 @@
 import { Component, inject, input, signal } from '@angular/core';
+import {
+  CdkDropList,
+  CdkDragDrop,
+  CdkDrag,
+  CdkDragHandle,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 import { BaseInputComponent } from '@shared/components/base-input/base-input';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { Exercise, ExerciseSet, WeekDay, Workout } from '@core/models/training.models';
@@ -25,6 +32,9 @@ import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confir
     WeekDayPipe,
     ConfirmDialogComponent,
     LucideDynamicIcon,
+    CdkDropList,
+    CdkDrag,
+    CdkDragHandle,
   ],
   templateUrl: './workout-generator.html',
   styleUrl: './workout-generator.scss',
@@ -73,6 +83,15 @@ export class WorkoutGenerator {
     });
   }
 
+  addExercise(exercise: Exercise) {
+    exercise.order = this.workoutModel().exercises.length + 1;
+
+    this.workoutModel.update((w) => ({
+      ...w,
+      exercises: [...w.exercises, exercise],
+    }));
+  }
+
   editExercise(exercise: Exercise) {
     const editExerciseIdx = this.exerciseModalState().editExerciseIdx;
 
@@ -95,13 +114,6 @@ export class WorkoutGenerator {
     this.workoutModel.update((w) => ({
       ...w,
       name,
-    }));
-  }
-
-  addExercise(exercise: Exercise) {
-    this.workoutModel.update((w) => ({
-      ...w,
-      exercises: [...w.exercises, exercise],
     }));
   }
 
@@ -149,6 +161,14 @@ export class WorkoutGenerator {
     this.workoutModel.set(workoutData);
   }
 
+  resetEditingMode(workoutIndex: number) {
+    const editingData = this.editingMode();
+
+    if (!editingData) return;
+
+    if (workoutIndex === editingData.workoutIndex) this.closeEditingWorkout();
+  }
+
   closeEditingWorkout() {
     this.editingMode.set(null);
   }
@@ -164,6 +184,23 @@ export class WorkoutGenerator {
       workoutModel,
     );
     this.closeEditingWorkout();
+  }
+
+  onExerciseDrop(event: CdkDragDrop<Workout[]>) {
+    if (event.previousIndex === event.currentIndex) return;
+
+    this.workoutModel.update((workout) => {
+      const updatedExercises = [...workout.exercises];
+
+      moveItemInArray(updatedExercises, event.previousIndex, event.currentIndex);
+
+      const reordered = updatedExercises.map((ex, idx) => ({ ...ex, order: idx + 1 }));
+
+      return {
+        ...workout,
+        exercises: reordered,
+      };
+    });
   }
 
   displayExerciseSets(sets: ExerciseSet[]) {

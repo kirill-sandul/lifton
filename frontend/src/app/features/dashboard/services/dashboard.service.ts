@@ -18,6 +18,7 @@ export class DashboardService {
       exercises: [
         {
           id: 'ex_1',
+          order: 0,
           name: 'Bench Press',
           workoutId: 'w1',
           unit: 'kg',
@@ -29,6 +30,7 @@ export class DashboardService {
         },
         {
           id: 'ex_2',
+          order: 1,
           name: 'Squat',
           workoutId: 'w2',
           unit: 'kg',
@@ -40,6 +42,7 @@ export class DashboardService {
         },
         {
           id: 'ex_3',
+          order: 2,
           name: 'Deadlift',
           unit: 'kg',
           workoutId: 'w3',
