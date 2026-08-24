@@ -1,10 +1,12 @@
-<div class="widget" [class.empty]="!workout">
+@let _workout = workout();
+
+<div class="widget" [class.empty]="!!_workout">
   <div class="top-text">
     <h3>Upcoming workout</h3>
     <svg lucideMoveRight></svg>
-    @if(workout){
+    @if(_workout){
       <div class="date">
-        <span class="highlight">{{ workout.day | titlecase }}</span>
+        <span class="highlight">{{ _workout.day | titlecase }}</span>
         <span class="full-date">11th of May 2026</span>
       </div>
     } @else {
@@ -12,9 +14,10 @@
     }
 
   </div>
-  @if(workout){
+
+  @if(_workout){
     <div class="workout-info">
-      <span class="workout-name highlight">“{{ workout.name }}”</span>
+      <span class="workout-name highlight">“{{ _workout.name }}”</span>
       <table class="workout-table">
         <tr class="header">
           <th>Exercise</th>
@@ -22,7 +25,7 @@
           <th>Reps</th>
           <th>Target value</th>
         </tr>
-        @for (ex of workout.exercises; track ex.id) {
+        @for (ex of _workout.exercises; track ex.id) {
           <tr class="exercise">
             <td class="exercise-name">• {{ ex.name }}</td>
             <td>{{ ex.sets.length }}</td>

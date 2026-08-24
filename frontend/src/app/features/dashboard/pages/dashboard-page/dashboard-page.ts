@@ -34,6 +34,14 @@ export class DashboardPageComponent {
     }
   });
 
+  ngOnInit() {
+    if (this.userService.role() === UserRole.CLIENT) {
+      this.clientService.getDashboard().subscribe((dashboard) => {
+        console.log(dashboard);
+      });
+    }
+  }
+
   ifNoData() {
     if (this.userService.role() === UserRole.CLIENT) {
       return this.clientService.noData();
