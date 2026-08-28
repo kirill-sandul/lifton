@@ -17,7 +17,7 @@ import { digitsOnlyValidator } from '@shared/validators/digitsOnly.validator';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { usernameValidator } from '@shared/validators/username.validator';
-import { ApiKnownErrorResType } from '@shared/api-contract/errors';
+import { ApiKnownErrorResType } from '@core/api-contract/errors';
 
 @Component({
   selector: 'app-register-quiz-page',

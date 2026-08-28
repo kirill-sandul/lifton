@@ -8,7 +8,7 @@ import { APP_ICONS } from '@core/icons';
 import { AuthService } from '@features/auth/services/auth.service';
 import { LoginFormControls } from '@features/auth/models/auth.models';
 import { Router } from '@angular/router';
-import { ApiKnownErrorResType } from '@shared/api-contract/errors';
+import { ApiKnownErrorResType } from '@core/api-contract/errors';
 
 @Component({
   selector: 'app-login-page',

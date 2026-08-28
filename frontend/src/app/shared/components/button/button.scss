@@ -65,7 +65,8 @@
   }
 
   &.greenGradient {
-    background: linear-gradient(to right, #03AC8A, #1FDFB9);;
+    --c2: var(--primary-success-accent);
+    background: linear-gradient(to left, #03AC8A, #1FDFB9);
     color: #fff;
   }
 

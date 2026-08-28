@@ -47,20 +47,6 @@ export interface TrainerProfile {
   clients: TrainerClients;
 }
 
-export interface EditProfileDto {
-  role: UserRole;
-  fullName?: string;
-  email?: string;
-  phone?: string;
-  goal?: UserGoal;
-  age?: number;
-  pfpUrl?: string;
-  description?: string;
-  bodyWeight?: number;
-  height?: number;
-  experience?: number;
-}
-
 export interface UserToInvite {
   id: string;
   fullName: string;

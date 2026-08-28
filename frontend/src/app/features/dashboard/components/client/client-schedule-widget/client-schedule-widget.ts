@@ -3,6 +3,7 @@ import { DatePipe } from '@angular/common';
 import { DashboardService } from '@features/dashboard/services/dashboard.service';
 import { Workout } from '@core/models/training.models';
 import { CalendarWidgetComponent } from '@features/dashboard/components/calendar-widget/calendar-widget';
+import { WorkoutResponse } from '@core/api-contract/training.api';
 
 @Component({
   selector: 'app-client-schedule-widget',
@@ -14,7 +15,7 @@ export class ClientScheduleWidgetComponent {
   dashboardService = inject(DashboardService);
 
   selectedDay = signal<Date>(new Date());
-  dayContent = signal<Workout | null>(null);
+  dayContent = signal<WorkoutResponse | null>(null);
   schedule = this.dashboardService.programSchedule;
 
   constructor() {

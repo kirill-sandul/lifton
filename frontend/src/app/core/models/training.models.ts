@@ -29,20 +29,16 @@ export interface TrainingProgram {
 }
 
 export interface ProgramWeek {
-  id?: string;
   workouts: Workout[];
 }
 
 export interface ExerciseSet {
-  id?: string;
-  exerciseId?: string;
+  index: number;
   reps: number;
   targetValue: number;
 }
 
 export interface Exercise {
-  id?: string;
-  workoutId?: string;
   order?: number;
   name: string;
   unit: string;
@@ -50,12 +46,9 @@ export interface Exercise {
 }
 
 export interface Workout {
-  id?: string;
   day: WeekDay;
   name: string;
-  trainingPlanId?: string;
   exercises: Exercise[];
-  clients?: UserProfile[];
 }
 
 export interface Target {
@@ -73,3 +66,33 @@ export interface Target {
 export type ClientWorkoutOnDay = UserProfile & {
   plannedWorkout: Workout;
 };
+
+export type ExerciseSetRecordUi = {
+  id: string;
+  exerciseId: string;
+  index: number;
+  executedReps: number;
+  executedValue: number;
+  targetReps: number;
+  targetValue: number;
+  skipped: boolean;
+  _wTouched: boolean;
+  _rTouched: boolean;
+};
+
+export interface ExerciseRecordUi {
+  id: string;
+  order: number;
+  name: string;
+  unit: string;
+  sets: ExerciseSetRecordUi[];
+  skipped: boolean;
+}
+
+export interface WorkoutRecordUi {
+  name: string;
+  day: WeekDay;
+  exercises: ExerciseRecordUi[];
+  durationSec: number;
+  originalWorkoutId: string;
+}

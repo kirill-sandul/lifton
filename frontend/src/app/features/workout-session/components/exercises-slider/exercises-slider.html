@@ -1,0 +1,28 @@
+@let workoutSession = workoutSessionFacade.workoutSession();
+
+<div class="exercises-list">
+  <div class="slider" #slider>
+    <div class="slider-container" #sliderContainer>
+      @if(workoutSession){
+        @for (exercise of workoutSession.exercises; track exercise.id) {
+          <div class="slide" [class.active]="sliderStep() === $index" #slide>
+            <div class="exercise-card">
+              <svg class="expand-icon" lucideIcon="arrow-down"></svg>
+              <span class="name">{{ exercise.name }}</span>
+            </div>
+            <div class="sets">
+              @for (set of exercise.sets; track set.id) {
+                <div class="set">
+                  Set {{ $index + 1 }} -
+                  <span class="light-blue">
+                    {{ set.targetValue }}{{ exercise.unit }} × {{ set.reps }} {{ set.reps !== 1 ? 'reps' : 'rep' }}
+                  </span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

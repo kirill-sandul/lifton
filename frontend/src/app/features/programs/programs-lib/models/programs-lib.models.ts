@@ -1,5 +1,5 @@
 import { ClientProfileWithUser, UserProfile } from '@core/models/user.models';
-import { TrainingProgram } from '@core/models/training.models';
+import { TrainingProgramResponse } from '@core/api-contract/training.api';
 
 export type ClientProfileWhitelist = ClientProfileWithUser & {
   assignedToProgram: boolean;
@@ -9,6 +9,6 @@ export type ClientProfileWhitelist = ClientProfileWithUser & {
 export type TrainingProgramWhitelist = ClientProfileWhitelist[];
 
 export interface AssignClientToProgramResponse {
-  updatedPrograms: TrainingProgram[];
+  updatedPrograms: TrainingProgramResponse[];
   updatedProfile: UserProfile;
 }

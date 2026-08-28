@@ -36,9 +36,15 @@ export class CreateTargetDto {
 }
 
 export class CreateExerciseSetDto {
+  @Type(() => Number)
+  @IsNumber()
+  index: number;
+
+  @Type(() => Number)
   @IsNumber()
   reps: number;
 
+  @Type(() => Number)
   @IsNumber()
   targetValue: number;
 }

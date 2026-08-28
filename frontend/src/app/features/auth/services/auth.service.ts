@@ -1,9 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthResponse, LoginDto, RegisterDto } from '@features/auth/models/auth.models';
 import { catchError, Observable, of, switchMap, take, tap } from 'rxjs';
 import { UserService } from '@core/services/user/user.service';
 import { UserProfile } from '@core/models/user.models';
+import { AuthResponse, LoginDto, RegisterDto } from '@features/auth/models/auth.api';
 
 @Injectable({
   providedIn: 'root',

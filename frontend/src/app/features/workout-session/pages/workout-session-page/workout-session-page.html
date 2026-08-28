@@ -1,0 +1,14 @@
+<div class="workout-session">
+  <div class="workout-session-widget widget">
+    <workout-time-section #time />
+    <workout-exercises-slider #exercisesSlider />
+    <workout-interaction-section (nextExercise)="exercisesSlider.nextExercise()" (prevExercise)="exercisesSlider.prevExercise()" />
+  </div>
+</div>
+
+@if(workoutSessionFacade.finishModalShow()){
+  <app-finish-workout-modal
+    (onAccept)="workoutSessionFacade.finishWorkout(); time.pause()"
+    (onDiscard)="workoutSessionFacade.finishModalShow.set(false); time.start()"
+  />
+}

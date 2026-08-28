@@ -3,8 +3,8 @@ import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { ButtonComponent } from '@shared/components/button/button';
 import { LucideMoveRight } from '@lucide/angular';
-import { Workout } from '@core/models/training.models';
 import { ClientService } from '@core/services/roles/client/client.service';
+import { WorkoutResponse } from '@core/api-contract/training.api';
 
 @Component({
   selector: 'app-workout-widget',
@@ -14,7 +14,7 @@ import { ClientService } from '@core/services/roles/client/client.service';
 })
 export class WorkoutWidgetComponent {
   clientService = inject(ClientService);
-  workout = computed<Workout | undefined>(
+  workout = computed<WorkoutResponse | undefined>(
     () => this.clientService.dashboardData()?.upcomingWorkoutWidget,
   );
 }

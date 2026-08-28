@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { EditProfileDto, UserProfile } from '@core/models/user.models';
-import { pipe, tap } from 'rxjs';
+import { tap } from 'rxjs';
+import { UserProfile } from '@core/models/user.models';
+import { EditProfileDto } from '@core/api-contract/user.api';
 
 @Injectable({
   providedIn: 'root',

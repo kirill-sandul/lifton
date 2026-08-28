@@ -1,8 +1,9 @@
 import { Component, computed, input, signal } from '@angular/core';
 import { WeekDayPipe } from '@core/pipes/week-day/week-day-pipe';
 import { WeekDropdownComponent } from '@shared/components/week-dropdown/week-dropdown';
-import { ExerciseSet, ProgramWeek, WeekDay } from '@core/models/training.models';
+import { ExerciseSet, WeekDay } from '@core/models/training.models';
 import { LucideDynamicIcon } from '@lucide/angular';
+import { ProgramWeekResponse } from '@core/api-contract/training.api';
 
 @Component({
   selector: 'app-week-schedule',
@@ -12,7 +13,7 @@ import { LucideDynamicIcon } from '@lucide/angular';
 })
 export class WeekSchedule {
   weekIndex = input.required<number>();
-  weekData = input.required<ProgramWeek>();
+  weekData = input.required<ProgramWeekResponse>();
 
   selectedWeekDay = signal<WeekDay>(WeekDay.MONDAY);
   selectedDayWorkout = computed(() =>

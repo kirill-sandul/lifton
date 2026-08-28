@@ -1,0 +1,82 @@
+@let currentExercise = workoutSessionFacade.currentExercise();
+@let exerciseRecord = workoutSessionFacade.currentExerciseRecord();
+
+@if(currentExercise && exerciseRecord){
+  <div class="current-exercise">
+    <span class="sup-title">Current exercise:</span>
+    <div class="wrapper">
+      <button
+        liftonButton
+        icon="skip-forward"
+        class="skip-exercise circular"
+        tooltip="Skip this exercise"
+        (click)="skipExercise(currentExercise.id!)"
+      ></button>
+      <h2 class="exercise-name highlight">{{ currentExercise.name }}</h2>
+    </div>
+  </div>
+  <div class="inputs">
+    @for(set of exerciseRecord?.sets; track set.id){
+      <div class="result-input-wrapper">
+        <div class="result-input">
+          <span class="set">Set #{{ $index + 1 }}</span>
+          <div class="input-line"></div>
+          <div class="inner-input-wrapper">
+            <input
+              #targetWeight
+              type="number"
+              placeholder="Done weight..."
+              min="1"
+              [value]="set.executedValue || ''"
+              (input)="onInputChange(set.index, 'executedValue', targetWeight.value)"
+              (focus)="onInputFocus(set.index)"
+              (blur)="onInputBlur(set.index)"
+            />
+            <div class="placeholder" [class.visible]="targetWeight.value">{{ currentExercise.unit }}</div>
+          </div>
+          <div class="input-line"></div>
+          <div class="inner-input-wrapper">
+            <input
+              #reps
+              type="number"
+              placeholder="Done reps..."
+              min="1"
+              [value]="set.executedReps || ''"
+              (input)="onInputChange(set.index, 'executedReps', reps.value)"
+              (focus)="onInputFocus(set.index)"
+              (blur)="onInputBlur(set.index)"
+            />
+            <div class="placeholder" [class.visible]="reps.value">reps</div>
+          </div>
+          <div class="actions">
+            <button
+              liftonButton
+              icon="skip-forward"
+              class="skip-set circular red-tone"
+              tooltip="Skip this set"
+              (click)="skipSet(set.index)"
+            ></button>
+          </div>
+        </div>
+        <div class="icon-space">
+          <div class="status-icon success" [class.visible]="!set.skipped">
+            <svg lucideIcon="check"></svg>
+          </div>
+          <div class="status-icon error" [class.visible]="set.skipped && set._wTouched && set._rTouched">
+            <svg lucideIcon="x"></svg>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  <div class="global-actions">
+    <button liftonButton class="global-action prev-exercise compact" (click)="prevExercise.emit()" [disabled]="workoutSessionFacade.disabledSliderPrevButton()">
+      <svg lucideIcon="move-left"></svg>
+      Prev. exercise
+    </button>
+    <button liftonButton class="global-action prev-exercise compact" (click)="nextExercise.emit()" [disabled]="workoutSessionFacade.disabledSliderNextButton()">
+      Next exercise
+      <svg lucideIcon="move-right"></svg>
+    </button>
+  </div>
+}

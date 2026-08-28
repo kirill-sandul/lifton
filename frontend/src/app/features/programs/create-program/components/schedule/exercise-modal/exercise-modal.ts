@@ -76,7 +76,8 @@ export class ExerciseModal {
   }
 
   private normalizeSetsValue() {
-    return this.sets.getRawValue().map((set) => ({
+    return this.sets.getRawValue().map((set, index) => ({
+      index,
       reps: Number(set.reps!),
       targetValue: Number(set.targetValue!),
     }));

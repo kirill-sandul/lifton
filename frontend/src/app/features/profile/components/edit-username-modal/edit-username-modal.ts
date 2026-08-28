@@ -8,7 +8,7 @@ import { ModalComponent } from '@shared/components/modal/modal';
 import { FormControl, Validators } from '@angular/forms';
 import { usernameValidator } from '@shared/validators/username.validator';
 import { UserService } from '@core/services/user/user.service';
-import { ApiKnownErrorResType } from '@shared/api-contract/errors';
+import { ApiKnownErrorResType } from '@core/api-contract/errors';
 import { SnackbarService } from '@core/services/snackbar/snackbar.service';
 import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg-registry';
 

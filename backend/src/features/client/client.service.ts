@@ -1,11 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../core/modules/prisma/prisma.service';
 import {
   ClientDashboardResponse,
   CurrentProgram,
   WorkoutFull,
-} from './dto/client.dto';
+} from './client.models';
 import { WorkoutDay } from '../../generated/prisma/enums';
+import { WorkoutSessionRecordDto } from './dto/client.dto';
 
 @Injectable()
 export class ClientService {
@@ -99,8 +104,7 @@ export class ClientService {
     program: CurrentProgram,
     daysPassed: number,
   ): WorkoutFull {
-    const jsDay = new Date().getDay();
-    const currentDayIndex = jsDay === 0 ? 6 : jsDay - 1;
+    const currentDayIndex = new Date().getDay();
 
     const closest = program.weeks[
       this.getCorrespondingWeekIdx(daysPassed)
@@ -111,17 +115,34 @@ export class ClientService {
     if (closest.length === 0) {
       const nextWeekIdx = this.getCorrespondingWeekIdx(daysPassed) + 1;
 
-      return program.weeks[nextWeekIdx].workouts
+      const nextWeekWorkout = program.weeks[nextWeekIdx].workouts
         .filter((w) => this.DAYS_IDX[w.day] >= currentDayIndex)
         .sort((a, b) => this.DAYS_IDX[a.day] - this.DAYS_IDX[b.day])[0];
+
+      if (nextWeekWorkout) return nextWeekWorkout;
+      throw new NotFoundException();
     }
 
-    return closest[0];
+    if (closest[0]) return closest[0];
+    else throw new NotFoundException();
   }
 
-  private async getTodaysWorkout(
-    clientId: string,
-  ): Promise<WorkoutFull | null> {
+  private mapExerciseRecordToPrisma(workoutRecord: WorkoutSessionRecordDto) {
+    return {
+      create: workoutRecord.exercises.map((ex) => {
+        return {
+          name: ex.name,
+          unit: ex.unit,
+          order: ex.order,
+          sets: {
+            create: ex.sets,
+          },
+        };
+      }),
+    };
+  }
+
+  async getTodaysWorkout(clientId: string): Promise<WorkoutFull | null> {
     const currentProgram = await this.getCurrentProgram(clientId);
 
     const startTimeDiff =
@@ -131,13 +152,9 @@ export class ClientService {
       (currentProgram.endDate.getTime() - Date.now()) / 1000 / 60 / 60 / 24;
 
     // program not started
-    if (startTimeDiff > 0) {
-      return null;
-    }
+    if (startTimeDiff > 0) throw new ForbiddenException();
     // program ended
-    else if (endTimeDiff <= 0) {
-      return null;
-    }
+    else if (endTimeDiff <= 0) throw new ForbiddenException();
 
     const daysPassedFromStart =
       (Date.now() - currentProgram.startDate.getTime()) / 1000 / 60 / 60 / 24;
@@ -147,7 +164,18 @@ export class ClientService {
       this.getCorrespondingWeekIdx(daysPassedFromStart),
     );
 
-    return finalRes.length > 0 ? finalRes[0] : null;
+    if (finalRes.length > 0) {
+      const foundWorkout = finalRes[0];
+      const alreadyDone = await this.prisma.workoutRecord.findFirst({
+        where: {
+          originalWorkoutId: foundWorkout.id,
+        },
+      });
+
+      if (alreadyDone) throw new ForbiddenException();
+
+      return foundWorkout;
+    } else throw new ForbiddenException();
   }
 
   async getUpcomingWorkout(clientId: string) {
@@ -160,13 +188,9 @@ export class ClientService {
       (currentProgram.endDate.getTime() - Date.now()) / 1000 / 60 / 60 / 24;
 
     // program not started
-    if (startTimeDiff > 0) {
-      return null;
-    }
+    if (startTimeDiff > 0) throw new ForbiddenException();
     // program ended
-    else if (endTimeDiff <= 0) {
-      return null;
-    }
+    else if (endTimeDiff <= 0) throw new ForbiddenException();
 
     const daysPassedFromStart =
       (Date.now() - currentProgram.startDate.getTime()) / 1000 / 60 / 60 / 24;
@@ -180,5 +204,29 @@ export class ClientService {
     return {
       upcomingWorkoutWidget,
     };
+  }
+
+  async createWorkoutRecord(
+    clientId: string,
+    workoutRecord: WorkoutSessionRecordDto,
+  ) {
+    const clientProfile = await this.prisma.clientProfile.findUnique({
+      where: {
+        userId: clientId,
+      },
+    });
+
+    if (!clientProfile) throw new NotFoundException();
+
+    return this.prisma.workoutRecord.create({
+      data: {
+        name: workoutRecord.name,
+        day: workoutRecord.day,
+        durationSec: workoutRecord.durationSec,
+        exercises: this.mapExerciseRecordToPrisma(workoutRecord),
+        doneByUserId: clientProfile.id,
+        originalWorkoutId: workoutRecord.originalWorkoutId,
+      },
+    });
   }
 }

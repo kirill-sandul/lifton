@@ -9,7 +9,7 @@ import { ModalComponent } from '@shared/components/modal/modal';
 import { InviteService } from '@features/invite/services/invite.service';
 import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg-registry';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApiErrorRes } from '@shared/api-contract/errors';
+import { ApiErrorRes } from '@core/api-contract/errors';
 
 @Component({
   selector: 'app-search-page',

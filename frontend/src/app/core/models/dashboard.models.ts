@@ -1,9 +1,9 @@
-import { Workout } from '@core/models/training.models';
+import { WorkoutResponse } from '@core/api-contract/training.api';
 
 export interface ClientDashboardRes {
-  upcomingWorkoutWidget: Workout;
+  upcomingWorkoutWidget: WorkoutResponse;
 }
 
 export interface ClientDashboard {
-  upcomingWorkoutWidget: Workout;
+  upcomingWorkoutWidget: WorkoutResponse;
 }

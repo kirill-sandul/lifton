@@ -1,0 +1,24 @@
+@let workoutSession = workoutSessionFacade.workoutSession();
+
+@if(workoutSession){
+  <h2 class="workout-title">
+    <span class="highlight">{{ workoutSession.day | weekDay: 'full' }}</span>
+    workout -
+    <span class="highlight">“{{ workoutSession.name }}”</span>
+  </h2>
+}
+
+<div class="chronometer-wrapper">
+  <span class="chronometer">{{ timeDisplay$ | async }}</span>
+  @if(isRunning){
+    <button liftonButton class="pause circular" icon="pause" (click)="pause()"></button>
+  }
+  @else {
+    <button liftonButton class="start circular" icon="play" (click)="start()"></button>
+  }
+</div>
+
+<button liftonButton class="finish-button greenGradient" (click)="workoutSessionFacade.finishModalShow.set(true); pause()">
+  <svg lucideIcon="check-check"></svg>
+  Finish workout
+</button>
