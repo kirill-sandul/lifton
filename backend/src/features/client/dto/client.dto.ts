@@ -1,32 +1,72 @@
-import { Prisma } from '../../../generated/prisma/client';
+import {
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { WorkoutDay } from '../../../generated/prisma/enums';
 
-const workoutArgs = {
-  include: {
-    exercises: {
-      include: {
-        sets: true,
-      },
-    },
-  },
-};
+export class ExerciseSetRecord {
+  @Type(() => Number)
+  @IsNumber()
+  index: number;
 
-const currentProgramArgs = {
-  include: {
-    weeks: {
-      include: {
-        workouts: workoutArgs,
-      },
-    },
-    targets: true,
-  },
-} satisfies Prisma.TrainingProgramFindManyArgs;
+  @Type(() => Number)
+  @IsNumber()
+  targetReps: number;
 
-export type CurrentProgram = Prisma.TrainingProgramGetPayload<
-  typeof currentProgramArgs
->;
+  @Type(() => Number)
+  @IsNumber()
+  targetValue: number;
 
-export type WorkoutFull = Prisma.WorkoutGetPayload<typeof workoutArgs>;
+  @Type(() => Number)
+  @IsNumber()
+  executedReps: number;
 
-export interface ClientDashboardResponse {
-  upcomingWorkoutWidget: WorkoutFull | null;
+  @Type(() => Number)
+  @IsNumber()
+  executedValue: number;
+
+  @IsBoolean()
+  skipped: boolean;
+}
+
+export class WorkoutExerciseRecord {
+  @IsString()
+  name: string;
+
+  @IsString()
+  unit: string;
+
+  @Type(() => Number)
+  @IsNumber()
+  order: number;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ExerciseSetRecord)
+  sets: ExerciseSetRecord[];
+}
+
+export class WorkoutSessionRecordDto {
+  @IsString()
+  name: string;
+
+  @IsEnum(WorkoutDay)
+  day: WorkoutDay;
+
+  @Type(() => Number)
+  @IsNumber()
+  durationSec: number;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => WorkoutExerciseRecord)
+  exercises: WorkoutExerciseRecord[];
+
+  @IsString()
+  originalWorkoutId: string;
 }
