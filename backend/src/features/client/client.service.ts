@@ -1,13 +1,23 @@
 import {
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import {
+  differenceInCalendarDays,
+  getDay,
+  isEqual,
+  nextDay,
+  setDay,
+} from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 import { PrismaService } from '../../core/modules/prisma/prisma.service';
 import {
   ClientDashboardResponse,
   CurrentProgram,
   WorkoutFull,
+  WorkoutWidgetRes,
 } from './client.models';
 import { WorkoutDay } from '../../generated/prisma/enums';
 import { WorkoutSessionRecordDto } from './dto/client.dto';
@@ -34,7 +44,7 @@ export class ClientService {
     [WorkoutDay.THURSDAY]: 4,
     [WorkoutDay.FRIDAY]: 5,
     [WorkoutDay.SATURDAY]: 6,
-  };
+  } as const;
 
   private async getFullClient(clientId: string) {
     return this.prisma.user.findUnique({
@@ -68,6 +78,52 @@ export class ClientService {
     });
   }
 
+  private async getClientProfile(clientId: string) {
+    const clientProfile = await this.prisma.clientProfile.findUnique({
+      where: {
+        userId: clientId,
+      },
+    });
+
+    if (!clientProfile) throw new NotFoundException();
+
+    return clientProfile;
+  }
+
+  private normalizeWeeks(program: CurrentProgram, tz: string) {
+    const normalizedProgramWeeks = [...program.weeks];
+
+    const programCycleDuration = program.weeks.length * 7;
+
+    const userStartDate = toZonedTime(program.startDate, tz);
+    const userEndDate = toZonedTime(program.endDate, tz);
+
+    const fullCoverageDays = differenceInCalendarDays(
+      userEndDate,
+      userStartDate,
+    );
+
+    // in days
+    const missingInterval = fullCoverageDays - programCycleDuration;
+
+    for (let i = 0; i < missingInterval; i += 7) {
+      const additionalWeekIdx = i / 7;
+      const additionalWeek = program.weeks[additionalWeekIdx];
+
+      // if latest scheduled workout day goes after endDate, it will get removed
+      const normalizedWorkouts = additionalWeek.workouts.filter(
+        (workout) => this.DAYS_IDX[workout.day] <= program.endDate.getUTCDay(),
+      );
+
+      normalizedProgramWeeks.push({
+        ...additionalWeek,
+        workouts: normalizedWorkouts,
+      });
+    }
+
+    return normalizedProgramWeeks;
+  }
+
   private async getCurrentProgram(clientId: string) {
     const clientUser = await this.getFullClient(clientId);
 
@@ -82,49 +138,103 @@ export class ClientService {
   }
 
   private getCorrespondingWeekIdx(daysPassed: number) {
-    if (daysPassed <= 7) return 0;
-    else if (daysPassed <= 14) return 1;
-    else if (daysPassed >= 21) return 2;
-    else if (daysPassed <= 28) return 4;
-    else return -1;
+    if (daysPassed <= 0) return -1;
+
+    return Math.floor(daysPassed / 7);
   }
 
-  private getWorkoutByWeekDay(
+  private async getWorkoutByWeekDay(
     program: CurrentProgram,
     weekIndex: number,
-  ): WorkoutFull[] {
-    return program.weeks[weekIndex].workouts.filter((workout) => {
-      const currentWeekDay = this.DAYS[new Date().getDay()];
+    clientProfileId: string,
+    tz: string,
+  ): Promise<WorkoutFull[]> {
+    const week = program.weeks[weekIndex];
 
-      return workout.day === currentWeekDay;
-    });
+    const todayInUserTz = toZonedTime(new Date(), tz);
+    const currentWeekDay = this.DAYS[getDay(todayInUserTz)];
+
+    // returns array p.e. [true, false, true] if there are any existing records of this week's workouts => false, to remove it from the list
+    const existingFilterResult = await Promise.all(
+      week.workouts.map((w) => this.checkExistingRecord(w.id, clientProfileId)),
+    );
+
+    // filtering by the existingFilter result
+    const filteredWorkouts = week.workouts.filter(
+      (_, index) => existingFilterResult[index],
+    );
+
+    return filteredWorkouts.filter((workout) => workout.day === currentWeekDay);
   }
 
-  private getClosestWorkout(
+  private async getClosestWorkout(
     program: CurrentProgram,
     daysPassed: number,
-  ): WorkoutFull {
-    const currentDayIndex = new Date().getDay();
+    clientProfileId: string,
+    tz: string,
+  ): Promise<WorkoutWidgetRes> {
+    const todayInUserTz = toZonedTime(new Date(), tz);
+    const currentWeekDayIdx = getDay(todayInUserTz);
 
-    const closest = program.weeks[
+    const normalizedProgramWeeks = this.normalizeWeeks(program, tz);
+
+    // sort by correct week day and day index (p.e. Monday first)
+    const sortedWorkouts = normalizedProgramWeeks[
       this.getCorrespondingWeekIdx(daysPassed)
     ].workouts
-      .filter((w) => this.DAYS_IDX[w.day] >= currentDayIndex)
+      .filter((w) => this.DAYS_IDX[w.day] >= currentWeekDayIdx)
       .sort((a, b) => this.DAYS_IDX[a.day] - this.DAYS_IDX[b.day]);
 
+    // array resulting if there are existing records (p.e. skipped workouts recorded)
+    const existingFilterResult = await Promise.all(
+      sortedWorkouts.map((w) =>
+        this.checkExistingRecord(w.id, clientProfileId),
+      ),
+    );
+
+    // final array
+    const closest = sortedWorkouts.filter(
+      (_, index) => existingFilterResult[index],
+    );
+
+    // if this week is empty, check next week for upcoming workouts
     if (closest.length === 0) {
       const nextWeekIdx = this.getCorrespondingWeekIdx(daysPassed) + 1;
 
-      const nextWeekWorkout = program.weeks[nextWeekIdx].workouts
-        .filter((w) => this.DAYS_IDX[w.day] >= currentDayIndex)
-        .sort((a, b) => this.DAYS_IDX[a.day] - this.DAYS_IDX[b.day])[0];
+      const nextWeekWorkout = normalizedProgramWeeks[nextWeekIdx].workouts.sort(
+        (a, b) => this.DAYS_IDX[a.day] - this.DAYS_IDX[b.day],
+      )[0];
 
-      if (nextWeekWorkout) return nextWeekWorkout;
+      const nextWeekWorkoutDate = nextDay(
+        todayInUserTz,
+        this.DAYS_IDX[nextWeekWorkout.day],
+      );
+
+      const isAllowedToStart = isEqual(todayInUserTz, nextWeekWorkoutDate);
+
+      if (nextWeekWorkout) {
+        return {
+          ...nextWeekWorkout,
+          date: nextWeekWorkoutDate,
+          isAllowedToStart,
+        };
+      }
+
       throw new NotFoundException();
     }
 
-    if (closest[0]) return closest[0];
-    else throw new NotFoundException();
+    if (closest[0]) {
+      const closestWorkoutDate = setDay(
+        todayInUserTz,
+        this.DAYS_IDX[closest[0].day],
+      );
+
+      return {
+        ...closest[0],
+        date: closestWorkoutDate,
+        isAllowedToStart: isEqual(todayInUserTz, closestWorkoutDate),
+      };
+    } else throw new NotFoundException();
   }
 
   private mapExerciseRecordToPrisma(workoutRecord: WorkoutSessionRecordDto) {
@@ -142,64 +252,106 @@ export class ClientService {
     };
   }
 
-  async getTodaysWorkout(clientId: string): Promise<WorkoutFull | null> {
+  private async checkExistingRecord(workoutId: string, clientId: string) {
+    const alreadyDone = await this.prisma.workoutRecord.findFirst({
+      where: {
+        originalWorkoutId: workoutId,
+        doneByUserId: clientId,
+      },
+    });
+
+    if (alreadyDone)
+      return false; // for filter function
+    else return true;
+  }
+
+  async getTodaysWorkout(
+    clientId: string,
+    tz: string,
+  ): Promise<WorkoutFull | null> {
     const currentProgram = await this.getCurrentProgram(clientId);
 
-    const startTimeDiff =
-      (currentProgram.startDate.getTime() - Date.now()) / 1000 / 60 / 60 / 24;
+    const todayInUserTz = toZonedTime(new Date(), tz);
+    const programStartInUserTz = toZonedTime(currentProgram.startDate, tz);
+    const programEndInUserTz = toZonedTime(currentProgram.endDate, tz);
 
-    const endTimeDiff =
-      (currentProgram.endDate.getTime() - Date.now()) / 1000 / 60 / 60 / 24;
+    const daysUntilStart = differenceInCalendarDays(
+      programStartInUserTz,
+      todayInUserTz,
+    );
+    const daysUntilEnd = differenceInCalendarDays(
+      programEndInUserTz,
+      todayInUserTz,
+    );
 
-    // program not started
-    if (startTimeDiff > 0) throw new ForbiddenException();
-    // program ended
-    else if (endTimeDiff <= 0) throw new ForbiddenException();
+    if (daysUntilStart > 0) throw new ForbiddenException();
+    else if (daysUntilEnd <= 0) throw new ForbiddenException();
 
-    const daysPassedFromStart =
-      (Date.now() - currentProgram.startDate.getTime()) / 1000 / 60 / 60 / 24;
+    const daysPassedFromStart = differenceInCalendarDays(
+      todayInUserTz,
+      programStartInUserTz,
+    );
 
-    const finalRes = this.getWorkoutByWeekDay(
+    const clientProfile = await this.getClientProfile(clientId);
+
+    const finalRes = await this.getWorkoutByWeekDay(
       currentProgram,
       this.getCorrespondingWeekIdx(daysPassedFromStart),
+      clientProfile.id,
+      tz,
     );
 
     if (finalRes.length > 0) {
       const foundWorkout = finalRes[0];
-      const alreadyDone = await this.prisma.workoutRecord.findFirst({
-        where: {
-          originalWorkoutId: foundWorkout.id,
-        },
-      });
-
-      if (alreadyDone) throw new ForbiddenException();
 
       return foundWorkout;
     } else throw new ForbiddenException();
   }
 
-  async getUpcomingWorkout(clientId: string) {
+  async getUpcomingWorkout(clientId: string, tz: string) {
     const currentProgram = await this.getCurrentProgram(clientId);
 
-    const startTimeDiff =
-      (currentProgram.startDate.getTime() - Date.now()) / 1000 / 60 / 60 / 24;
+    const todayInUserTz = toZonedTime(new Date(), tz);
+    const programStartInUserTz = toZonedTime(currentProgram.startDate, tz);
+    const programEndInUserTz = toZonedTime(currentProgram.endDate, tz);
 
-    const endTimeDiff =
-      (currentProgram.endDate.getTime() - Date.now()) / 1000 / 60 / 60 / 24;
+    const daysUntilStart = differenceInCalendarDays(
+      programStartInUserTz,
+      todayInUserTz,
+    );
+    const daysUntilEnd = differenceInCalendarDays(
+      programEndInUserTz,
+      todayInUserTz,
+    );
 
-    // program not started
-    if (startTimeDiff > 0) throw new ForbiddenException();
-    // program ended
-    else if (endTimeDiff <= 0) throw new ForbiddenException();
+    if (daysUntilStart > 0) throw new ForbiddenException();
+    else if (daysUntilEnd <= 0) throw new ForbiddenException();
 
-    const daysPassedFromStart =
-      (Date.now() - currentProgram.startDate.getTime()) / 1000 / 60 / 60 / 24;
+    const daysPassedFromStart = differenceInCalendarDays(
+      todayInUserTz,
+      programStartInUserTz,
+    );
 
-    return this.getClosestWorkout(currentProgram, daysPassedFromStart);
+    const clientProfile = await this.getClientProfile(clientId);
+
+    return await this.getClosestWorkout(
+      currentProgram,
+      daysPassedFromStart,
+      clientProfile.id,
+      tz,
+    );
   }
 
-  async getDashboard(clientId: string): Promise<ClientDashboardResponse> {
-    const upcomingWorkoutWidget = await this.getUpcomingWorkout(clientId);
+  async getDashboard(
+    clientId: string,
+    tz: string,
+  ): Promise<ClientDashboardResponse> {
+    let upcomingWorkoutWidget: WorkoutWidgetRes | null;
+    try {
+      upcomingWorkoutWidget = await this.getUpcomingWorkout(clientId, tz);
+    } catch (err) {
+      upcomingWorkoutWidget = null;
+    }
 
     return {
       upcomingWorkoutWidget,
@@ -210,13 +362,16 @@ export class ClientService {
     clientId: string,
     workoutRecord: WorkoutSessionRecordDto,
   ) {
-    const clientProfile = await this.prisma.clientProfile.findUnique({
+    const clientProfile = await this.getClientProfile(clientId);
+
+    const existingRecord = await this.prisma.workoutRecord.findFirst({
       where: {
-        userId: clientId,
+        originalWorkoutId: workoutRecord.originalWorkoutId,
+        doneByUserId: clientProfile.id,
       },
     });
 
-    if (!clientProfile) throw new NotFoundException();
+    if (existingRecord) throw new ConflictException();
 
     return this.prisma.workoutRecord.create({
       data: {
@@ -226,7 +381,46 @@ export class ClientService {
         exercises: this.mapExerciseRecordToPrisma(workoutRecord),
         doneByUserId: clientProfile.id,
         originalWorkoutId: workoutRecord.originalWorkoutId,
+        skipped: false,
       },
     });
+  }
+
+  async createSkippedWorkoutRecord(
+    clientId: string,
+    skipReason: string | null,
+    tz: string,
+  ) {
+    const clientProfile = await this.getClientProfile(clientId);
+
+    const workoutSessionToSkip = await this.getTodaysWorkout(clientId, tz);
+
+    if (!workoutSessionToSkip) throw new NotFoundException();
+
+    const existingRecord = await this.prisma.workoutRecord.findFirst({
+      where: {
+        originalWorkoutId: workoutSessionToSkip.id,
+        doneByUserId: clientProfile.id,
+      },
+    });
+
+    if (existingRecord) throw new ConflictException();
+
+    await this.prisma.workoutRecord.create({
+      data: {
+        name: workoutSessionToSkip.name ?? '',
+        day: workoutSessionToSkip.day,
+        durationSec: 0,
+        exercises: {
+          create: [],
+        },
+        doneByUserId: clientProfile.id,
+        originalWorkoutId: workoutSessionToSkip.id,
+        skipped: true,
+        skipReason,
+      },
+    });
+
+    return await this.getDashboard(clientId, tz);
   }
 }

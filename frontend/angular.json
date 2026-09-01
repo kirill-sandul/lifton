@@ -3,7 +3,10 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "analytics": "f0878c31-6e12-4a3b-9609-062785f8a916"
+    "analytics": "f0878c31-6e12-4a3b-9609-062785f8a916",
+    "cache": {
+      "enabled": false
+    }
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -24,12 +27,8 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "assets": ["src/"],
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {

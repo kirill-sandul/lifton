@@ -14,6 +14,7 @@ export const SNACKBAR_MSG_REGISTRY = {
   REMOVE_CLIENT_FROM_PROGRAM: 'Removed client from the program',
   EDIT_USERNAME: 'Edited username successfully',
   RECORD_WORKOUT_SESSION: "Today's workout session has been recorded",
+  SKIP_WORKOUT_SESSION: "You have skipped today's session",
   // global unknown errors
   SEND_INVITE_FAIL: 'Failed to send an invite',
   NOTIFICATIONS_LOAD_FAIL: 'Failed to load notifications list',
@@ -25,4 +26,5 @@ export const SNACKBAR_MSG_REGISTRY = {
   REMOVE_CLIENT_FROM_PROGRAM_FAIL: 'Failed to remove client from the program',
   EDIT_USERNAME_FAIL: 'Failed to edit your username',
   RECORD_WORKOUT_SESSION_FAIL: 'Failed to record workout session',
+  SKIP_WORKOUT_SESSION_FAIL: 'Failed to record your skip request',
 };

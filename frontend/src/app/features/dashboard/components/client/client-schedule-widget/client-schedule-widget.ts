@@ -1,6 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DashboardService } from '@features/dashboard/services/dashboard.service';
+import { DashboardFacade } from '@features/dashboard/services/dashboard.facade';
 import { Workout } from '@core/models/training.models';
 import { CalendarWidgetComponent } from '@features/dashboard/components/calendar-widget/calendar-widget';
 import { WorkoutResponse } from '@core/api-contract/training.api';
@@ -12,7 +12,7 @@ import { WorkoutResponse } from '@core/api-contract/training.api';
   styleUrl: './client-schedule-widget.scss',
 })
 export class ClientScheduleWidgetComponent {
-  dashboardService = inject(DashboardService);
+  dashboardService = inject(DashboardFacade);
 
   selectedDay = signal<Date>(new Date());
   dayContent = signal<WorkoutResponse | null>(null);

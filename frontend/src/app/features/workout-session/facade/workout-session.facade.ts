@@ -1,16 +1,19 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { WorkoutSessionService } from '@features/workout-session/service/workout-session';
 import { ClientService } from '@core/services/roles/client/client.service';
 import { SnackbarService } from '@core/services/snackbar/snackbar.service';
 import { ExerciseRecordUi, WeekDay, WorkoutRecordUi } from '@core/models/training.models';
 import { WorkoutExerciseResponse, WorkoutResponse } from '@core/api-contract/training.api';
 import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg-registry';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorkoutSessionFacade {
   router = inject(Router);
+  workoutSessionService = inject(WorkoutSessionService);
   clientService = inject(ClientService);
   snackbarService = inject(SnackbarService);
 
@@ -36,8 +39,6 @@ export class WorkoutSessionFacade {
   disabledSliderPrevButton = signal(false);
   disabledSliderNextButton = signal(false);
 
-  _localStorageKey = 'workout-session';
-
   currentExerciseRecord = computed<ExerciseRecordUi | null>(() => {
     const currentExerciseId = this._currentExercise()?.id;
 
@@ -50,8 +51,15 @@ export class WorkoutSessionFacade {
     this._workoutSession.set(workoutData);
     this._currentExercise.set(workoutData.exercises[0]);
 
-    const savedRecord = this.getFromLocalStorage();
-    if (savedRecord) {
+    const savedRecord = this.workoutSessionService.getFromLocalStorage();
+
+    if (
+      savedRecord &&
+      savedRecord.exercises.length > 0 &&
+      savedRecord.name &&
+      savedRecord.originalWorkoutId &&
+      savedRecord.day
+    ) {
       this._workoutRecord.set(savedRecord);
       this.durationSec.set(savedRecord.durationSec);
     } else this.createEmptyRecord();
@@ -69,14 +77,14 @@ export class WorkoutSessionFacade {
     });
     this.durationSec.set(0);
 
-    this.clearLocalStorage();
+    this.workoutSessionService.clearLocalStorage();
   }
 
   private createEmptyRecord() {
     const workoutSession = this._workoutSession();
     if (!workoutSession) return;
 
-    this._workoutRecord.update((r) => ({
+    this._workoutRecord.set({
       name: workoutSession.name,
       day: workoutSession.day,
       durationSec: 0,
@@ -95,29 +103,13 @@ export class WorkoutSessionFacade {
           _wTouched: false,
         })),
       })),
-    }));
+    });
   }
 
   saveToLocalStorage() {
-    localStorage.setItem(
-      this._localStorageKey,
-      JSON.stringify({
-        ...this.workoutRecord(),
-        durationSec: this.durationSec(),
-      }),
-    );
-  }
+    if (!this.workoutRecord().originalWorkoutId) return;
 
-  private getFromLocalStorage(): WorkoutRecordUi | null {
-    const saved = localStorage.getItem(this._localStorageKey);
-
-    if (!saved) return null;
-
-    return JSON.parse(saved);
-  }
-
-  private clearLocalStorage() {
-    localStorage.removeItem(this._localStorageKey);
+    this.workoutSessionService.saveToLocalStorage(this.workoutRecord(), this.durationSec());
   }
 
   setExercise(exerciseIdx: number) {
@@ -248,11 +240,19 @@ export class WorkoutSessionFacade {
       .subscribe({
         next: () => {
           this.finishModalShow.set(false);
+          this.router.navigate(['/']);
+
           this.reset();
           this.snackbarService.newSnackbar(SNACKBAR_MSG_REGISTRY.RECORD_WORKOUT_SESSION, 'success');
-          this.router.navigate(['/']);
         },
-        error: () => {
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+
+          if (err.status === HttpStatusCode.Conflict) {
+            this.reset();
+            this.router.navigate(['/']);
+          }
+
           this.finishModalShow.set(false);
           this.snackbarService.newSnackbar(
             SNACKBAR_MSG_REGISTRY.RECORD_WORKOUT_SESSION_FAIL,

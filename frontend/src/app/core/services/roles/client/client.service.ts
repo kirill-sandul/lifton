@@ -2,9 +2,9 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '@core/services/user/user.service';
-import { ClientDashboard, ClientDashboardRes } from '@core/models/dashboard.models';
-import { WorkoutRecordUi } from '@core/models/training.models';
+import { ClientDashboardRes } from '@core/api-contract/dashboard.api';
 import { CreateWorkoutRecordDto, WorkoutResponse } from '@core/api-contract/training.api';
+import { WorkoutRecordUi } from '@core/models/training.models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class ClientService {
 
   userService = inject(UserService);
 
-  private readonly _dashboardData = signal<ClientDashboard | null>(null);
+  private readonly _dashboardData = signal<ClientDashboardRes | null>(null);
   dashboardData = this._dashboardData.asReadonly();
 
   noData = computed(() => {
@@ -54,5 +54,13 @@ export class ClientService {
     };
 
     return this.http.post('client/workout-session/record', preparedWorkoutRecord);
+  }
+
+  skipWorkout(skipReason: string | null) {
+    return this.http
+      .post<ClientDashboardRes>('client/workout-session/skip', {
+        skipReason,
+      })
+      .pipe(tap((data) => this._dashboardData.set(data)));
   }
 }

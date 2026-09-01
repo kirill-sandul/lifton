@@ -1,20 +1,60 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TitleCasePipe } from '@angular/common';
+import { DatePipe, provideCloudflareLoader, TitleCasePipe } from '@angular/common';
+import { LucideDynamicIcon, LucideMoveRight } from '@lucide/angular';
+import { CdkConnectedOverlay, CdkOverlayOrigin, ConnectedPosition } from '@angular/cdk/overlay';
 import { ButtonComponent } from '@shared/components/button/button';
-import { LucideMoveRight } from '@lucide/angular';
+import { SkipWorkoutModal } from '@features/dashboard/components/client/skip-workout-modal/skip-workout-modal';
 import { ClientService } from '@core/services/roles/client/client.service';
-import { WorkoutResponse } from '@core/api-contract/training.api';
+import { WorkoutWidgetResponse } from '@core/api-contract/dashboard.api';
+import { ExerciseSet } from '@core/models/training.models';
+import { DashboardFacade } from '@features/dashboard/services/dashboard.facade';
 
 @Component({
   selector: 'app-workout-widget',
-  imports: [RouterLink, ButtonComponent, TitleCasePipe, LucideMoveRight],
+  imports: [
+    RouterLink,
+    ButtonComponent,
+    TitleCasePipe,
+    LucideMoveRight,
+    DatePipe,
+    LucideDynamicIcon,
+    CdkConnectedOverlay,
+    CdkOverlayOrigin,
+    SkipWorkoutModal,
+  ],
   templateUrl: './workout-widget.html',
   styleUrl: './workout-widget.scss',
 })
 export class WorkoutWidgetComponent {
   clientService = inject(ClientService);
-  workout = computed<WorkoutResponse | undefined>(
+  dashboardFacade = inject(DashboardFacade);
+
+  confirmSkippingModal = signal(false);
+  actionsDropdownShow = signal(false);
+  actionsDropdownPositions: ConnectedPosition[] = [
+    {
+      originX: 'center',
+      originY: 'bottom',
+      overlayX: 'start',
+      overlayY: 'top',
+    },
+  ];
+
+  workout = computed<WorkoutWidgetResponse | undefined>(
     () => this.clientService.dashboardData()?.upcomingWorkoutWidget,
   );
+
+  getTotalReps(exSets: ExerciseSet[]) {
+    return exSets.reduce((acc, cur) => acc + cur.reps, 0);
+  }
+
+  getTotalVolume(exSets: ExerciseSet[]) {
+    return exSets.reduce((acc, cur) => acc + cur.targetValue, 0);
+  }
+
+  skipWorkout(skipReason: string | null) {
+    this.dashboardFacade.skipWorkout(skipReason);
+    this.confirmSkippingModal.set(false);
+  }
 }

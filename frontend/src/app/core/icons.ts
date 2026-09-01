@@ -8,9 +8,11 @@ import {
   LucideCheckCheck,
   LucideCircleAlert,
   LucideCircleX,
+  LucideEllipsisVertical,
   LucideEye,
   LucideEyeClosed,
   LucideFlaskConical,
+  LucideInfo,
   LucideMail,
   LucideMenu,
   LucideMinus,
@@ -67,4 +69,6 @@ export const APP_ICONS = [
   LucideSkipForward,
   LucidePlay,
   LucideCheckCheck,
+  LucideInfo,
+  LucideEllipsisVertical,
 ];

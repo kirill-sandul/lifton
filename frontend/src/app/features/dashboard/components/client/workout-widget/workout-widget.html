@@ -7,12 +7,11 @@
     @if(_workout){
       <div class="date">
         <span class="highlight">{{ _workout.day | titlecase }}</span>
-        <span class="full-date">11th of May 2026</span>
+        <span class="full-date">{{ _workout.date | date: 'longDate' }}</span>
       </div>
     } @else {
       <div class="grey">No upcoming workout</div>
     }
-
   </div>
 
   @if(_workout){
@@ -21,23 +20,63 @@
       <table class="workout-table">
         <tr class="header">
           <th>Exercise</th>
-          <th>Sets</th>
-          <th>Reps</th>
-          <th>Target value</th>
+          <th>Total sets</th>
+          <th>Total reps</th>
+          <th>Total volume</th>
         </tr>
         @for (ex of _workout.exercises; track ex.id) {
           <tr class="exercise">
             <td class="exercise-name">• {{ ex.name }}</td>
             <td>{{ ex.sets.length }}</td>
-            <td>{{ ex.sets[0].reps }}</td>
-            <td>{{ ex.sets[0].targetValue }}{{ ex.unit }}</td>
+            <td>{{ getTotalReps(ex.sets) }}</td>
+            <td>{{ getTotalVolume(ex.sets) }}{{ ex.unit }}</td>
           </tr>
         }
       </table>
     </div>
-    <div class="bottom-button">
-      <a liftonButton routerLink="/workout-session" icon="play">Start workout session</a>
-    </div>
-  }
 
+    @if(_workout.isAllowedToStart){
+      <div class="bottom-button">
+        <a liftonButton routerLink="/workout-session" icon="play">Start workout session</a>
+        <svg
+          cdkOverlayOrigin
+          #moreActionsTrigger="cdkOverlayOrigin"
+          lucideIcon="ellipsis-vertical"
+          class="more-btn"
+          (click)="actionsDropdownShow.set(!actionsDropdownShow())"
+        ></svg>
+      </div>
+
+      <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayPanelClass]="['workout-widget-actions-dropdown', 'widget']"
+        [cdkConnectedOverlayOrigin]="moreActionsTrigger"
+        [cdkConnectedOverlayOpen]="actionsDropdownShow()"
+        [cdkConnectedOverlayPositions]="actionsDropdownPositions"
+        (overlayOutsideClick)="actionsDropdownShow.set(false)"
+      >
+        <a
+          liftonButton
+          icon="skip-forward"
+          class="skip-workout-btn red-tone"
+          (click)="confirmSkippingModal.set(true); actionsDropdownShow.set(false)"
+        >
+          Skip this workout
+        </a>
+      </ng-template>
+    }
+    @else {
+      <div class="not-allowed-text success">
+        <svg lucideIcon="info"></svg>
+        You'll be able to start the workout on its day
+      </div>
+    }
+  }
 </div>
+
+@if(confirmSkippingModal()){
+  <app-skip-workout-modal
+    (onAccept)="skipWorkout($event)"
+    (onDiscard)="confirmSkippingModal.set(false)"
+  />
+}

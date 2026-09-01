@@ -8,24 +8,24 @@ import { PrismaClientExceptionFilter } from './core/errors/prisma-exception.filt
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    transform: true
-  }))
-
-  app.useGlobalFilters(
-    new PrismaClientExceptionFilter()
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
   );
-  
+
+  app.useGlobalFilters(new PrismaClientExceptionFilter());
+
   app.use(cookieParser());
-  
+
   app.setGlobalPrefix('api');
 
   app.enableCors({
     origin: 'http://localhost:4200',
-    credentials: true
-  })
-  
+    credentials: true,
+  });
+
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

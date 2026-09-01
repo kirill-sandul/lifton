@@ -5,7 +5,7 @@ import {
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { catchError, firstValueFrom, of, timeout } from 'rxjs';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './app.routes';
 
@@ -22,7 +22,16 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([apiInterceptor])),
     provideAppInitializer(() => {
       const authService = inject(AuthService);
-      return firstValueFrom(authService.refresh());
+
+      return firstValueFrom(
+        authService.refresh().pipe(
+          timeout(2000),
+          catchError((err) => {
+            console.error(err);
+            return of(null);
+          }),
+        ),
+      );
     }),
     provideLucideIcons(...APP_ICONS),
     provideCharts(withDefaultRegisterables()),

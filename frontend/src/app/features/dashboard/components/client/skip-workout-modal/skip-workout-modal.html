@@ -1,0 +1,10 @@
+<app-modal
+  title="Are you sure you will skip this workout session?"
+  acceptOption="Yes"
+  discardOption="Discard"
+  (onSubmit)="onAccept.emit(reasonControl.value ?? null)"
+  (onDiscard)="onDiscard.emit()"
+>
+  <span class="label">Absence reason (optional):</span>
+  <app-input placeholder="Inform your trainer about your absence" name="Absence reason" [control]="reasonControl" />
+</app-modal>

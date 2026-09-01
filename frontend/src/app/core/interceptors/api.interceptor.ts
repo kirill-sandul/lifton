@@ -6,11 +6,21 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.accessToken();
 
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const headers: Record<string, string> = {
+    'x-user-timezone': userTimeZone,
+  };
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
   return next(
     req.clone({
       url: `http://localhost:3000/api/${req.url}`,
       withCredentials: true,
-      setHeaders: token ? { Authorization: `Bearer ${token}` } : {},
+      setHeaders: headers,
     }),
   );
 };

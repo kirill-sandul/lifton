@@ -3,7 +3,11 @@ import {
   IsBoolean,
   IsEnum,
   IsNumber,
+  IsOptional,
   IsString,
+  MaxLength,
+  MinLength,
+  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -69,4 +73,12 @@ export class WorkoutSessionRecordDto {
 
   @IsString()
   originalWorkoutId: string;
+}
+
+export class SkipWorkoutDto {
+  @ValidateIf((o) => o.skipReason !== null && o.skipReason !== undefined)
+  @IsString()
+  @MinLength(5)
+  @MaxLength(100)
+  skipReason: string | null;
 }

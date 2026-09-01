@@ -222,8 +222,8 @@ model WorkoutRecord {
 
   exercises ExerciseRecord[]
 
-  missed       Boolean?
-  missedReason String?
+  skipped    Boolean?
+  skipReason String?
 
   durationSec Int
 

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { DashboardService } from '@features/dashboard/services/dashboard.service';
+import { DashboardFacade } from '@features/dashboard/services/dashboard.facade';
 import { Target } from '@core/models/training.models';
 import { ProgressBarComponent } from '@shared/components/progress-bar/progress-bar';
 import { ButtonComponent } from '@shared/components/button/button';
@@ -12,7 +12,7 @@ import { LucideArrowUpRight } from '@lucide/angular';
   styleUrl: './targets-widget.scss',
 })
 export class TargetsWidgetComponent {
-  dashboardService = inject(DashboardService);
+  dashboardService = inject(DashboardFacade);
 
   previewTargets: Target[] = this.dashboardService.clientTargets.slice(0, 2);
 

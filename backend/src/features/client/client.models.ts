@@ -26,6 +26,10 @@ export type CurrentProgram = Prisma.TrainingProgramGetPayload<
 >;
 
 export type WorkoutFull = Prisma.WorkoutGetPayload<typeof workoutArgs>;
+export type WorkoutWidgetRes = Prisma.WorkoutGetPayload<typeof workoutArgs> & {
+  date: Date;
+  isAllowedToStart: boolean;
+};
 
 export interface ClientDashboardResponse {
   upcomingWorkoutWidget: WorkoutFull | null;
