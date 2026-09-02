@@ -2,8 +2,7 @@
   .calendar {
     .week {
       display: grid;
-      grid-template-columns: repeat(7, minmax(0, auto));
-      gap: 5px;
+      grid-template-columns: repeat(7, 1fr);
       justify-content: center;
     }
 
@@ -22,14 +21,22 @@
     }
 
     .day {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 18px;
       cursor: pointer;
-      border-radius: 20px;
-      padding: 7px 20px;
+      border-radius: 100%;
+      width: 42px;
+      height: 42px;
       transition: .2s;
 
       &.selected {
         background: var(--primary-blue-dark-gradient)
+      }
+
+      &.today:not(&.selected) {
+        border: 2px solid var(--primary-blue);
       }
 
       &:hover {

@@ -9,11 +9,17 @@
   .exercises {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
     gap: 15px;
     font-size: 17px;
     font-weight: 600;
     margin-top: 22px;
+
+    .exercise {
+      padding: 8px 15px;
+      border: 1px solid #000;
+      border-radius: 20px;
+    }
   }
 
   .no-workout {

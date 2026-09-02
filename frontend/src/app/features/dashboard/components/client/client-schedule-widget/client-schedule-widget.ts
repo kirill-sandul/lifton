@@ -1,48 +1,44 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DashboardFacade } from '@features/dashboard/services/dashboard.facade';
-import { Workout } from '@core/models/training.models';
+import { ClientService } from '@core/services/roles/client/client.service';
 import { CalendarWidgetComponent } from '@features/dashboard/components/calendar-widget/calendar-widget';
-import { WorkoutResponse } from '@core/api-contract/training.api';
+import { ScheduleWidgetResponse, WorkoutWithDate } from '@core/api-contract/dashboard.api';
+import { DashboardFacade } from '@features/dashboard/facade/dashboard.facade';
+import { FullScheduleModal } from '@features/dashboard/components/client/client-schedule-widget/components/full-schedule-modal/full-schedule-modal';
+import { getDayWorkout } from '@features/dashboard/components/client/client-schedule-widget/utils/get-day-workout';
 
 @Component({
   selector: 'app-client-schedule-widget',
-  imports: [DatePipe, CalendarWidgetComponent],
+  imports: [DatePipe, CalendarWidgetComponent, FullScheduleModal],
   templateUrl: './client-schedule-widget.html',
   styleUrl: './client-schedule-widget.scss',
 })
 export class ClientScheduleWidgetComponent {
-  dashboardService = inject(DashboardFacade);
+  clientService = inject(ClientService);
+  dashboardFacade = inject(DashboardFacade);
 
   selectedDay = signal<Date>(new Date());
-  dayContent = signal<WorkoutResponse | null>(null);
-  schedule = this.dashboardService.programSchedule;
+  dayContent = signal<WorkoutWithDate | null>(null);
+
+  showFullSchedule = signal(false);
+
+  schedule = computed<ScheduleWidgetResponse | null>(
+    () => this.clientService.dashboardData()?.scheduleWidget ?? null,
+  );
 
   constructor() {
     effect(() => {
-      const workout = this.getDayExercises(this.selectedDay());
+      const schedule = this.schedule();
 
-      this.dayContent.set(workout ?? null);
+      this.getDayExercises(new Date());
     });
   }
 
   getDayExercises(day: Date) {
     this.selectedDay.set(day);
 
-    const dayIdx = day.getDay();
+    const foundWorkout = getDayWorkout(this.schedule(), day);
 
-    const weekDays: Record<string, string> = {
-      '0': 'SUNDAY',
-      '1': 'MONDAY',
-      '2': 'TUESDAY',
-      '3': 'WEDNESDAY',
-      '4': 'THURSDAY',
-      '5': 'FRIDAY',
-      '6': 'SATURDAY',
-    };
-
-    if (!this.schedule) return;
-
-    return this.schedule.find((d) => d.day === weekDays[dayIdx.toString()]);
+    this.dayContent.set(foundWorkout);
   }
 }

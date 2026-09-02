@@ -5,10 +5,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {
+  addWeeks,
+  Day,
   differenceInCalendarDays,
   getDay,
   isEqual,
   nextDay,
+  setDate,
   setDay,
 } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
@@ -18,9 +21,11 @@ import {
   CurrentProgram,
   WorkoutFull,
   WorkoutWidgetRes,
+  WorkoutWithDate,
 } from './client.models';
 import { WorkoutDay } from '../../generated/prisma/enums';
 import { WorkoutSessionRecordDto } from './dto/client.dto';
+import { async } from 'rxjs';
 
 @Injectable()
 export class ClientService {
@@ -342,19 +347,51 @@ export class ClientService {
     );
   }
 
+  async getSchedule(clientId: string, tz: string) {
+    const currentProgram = await this.getCurrentProgram(clientId);
+
+    const normalizedWeeks = this.normalizeWeeks(currentProgram, tz);
+
+    const schedule: WorkoutWithDate[] = [];
+
+    const programStartInUserTz = toZonedTime(currentProgram.startDate, tz);
+
+    normalizedWeeks.forEach((week, weekIdx) => {
+      week.workouts.forEach((workout) => {
+        const weekOffset = addWeeks(programStartInUserTz, weekIdx + 1);
+
+        const workoutDate = setDay(weekOffset, this.DAYS_IDX[workout.day]);
+
+        schedule.push({
+          ...workout,
+          date: workoutDate,
+        });
+      });
+    });
+
+    return schedule;
+  }
+
   async getDashboard(
     clientId: string,
     tz: string,
   ): Promise<ClientDashboardResponse> {
-    let upcomingWorkoutWidget: WorkoutWidgetRes | null;
-    try {
-      upcomingWorkoutWidget = await this.getUpcomingWorkout(clientId, tz);
-    } catch (err) {
-      upcomingWorkoutWidget = null;
-    }
+    const [upcomingWorkoutResult, scheduleResult] = await Promise.allSettled([
+      this.getUpcomingWorkout(clientId, tz),
+      this.getSchedule(clientId, tz),
+    ]);
+
+    const upcomingWorkoutWidget =
+      upcomingWorkoutResult.status === 'fulfilled'
+        ? upcomingWorkoutResult.value
+        : null;
+
+    const scheduleWidget =
+      scheduleResult.status === 'fulfilled' ? scheduleResult.value : null;
 
     return {
       upcomingWorkoutWidget,
+      scheduleWidget,
     };
   }
 

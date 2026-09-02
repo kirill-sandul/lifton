@@ -24,11 +24,6 @@ import { workoutSessionGuard } from '@core/guards/workout-session.guard';
 
 export const routes: Routes = [
   {
-    path: 'profile',
-    redirectTo: '',
-    pathMatch: 'full',
-  },
-  {
     path: '',
     component: AppLayoutComponent,
     canActivate: [authGuard],
@@ -94,8 +89,8 @@ export const routes: Routes = [
     component: RegisterQuizPage,
     canActivate: [guestGuard],
   },
-  // {
-  //   path: '**',
-  //   redirectTo: '',
-  // },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];

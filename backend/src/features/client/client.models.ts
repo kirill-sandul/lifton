@@ -31,6 +31,12 @@ export type WorkoutWidgetRes = Prisma.WorkoutGetPayload<typeof workoutArgs> & {
   isAllowedToStart: boolean;
 };
 
+export type WorkoutWithDate = Prisma.WorkoutGetPayload<typeof workoutArgs> & {
+  date: Date;
+};
+export type ScheduleWidgetRes = WorkoutWithDate[];
+
 export interface ClientDashboardResponse {
   upcomingWorkoutWidget: WorkoutFull | null;
+  scheduleWidget: ScheduleWidgetRes | null;
 }

@@ -1,17 +1,4 @@
 .widget {
-  .top-block {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    button {
-      svg {
-        width: 21px;
-        height: 21px;
-      }
-    }
-  }
-
   .targets {
     display: flex;
     justify-content: space-between;

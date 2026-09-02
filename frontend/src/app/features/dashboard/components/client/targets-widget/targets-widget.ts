@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { DashboardFacade } from '@features/dashboard/services/dashboard.facade';
+import { DashboardFacade } from '@features/dashboard/facade/dashboard.facade';
 import { Target } from '@core/models/training.models';
 import { ProgressBarComponent } from '@shared/components/progress-bar/progress-bar';
 import { ButtonComponent } from '@shared/components/button/button';

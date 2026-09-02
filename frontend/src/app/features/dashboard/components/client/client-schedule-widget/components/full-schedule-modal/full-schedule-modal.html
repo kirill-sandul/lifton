@@ -1,0 +1,19 @@
+<app-modal title="Month training schedule" discardOption="Close" (onDiscard)="onClose.emit()">
+  <div class="wrapper">
+    <ngxsmk-datepicker
+      mode="single"
+      locale="en-EN"
+      [inline]="true"
+      [weekStart]="1"
+      [holidayProvider]="workoutDaysProvider"
+      [disableHolidays]="false"
+      [(value)]="selectedDate"
+      (valueChange)="onDateSelect($event)"
+    />
+
+    <div class="column">
+      <span class="date" [class.centered]="!dayContent()">{{ selectedDate() | date: 'fullDate' }}</span>
+      <app-workout-details [workoutData]="dayContent()" />
+    </div>
+  </div>
+</app-modal>

@@ -1,13 +1,13 @@
 import { Component, computed, input, signal } from '@angular/core';
 import { WeekDayPipe } from '@core/pipes/week-day/week-day-pipe';
 import { WeekDropdownComponent } from '@shared/components/week-dropdown/week-dropdown';
-import { ExerciseSet, WeekDay } from '@core/models/training.models';
-import { LucideDynamicIcon } from '@lucide/angular';
+import { WeekDay } from '@core/models/training.models';
 import { ProgramWeekResponse } from '@core/api-contract/training.api';
+import { WorkoutDetails } from '@shared/components/workout-details/workout-details';
 
 @Component({
   selector: 'app-week-schedule',
-  imports: [WeekDayPipe, WeekDropdownComponent, LucideDynamicIcon],
+  imports: [WeekDayPipe, WeekDropdownComponent, WorkoutDetails],
   templateUrl: './week-schedule.html',
   styleUrl: './week-schedule.scss',
 })
@@ -20,9 +20,7 @@ export class WeekSchedule {
     this.weekData().workouts.find((value) => value.day === this.selectedWeekDay()),
   );
 
-  openedExerciseIndex = signal<number | null>(null);
-
-  weekDays = [
+  weekDays: WeekDay[] = [
     WeekDay.MONDAY,
     WeekDay.TUESDAY,
     WeekDay.WEDNESDAY,
@@ -31,18 +29,4 @@ export class WeekSchedule {
     WeekDay.SATURDAY,
     WeekDay.SUNDAY,
   ];
-
-  getTotalReps(sets: ExerciseSet[]) {
-    return sets.reduce((acc, cur) => acc + cur.reps, 0);
-  }
-
-  getTotalVolume(sets: ExerciseSet[]) {
-    return sets.reduce((acc, cur) => acc + cur.targetValue * cur.reps, 0);
-  }
-
-  toggleExerciseDetail(exerciseIdx: number) {
-    if (exerciseIdx === this.openedExerciseIndex()) return this.openedExerciseIndex.set(null);
-
-    this.openedExerciseIndex.set(exerciseIdx);
-  }
 }

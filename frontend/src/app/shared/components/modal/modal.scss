@@ -3,7 +3,7 @@
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
-  padding: 20px 40px;
+  padding: 20px 0;
   border-radius: 20px;
   border: 1px solid #fff;
 
@@ -21,7 +21,7 @@
   }
 
   header {
-    padding: 10px 0 20px 0;
+    padding: 10px 40px 20px 40px;
 
     h2 {
       margin: 0;
@@ -33,12 +33,21 @@
   }
 
   main {
+    max-width: 85vw;
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     margin-bottom: 20px;
+
+    .content-wrapper {
+      padding: 0 40px;
+    }
   }
 
   footer {
     display: flex;
     justify-content: flex-end;
     gap: 20px;
+    padding: 0 40px;
   }
 }

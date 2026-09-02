@@ -7,6 +7,25 @@
   border: 1px solid #fff;
   backdrop-filter: blur(10px);
 
+  .top-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button.open-more {
+      transition: 0.2s;
+
+      &:active {
+        transform: scale(0.9);
+      }
+
+      svg {
+        width: 21px;
+        height: 21px;
+      }
+    }
+  }
+
   .top-text {
     display: flex;
     align-items: center;

@@ -3,7 +3,6 @@ import {
   IsBoolean,
   IsEnum,
   IsNumber,
-  IsOptional,
   IsString,
   MaxLength,
   MinLength,

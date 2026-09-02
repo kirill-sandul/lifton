@@ -4,8 +4,10 @@ ngxsmk-datepicker, .ngxsmk-day-cell, .ngxsmk-close-button, .ngxsmk-clear-button-
   --ion-color-primary: var(--primary-blue) !important;
   --ngxsmk-color-border: var(--primary-grey-lighter);
   --ngxsmk-font-size-base: 16px;
-  --ngxsmk-radius-md: 30px;
-  --datepicker-radius-md: 30px;
+  --ngxsmk-radius-md: 20px;
+  --ngxsmk-radius-sm: 20px;
+  --ngxsmk-radius-lg: 20px;
+  --datepicker-radius-md: 20px;
 }
 
 ngxsmk-datepicker * {
@@ -25,4 +27,40 @@ ngxsmk-datepicker * {
 
 .ngxsmk-input-group {
   box-shadow: none !important;
+}
+
+.ngxsmk-datepicker-wrapper.ngxsmk-inline-mode .ngxsmk-calendar-container {
+  padding-top: 15px;
+}
+
+.ngxsmk-day-number {
+  outline: none !important;
+}
+
+// selected day cell
+.ngxsmk-day-cell.selected .ngxsmk-day-number {
+  color: #000 !important;
+  font-weight: 400 !important;
+  background: var(--primary-blue-dark-gradient) !important;
+}
+
+// highlighted days
+.ngxsmk-day-cell.holiday {
+  &.selected {
+    .ngxsmk-day-number {
+      color: #000 !important;
+
+      &::after {
+        background-color: #000 !important;
+      }
+    }
+  }
+
+  .ngxsmk-day-number {
+    color: var(--primary-blue) !important;            /* Синий текст */
+
+    &::after {
+      background-color: var(--primary-blue) !important;
+    }
+  }
 }

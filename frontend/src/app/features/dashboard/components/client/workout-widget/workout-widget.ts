@@ -1,14 +1,14 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DatePipe, provideCloudflareLoader, TitleCasePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe } from '@angular/common';
 import { LucideDynamicIcon, LucideMoveRight } from '@lucide/angular';
 import { CdkConnectedOverlay, CdkOverlayOrigin, ConnectedPosition } from '@angular/cdk/overlay';
+import { DashboardFacade } from '@features/dashboard/facade/dashboard.facade';
 import { ButtonComponent } from '@shared/components/button/button';
-import { SkipWorkoutModal } from '@features/dashboard/components/client/skip-workout-modal/skip-workout-modal';
+import { SkipWorkoutModal } from '@features/dashboard/components/client/workout-widget/components/skip-workout-modal/skip-workout-modal';
 import { ClientService } from '@core/services/roles/client/client.service';
 import { WorkoutWidgetResponse } from '@core/api-contract/dashboard.api';
 import { ExerciseSet } from '@core/models/training.models';
-import { DashboardFacade } from '@features/dashboard/services/dashboard.facade';
 
 @Component({
   selector: 'app-workout-widget',

@@ -1,18 +1,22 @@
-<app-calendar-widget (onSelectDay)="getDayExercises($event)">
+<app-calendar-widget (onSelectDay)="getDayExercises($event)" (onOpenFull)="showFullSchedule.set(true)">
   <div class="workout">
-    @if(schedule && dayContent()){
+    @if(dayContent()){
       <div class="title">
         Workout on {{ selectedDay() | date: 'd MMM' }}: <span class="highlight">“{{ dayContent()?.name }}”</span>
       </div>
       <div class="exercises">
         @for (exercise of dayContent()?.exercises; track exercise.id) {
-          <div class="exercise">• {{ exercise.name }}</div>
+          <div class="exercise">{{ exercise.name }}</div>
         }
       </div>
-    } @else if(schedule && !dayContent()) {
-      <span class="grey no-workout">No workouts for this day</span>
+    } @else if(!dayContent() && dashboardFacade.assignedTrainingProgram()) {
+      <span class="grey no-workout">No workouts on this day</span>
     } @else {
       <span class="grey no-workout">No training plan assigned</span>
     }
   </div>
 </app-calendar-widget>
+
+@if(showFullSchedule() && schedule()){
+  <app-full-schedule-modal [schedule]="schedule()!" (onClose)="showFullSchedule.set(false)" />
+}
