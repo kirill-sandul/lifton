@@ -6,12 +6,10 @@ import {
 } from '@nestjs/common';
 import {
   addWeeks,
-  Day,
   differenceInCalendarDays,
   getDay,
   isEqual,
   nextDay,
-  setDate,
   setDay,
 } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
@@ -25,7 +23,6 @@ import {
 } from './client.models';
 import { WorkoutDay } from '../../generated/prisma/enums';
 import { WorkoutSessionRecordDto } from './dto/client.dto';
-import { async } from 'rxjs';
 
 @Injectable()
 export class ClientService {
@@ -307,9 +304,7 @@ export class ClientService {
     );
 
     if (finalRes.length > 0) {
-      const foundWorkout = finalRes[0];
-
-      return foundWorkout;
+      return finalRes[0];
     } else throw new ForbiddenException();
   }
 
