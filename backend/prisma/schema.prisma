@@ -127,8 +127,9 @@ model TrainingProgram {
   targets        Target[]
   clientProfiles ClientProfile[]
 
-  trainerAuthor   TrainerProfile @relation(fields: [trainerAuthorId], references: [id])
+  trainerAuthor   TrainerProfile  @relation(fields: [trainerAuthorId], references: [id])
   trainerAuthorId String
+  workoutRecords  WorkoutRecord[]
 }
 
 model ProgramWeek {
@@ -192,6 +193,7 @@ model Target {
   name String
 
   initialValue Float
+  currentValue Float
   targetValue  Float
 
   unit String
@@ -230,8 +232,11 @@ model WorkoutRecord {
   originalWorkout   Workout? @relation(fields: [originalWorkoutId], references: [id])
   originalWorkoutId String?
 
-  doneByUser   ClientProfile? @relation(fields: [doneByUserId], references: [id])
-  doneByUserId String?
+  program   TrainingProgram? @relation(fields: [programId], references: [id])
+  programId String?
+
+  doneByClient   ClientProfile? @relation(fields: [doneByClientId], references: [id])
+  doneByClientId String?
 }
 
 model ExerciseRecord {

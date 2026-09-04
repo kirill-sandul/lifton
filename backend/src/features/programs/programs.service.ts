@@ -123,7 +123,10 @@ export class ProgramsService {
         trainerAuthorId: trainerProfile.id,
 
         targets: {
-          create: targets,
+          create: targets.map((t) => ({
+            ...t,
+            currentValue: t.initialValue,
+          })),
         },
 
         weeks: {

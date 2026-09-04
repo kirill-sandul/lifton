@@ -1,20 +1,22 @@
 <div class="widget">
   <h3>Program completion</h3>
-  <div class="wrapper">
-    <div class="progress">
-      <app-progress-bar [completion]="42" class="progress-bar" />
-      <div class="percentage">42%</div>
-    </div>
-    <div class="text-wrapper">
-      <div class="text">
-        <span>1st week</span>
-        <span>8th week</span>
+  @let _programCompletion = clientFacade.programCompletion();
+  @if(_programCompletion){
+    <div class="wrapper">
+      <div class="progress">
+        <app-progress-bar [completion]="_programCompletion.completionPercentage" class="progress-bar" />
+        <div class="percentage">{{ _programCompletion.completionPercentage }}%</div>
       </div>
-      <div class="text">
-        <span>20 workouts</span>
-        <span>25 left</span>
+      <div class="text-wrapper">
+        <div class="text">
+          <span>{{ weeksPassedDisplay(_programCompletion.weeksPassed, _programCompletion.daysOffset) }}</span>
+          <span>{{ weeksTotalDisplay(_programCompletion.weeksTotal) }}</span>
+        </div>
+        <div class="text">
+          <span>{{ _programCompletion.workoutsCompleted }} {{ workoutsWordDisplay(_programCompletion.workoutsCompleted) }}</span>
+          <span>{{ _programCompletion.workoutsLeft }} left</span>
+        </div>
       </div>
     </div>
-
-  </div>
+  }
 </div>

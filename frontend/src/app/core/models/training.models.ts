@@ -52,15 +52,10 @@ export interface Workout {
 }
 
 export interface Target {
-  id?: string;
   name: string;
   initialValue: number;
-  currentValue?: number;
   targetValue: number;
   unit: string;
-  completionPercent?: number;
-  exerciseId?: string | null;
-  trainingPlanId?: string;
 }
 
 export type ClientWorkoutOnDay = UserProfile & {

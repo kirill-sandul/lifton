@@ -1,22 +1,26 @@
+@let targets = clientFacade.targets()?.targets;
+
 <div class="widget">
   <div class="top-block">
     <h3>Your targets</h3>
-    @if(previewTargets.length){
-      <button liftonButton class="circular">
-        <svg lucideArrowUpRight></svg>
-      </button>
+    @if(targets){
+      @if(targets.length > 4){
+        <button liftonButton class="circular">
+          <svg lucideArrowUpRight></svg>
+        </button>
+      }
     }
   </div>
   <div class="targets">
-    @if(previewTargets.length){
-      @for (target of previewTargets; track target.id) {
+    @if(targets){
+      @for (target of targets; track target.id) {
         <div class="target">
           <div class="row target-info">
             <span class="target-name">{{ target.name }}</span>
-            <div class="target-completion highlight">{{ targetCompletionPercent }}%</div>
+            <div class="target-completion highlight">{{ target.completionPercentage }}%</div>
           </div>
           <div class="progress">
-            <app-progress-bar [completion]="targetCompletionPercent" [compactStyle]="true" class="progress-bar" />
+            <app-progress-bar [completion]="target.completionPercentage" [compactStyle]="true" class="progress-bar" />
           </div>
           <div class="row target-values">
             <div class="current">
@@ -32,7 +36,7 @@
       }
     }
     @else {
-      <span class="grey no-goals">No goals set yet</span>
+      <span class="grey no-goals">No goals set in this training program</span>
     }
   </div>
 </div>

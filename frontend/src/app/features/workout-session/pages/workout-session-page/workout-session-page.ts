@@ -1,4 +1,6 @@
 import { Component, HostListener, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TimeSection } from '@features/workout-session/components/time-section/time-section';
 import { ExercisesSlider } from '@features/workout-session/components/exercises-slider/exercises-slider';
 import { InteractionSection } from '@features/workout-session/components/interaction-section/interaction-section';
@@ -12,6 +14,7 @@ import { FinishWorkoutModal } from '@features/workout-session/components/finish-
   styleUrl: './workout-session-page.scss',
 })
 export class WorkoutSessionPageComponent {
+  router = inject(Router);
   workoutSessionFacade = inject(WorkoutSessionFacade);
 
   @HostListener('window:beforeunload')

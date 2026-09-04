@@ -33,7 +33,7 @@ export interface TrainingProgramResponse {
   endDate: Date;
   cycle: TrainingCycle;
   weeks: ProgramWeekResponse[];
-  targets: Target[];
+  targets: TargetResponse[];
   clientProfiles: ClientProfileWithUser[];
 }
 
@@ -65,4 +65,16 @@ export interface WorkoutExerciseSetResponse {
   index: number;
   reps: number;
   targetValue: number;
+}
+
+export interface TargetResponse {
+  id: string;
+  name: string;
+  initialValue: number;
+  currentValue: number;
+  targetValue: number;
+  unit: string;
+  completionPercentage: number;
+  exerciseId?: string | null;
+  trainingPlanId?: string;
 }

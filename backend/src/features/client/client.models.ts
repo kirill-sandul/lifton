@@ -1,4 +1,8 @@
-import { Prisma } from '../../generated/prisma/client';
+import {
+  Prisma,
+  ClientProfile,
+  WorkoutRecord,
+} from '../../generated/prisma/client';
 
 const workoutArgs = {
   include: {
@@ -34,9 +38,59 @@ export type WorkoutWidgetRes = Prisma.WorkoutGetPayload<typeof workoutArgs> & {
 export type WorkoutWithDate = Prisma.WorkoutGetPayload<typeof workoutArgs> & {
   date: Date;
 };
+
 export type ScheduleWidgetRes = WorkoutWithDate[];
+
+export interface ProgramCompletionWidgetRes {
+  workoutsCompleted: number;
+  workoutsLeft: number;
+  workoutsSkipped: number;
+  completionPercentage: number;
+  weeksPassed: number;
+  daysOffset: number;
+  weeksTotal: number;
+}
+
+export interface StreakWidgetRes {
+  streakWeeks: number;
+  workoutsSkipped: number;
+}
+
+export type TargetRes = Prisma.TargetGetPayload<{
+  include: {
+    trainingProgram: false;
+  };
+}>;
+
+export type TargetFullRes = TargetRes & {
+  completionPercentage: number;
+  currentValue: number;
+};
+
+export interface TargetsWidgetRes {
+  targets: TargetFullRes[];
+}
+
+export type WorkoutRecordRes = Prisma.WorkoutRecordGetPayload<{
+  include: {
+    exercises: {
+      include: {
+        sets: true;
+      };
+    };
+  };
+}>;
 
 export interface ClientDashboardResponse {
   upcomingWorkoutWidget: WorkoutFull | null;
   scheduleWidget: ScheduleWidgetRes | null;
+  completionWidget: ProgramCompletionWidgetRes | null;
+  streakWidget: StreakWidgetRes | null;
+  targetsWidget: TargetsWidgetRes | null;
+}
+
+export interface DashboardContext {
+  profile: ClientProfile;
+  program: CurrentProgram;
+  records: WorkoutRecord[];
 }

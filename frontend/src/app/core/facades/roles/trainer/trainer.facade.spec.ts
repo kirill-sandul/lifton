@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { WorkoutSession } from './workout-session';
+import { TrainerFacade } from './trainer.facade';
 
-describe('WorkoutSession', () => {
-  let service: WorkoutSession;
+describe('TrainerFacade', () => {
+  let service: TrainerFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(WorkoutSession);
+    service = TestBed.inject(TrainerFacade);
   });
 
   it('should be created', () => {

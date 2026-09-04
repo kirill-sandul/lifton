@@ -1,10 +1,21 @@
 <div class="widget">
   <h3>Streak</h3>
   <div class="streak">
-    <img src="/assets/icons/streak.svg" alt="Streak icon" />
-    <div class="text">
-      <span>You’re training 3 weeks straight! Keep going!</span>
-      <span class="missed">workouts missed: 2</span>
-    </div>
+    @let _streak = clientFacade.streak();
+
+    @if(_streak && _streak.streakWeeks > 0){
+      <img src="/assets/icons/streak.svg" alt="Streak icon" />
+
+      <div class="text">
+        <span>You’re training {{ _streak.streakWeeks }} {{ weekWordDisplay(_streak.streakWeeks) }} straight! Keep going!</span>
+        <span class="missed">workouts missed: {{ _streak.workoutsSkipped }}</span>
+      </div>
+    }
+    @else {
+      <img src="/assets/icons/no-streak.svg" alt="No streak icon" />
+      <div class="text">
+        <span>No streak accumulated yet. Complete your planned workouts and keep the fire up!</span>
+      </div>
+    }
   </div>
 </div>

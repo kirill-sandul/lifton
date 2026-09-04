@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { WorkoutSessionService } from '@features/workout-session/service/workout-session';
+import { WorkoutSessionService } from '@features/workout-session/service/workout-session.service';
 import { ClientService } from '@core/services/roles/client/client.service';
 import { SnackbarService } from '@core/services/snackbar/snackbar.service';
 import { ExerciseRecordUi, WeekDay, WorkoutRecordUi } from '@core/models/training.models';
@@ -53,13 +53,7 @@ export class WorkoutSessionFacade {
 
     const savedRecord = this.workoutSessionService.getFromLocalStorage();
 
-    if (
-      savedRecord &&
-      savedRecord.exercises.length > 0 &&
-      savedRecord.name &&
-      savedRecord.originalWorkoutId &&
-      savedRecord.day
-    ) {
+    if (savedRecord && savedRecord.originalWorkoutId === workoutData.id) {
       this._workoutRecord.set(savedRecord);
       this.durationSec.set(savedRecord.durationSec);
     } else this.createEmptyRecord();
@@ -240,14 +234,12 @@ export class WorkoutSessionFacade {
       .subscribe({
         next: () => {
           this.finishModalShow.set(false);
-          this.router.navigate(['/']);
-
           this.reset();
+
+          this.router.navigate(['/']);
           this.snackbarService.newSnackbar(SNACKBAR_MSG_REGISTRY.RECORD_WORKOUT_SESSION, 'success');
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err);
-
           if (err.status === HttpStatusCode.Conflict) {
             this.reset();
             this.router.navigate(['/']);

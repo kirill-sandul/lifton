@@ -33,7 +33,9 @@ export class ClientService {
 
   submitWorkoutRecord(workoutRecord: WorkoutRecordUi) {
     const preparedWorkoutRecord: CreateWorkoutRecordDto = {
-      ...workoutRecord,
+      name: workoutRecord.name,
+      day: workoutRecord.day,
+      originalWorkoutId: workoutRecord.originalWorkoutId,
       durationSec: workoutRecord.durationSec,
       exercises: workoutRecord.exercises.map((ex) => ({
         name: ex.name,
