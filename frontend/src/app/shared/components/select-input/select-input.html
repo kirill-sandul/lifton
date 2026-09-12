@@ -1,6 +1,11 @@
-<div class="select-input">
-  <div class="selected input-wrapper" [class.compact]="compact()" (click)="isOpen.set(!isOpen())">
+<div class="select-input" [class.invalid]="control().invalid && control().touched">
+  <div class="selected input-wrapper" [class.compact]="compact()" (click)="isOpen.set(!isOpen())" (blur)="control().markAsTouched()">
     <div class="scale-wrapper">
+      @if(placeholder() && !selectedOption){
+        <div class="placeholder">
+          {{ placeholder() }}
+        </div>
+      }
       <div class="selected-value">
         {{ selectedOption?.label }}
       </div>
@@ -21,4 +26,9 @@
       </div>
     }
   </div>
+
 </div>
+  <div class="invalid-msg" [class.visible]="control().invalid && control().touched">
+    <img src="/assets/error.png" alt="">
+    <span>{{ errorMessage }}</span>
+  </div>

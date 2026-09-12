@@ -7,17 +7,31 @@
   (onDiscard)="onClose.emit()"
 >
   <form class="exercise-modal-form" (submit)="$event.preventDefault()">
-    <app-input
+    @let _aList = autocompleteList();
+    @if(_aList){
+      <app-input-autocomplete
+        class="control"
+        placeholder="Exercise name"
+        name="Exercise name"
+        [control]="exerciseForm.controls.name"
+        [autocompleteList]="_aList"
+        (onPick)="onAutoItemPick($event)"
+      />
+    }
+    @else {
+      <app-input
+        class="control"
+        placeholder="Exercise name"
+        name="Exercise name"
+        [control]="exerciseForm.controls.name"
+      />
+    }
+    <app-select-input
       class="control"
-      placeholder="Exercise name"
-      name="Exercise name"
-      [control]="exerciseForm.controls.name"
-    />
-    <app-input
-      class="control"
-      placeholder="Unit"
-      name="Unit"
+      name="Exercise unit"
+      placeholder="Exercise unit"
       [control]="exerciseForm.controls.unit"
+      [options]="UNITS_LABELS"
     />
     <button class="add-set" (click)="addSet()">
       <span>Add set</span>

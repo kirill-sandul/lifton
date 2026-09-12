@@ -1,12 +1,16 @@
 <div class="targets" #targetModalOrigin>
   @for(target of targetsList(); track $index){
     <div class="target-card">
-      <span class="name">{{ target.name }}</span>
+      <span class="name">{{ target.exercise.name }}</span>
       <div class="dot"></div>
+      @if(target.name){
+        <span class="target-label">{{ target.name }}</span>
+        <div class="dot"></div>
+      }
       <div class="values">
-        <span class="initial-value">{{ target.initialValue }}{{ target.unit }}</span>
+        <span class="initial-value">{{ target.initialValue }} {{ target.exercise.unit | exerciseUnit }}</span>
         <svg lucideIcon="move-right"></svg>
-        <span class="target-value">{{ target.targetValue }}{{ target.unit }}</span>
+        <span class="target-value">{{ target.targetValue }} {{ target.exercise.unit | exerciseUnit }}</span>
       </div>
 
       <div class="actions">
@@ -30,6 +34,7 @@
 >
   @if(editTargetModal().defaultValues){
     <app-target-modal
+      [savedExercisesList]="createProgramFacade.exercisesMap()"
       [defaultValues]="editTargetModal().defaultValues!"
       (onCreate)="editTarget($event)"
       (onClose)="closeEditTargetModal()"

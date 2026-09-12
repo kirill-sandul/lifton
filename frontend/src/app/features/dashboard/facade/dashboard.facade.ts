@@ -3,7 +3,7 @@ import { UserService } from '@core/services/user/user.service';
 import { ClientService } from '@core/services/roles/client/client.service';
 import { TrainerService } from '@core/services/roles/trainer/trainer.service';
 import { SnackbarService } from '@core/services/snackbar/snackbar.service';
-import { Target } from '@core/models/training.models';
+import { TargetUi } from '@core/models/training.models';
 import { SNACKBAR_MSG_REGISTRY } from '@shared/constants/ui-mapping/snackbar-msg-registry';
 import { UserRole } from '@core/models/user.models';
 import {

@@ -1,6 +1,7 @@
 import {
   Exercise,
   ExerciseSet,
+  ExerciseUnit,
   ProgramWeek,
   Target,
   TrainingCycle,
@@ -31,20 +32,20 @@ export interface ConfirmDialogData {
 
 export interface TargetModalData {
   show: boolean;
-  defaultValues: Target | null;
+  defaultValues: TargetModalDefaults | null;
   editTargetIdx: number;
 }
 
 export interface TargetForm {
   name: FormControl<string | null>;
-  unit: FormControl<string | null>;
+  exerciseTempId: FormControl<string | null>;
   initialValue: FormControl<number | null>;
   targetValue: FormControl<number | null>;
 }
 
 export interface ExerciseForm {
   name: FormControl<string | null>;
-  unit: FormControl<string | null>;
+  unit: FormControl<ExerciseUnit | null>;
   sets: FormArray<FormGroup<ExerciseSetForm>>;
 }
 
@@ -55,18 +56,22 @@ export interface ExerciseSetForm {
 
 export interface ExerciseModalDefaults {
   name: string;
-  unit: string;
+  unit: ExerciseUnit | null;
   sets: ExerciseSet[];
 }
 
 export interface TargetModalDefaults {
-  name: string;
-  unit: string;
-  initialValue: number;
-  targetValue: number;
+  name: string | null;
+  exerciseTempId: string | null;
+  initialValue: number | null;
+  targetValue: number | null;
 }
 
 export interface EditingWorkout {
   workoutIndex: number;
   workoutName: string;
 }
+
+export type ExercisesTemporalMap = {
+  [key: string]: { tempId: string; name: string; unit: ExerciseUnit };
+};

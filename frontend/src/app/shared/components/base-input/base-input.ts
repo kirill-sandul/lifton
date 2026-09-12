@@ -1,8 +1,7 @@
-import { Component, input, model, signal } from '@angular/core';
+import { Component, input, model, output, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { APP_ICONS } from '@core/icons';
-
-type InputType = 'text' | 'email' | 'password' | 'textarea' | 'number';
+import { InputType } from '@core/models/ui.models';
 
 @Component({
   selector: 'app-input',
@@ -20,6 +19,8 @@ export class BaseInputComponent {
   dynamicType = signal<InputType>('text');
 
   value = model<string>('');
+
+  onFocus = output();
 
   ngAfterViewInit() {
     this.dynamicType.set(this.type());

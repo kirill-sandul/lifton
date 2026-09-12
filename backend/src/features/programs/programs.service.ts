@@ -113,26 +113,91 @@ export class ProgramsService {
     if (!trainerProfile)
       throw new NotFoundException('No trainer profile found when creating');
 
-    return this.prisma.trainingProgram.create({
-      data: {
-        name,
-        cycle,
-        startDate,
-        endDate,
-
-        trainerAuthorId: trainerProfile.id,
-
-        targets: {
-          create: targets.map((t) => ({
-            ...t,
-            currentValue: t.initialValue,
-          })),
+    return await this.prisma.$transaction(async (tx) => {
+      const program = await tx.trainingProgram.create({
+        data: {
+          name,
+          cycle,
+          startDate,
+          endDate,
+          trainerAuthor: {
+            connect: {
+              id: trainerProfile.id,
+            },
+          },
         },
+      });
 
-        weeks: {
-          create: this.mapWeeksToPrisma(weeks),
-        },
-      },
+      const tempIdToRealIdsMap = new Map<string, string[]>();
+
+      for (const weekDto of createProgramDto.weeks) {
+        const week = await tx.programWeek.create({
+          data: {
+            trainingProgram: {
+              connect: {
+                id: program.id,
+              },
+            },
+          },
+        });
+
+        for (const workoutDto of weekDto.workouts) {
+          const workout = await tx.workout.create({
+            data: {
+              day: workoutDto.day,
+              name: workoutDto.name,
+              programWeek: {
+                connect: {
+                  id: week.id,
+                },
+              },
+            },
+          });
+
+          for (const exDto of workoutDto.exercises) {
+            const exercise = await tx.exercise.create({
+              data: {
+                name: exDto.name,
+                unit: exDto.unit,
+                order: exDto.order,
+                sets: {
+                  create: exDto.sets,
+                },
+                workout: {
+                  connect: {
+                    id: workout.id,
+                  },
+                },
+              },
+            });
+
+            const existingIds = tempIdToRealIdsMap.get(exDto.tempId) || [];
+            tempIdToRealIdsMap.set(exDto.tempId, [...existingIds, exercise.id]);
+          }
+        }
+      }
+
+      for (const targetDto of createProgramDto.targets) {
+        const realExercisesIds =
+          tempIdToRealIdsMap.get(targetDto.exerciseTempId) || [];
+
+        const target = await tx.target.create({
+          data: {
+            name: targetDto.name,
+            initialValue: targetDto.initialValue,
+            currentValue: targetDto.initialValue,
+            targetValue: targetDto.targetValue,
+            exercises: {
+              connect: realExercisesIds.map((id) => ({ id })),
+            },
+            trainingProgram: {
+              connect: {
+                id: program.id,
+              },
+            },
+          },
+        });
+      }
     });
   }
 }

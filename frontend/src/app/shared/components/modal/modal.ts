@@ -13,6 +13,7 @@ export class ModalComponent {
   acceptOption = input<string>();
   discardOption = input.required<string>();
   maxWidth = input<number | null>();
+  contentMinHeight = input<number | null>();
 
   acceptBtnDisabled = input<boolean>();
 

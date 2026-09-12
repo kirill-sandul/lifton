@@ -160,7 +160,7 @@ model Exercise {
   id String @id @default(uuid())
 
   name String
-  unit String
+  unit ExerciseUnit
 
   order Int
 
@@ -196,10 +196,7 @@ model Target {
   currentValue Float
   targetValue  Float
 
-  unit String
-
-  exercise   Exercise? @relation(fields: [exerciseId], references: [id])
-  exerciseId String?
+  exercises Exercise[]
 
   trainingProgram   TrainingProgram? @relation(fields: [trainingProgramId], references: [id])
   trainingProgramId String?
@@ -243,7 +240,7 @@ model ExerciseRecord {
   id String @id @default(uuid())
 
   name String
-  unit String
+  unit ExerciseUnit
 
   order Int
 
@@ -274,6 +271,19 @@ model ExerciseSetRecord {
   @@unique([exerciseRecordId, index])
 }
 
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  role      Role
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
 enum Cycle {
   WEEK
   TWO_WEEKS
@@ -302,15 +312,55 @@ enum Goal {
   FATLOSS
 }
 
-model RefreshToken {
-  id        String   @id @default(uuid())
-  token     String   @unique
-  userId    String
-  role      Role
-  expiresAt DateTime
+enum ExerciseUnit {
+  KG
+  LB
+  BODYWEIGHT
+  BW_PLUS_KG
+  BW_MINUS_KG
+  PERCENT_1RM
+  PLATE
+  BAND_LEVEL
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  REPS
+  REPS_PER_MIN
+  ROUND
+  STATION
+  AMRAP_REPS
 
-  user User @relation(fields: [userId], references: [id])
+  SEC
+  MIN
+  HOUR
+  WORK_REST_RATIO
+  PACE_MIN_KM
+  PACE_MIN_100M
+  SPLIT_500M
+
+  METER
+  KM
+  MILE
+  ELEVATION_M
+  FLOOR
+  LAP
+  YARD
+
+  CAL
+  BPM
+  PULSE_ZONE
+  VO2MAX
+  SPO2
+
+  RPE
+  RIR
+  PERCENT_EFFORT
+
+  KMH
+  MPH
+  CADENCE
+  STROKE
+  SWOLF
+  PULLS
+  KICKS
+  LEVEL
+  SCORE
 }

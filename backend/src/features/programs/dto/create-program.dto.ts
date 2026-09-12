@@ -6,25 +6,19 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { Cycle } from '../../../generated/prisma/enums';
+import {
+  Cycle,
+  ExerciseUnit,
+  WorkoutDay,
+} from '../../../generated/prisma/enums';
 import { Type } from 'class-transformer';
-
-enum WeekDay {
-  MONDAY,
-  TUESDAY,
-  WEDNESDAY,
-  THURSDAY,
-  FRIDAY,
-  SATURDAY,
-  SUNDAY,
-}
 
 export class CreateTargetDto {
   @IsString()
-  name: string;
+  exerciseTempId: string;
 
   @IsString()
-  unit: string;
+  name: string;
 
   @Type(() => Number)
   @IsNumber()
@@ -51,10 +45,13 @@ export class CreateExerciseSetDto {
 
 export class CreateExerciseDto {
   @IsString()
+  tempId: string;
+
+  @IsString()
   name: string;
 
   @IsString()
-  unit: string;
+  unit: ExerciseUnit;
 
   @Type(() => Number)
   @IsNumber()
@@ -70,8 +67,8 @@ export class CreateWorkoutDto {
   @IsString()
   name: string;
 
-  @IsEnum(WeekDay)
-  day: WeekDay;
+  @IsEnum(WorkoutDay)
+  day: WorkoutDay;
 
   @IsArray()
   @ValidateNested({ each: true })

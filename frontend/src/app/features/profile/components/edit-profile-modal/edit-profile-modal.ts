@@ -2,9 +2,10 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { APP_ICONS } from '@core/icons';
 import { UserGoal, UserProfile, UserRole } from '@core/models/user.models';
+import { SelectInputOption } from '@core/models/ui.models';
 import { UserService } from '@core/services/user/user.service';
 import { BaseInputComponent } from '@shared/components/base-input/base-input';
-import { SelectInputComponent, SelectInputOption } from '@shared/components/select-input/select-input';
+import { SelectInputComponent } from '@shared/components/select-input/select-input';
 import { ModalComponent } from '@shared/components/modal/modal';
 import { digitsOnlyValidator } from '@shared/validators/digitsOnly.validator';
 import { phoneValidator } from '@shared/validators/phone.validator';
@@ -47,7 +48,7 @@ export class EditProfileModalComponent {
 
   userService = inject(UserService);
 
-  userRole = input.required<UserRole>()
+  userRole = input.required<UserRole>();
   defaultValues = input<UserProfile | null>();
 
   onClose = output();
@@ -76,34 +77,30 @@ export class EditProfileModalComponent {
       Validators.max(50),
     ]),
     goal: new FormControl<UserGoal | null>(null),
-    email: new FormControl<string | null>(null, [
-      Validators.email,
-    ]),
-    phone: new FormControl<string | null>(null, [
-      phoneValidator(),
-    ]),
+    email: new FormControl<string | null>(null, [Validators.email]),
+    phone: new FormControl<string | null>(null, [phoneValidator()]),
     description: new FormControl<string | null>(null, [
       Validators.minLength(10),
-      Validators.maxLength(400)
+      Validators.maxLength(400),
     ]),
   });
 
   selectGoalOptions: SelectInputOption[] = [
     {
       label: USER_GOAL_LABELS[UserGoal.STRENGTH],
-      value: UserGoal.STRENGTH
+      value: UserGoal.STRENGTH,
     },
     {
       label: USER_GOAL_LABELS[UserGoal.MUSCLES],
-      value: UserGoal.MUSCLES
+      value: UserGoal.MUSCLES,
     },
     {
       label: USER_GOAL_LABELS[UserGoal.FATLOSS],
-      value: UserGoal.FATLOSS
-    }
-  ]
+      value: UserGoal.FATLOSS,
+    },
+  ];
 
-  constructor(){
+  constructor() {
     effect(() => {
       const profile = this.defaultValues();
 
@@ -113,30 +110,29 @@ export class EditProfileModalComponent {
         email: profile?.email,
         phone: profile?.phone,
         description: profile?.description,
-        goal: profile?.goal
-      })
+        goal: profile?.goal,
+      });
 
-      if(profile?.clientProfile){
+      if (profile?.clientProfile) {
         this.editProfileForm.patchValue({
           height: profile.clientProfile.height,
-          bodyWeight: profile.clientProfile.bodyWeight
-        })
-      }
-      else if(profile?.trainerProfile){
+          bodyWeight: profile.clientProfile.bodyWeight,
+        });
+      } else if (profile?.trainerProfile) {
         this.editProfileForm.patchValue({
-          experience: profile.trainerProfile.experience
-        })
+          experience: profile.trainerProfile.experience,
+        });
       }
-    })
+    });
   }
 
-  onSubmit(){
-    const formValues = (this.editProfileForm.value as EditProfileFormValues);
+  onSubmit() {
+    const formValues = this.editProfileForm.value as EditProfileFormValues;
 
-    const profileChanges = { ...formValues, role: this.userRole() }
+    const profileChanges = { ...formValues, role: this.userRole() };
 
     this.userService.editProfile(profileChanges).subscribe({
-      next: () => this.onClose.emit()
-    })
+      next: () => this.onClose.emit(),
+    });
   }
 }

@@ -6,7 +6,7 @@
         <p class="subtitle grey">{{ subTitle() }}</p>
       }
     </header>
-    <main class="content">
+    <main class="content" [style.min-height]="contentMinHeight() ? `${contentMinHeight()}px` : false">
       <div class="content-wrapper">
         <ng-content />
       </div>

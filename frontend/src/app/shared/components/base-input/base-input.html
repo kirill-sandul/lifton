@@ -9,6 +9,7 @@
         [formControl]="control()"
         [placeholder]="placeholder()"
         [(value)]="value"
+        (focus)="onFocus.emit()"
       ></textarea>
     }
 
@@ -21,6 +22,7 @@
         [attr.min]="dynamicType() === 'number' ? 0 : null"
         [placeholder]="placeholder()"
         [(value)]="value"
+        (focus)="onFocus.emit()"
       />
     }
 

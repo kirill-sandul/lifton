@@ -1,0 +1,25 @@
+<div class="input-autocomplete-wrapper">
+  <app-input
+    [id]="id()"
+    [name]="name()"
+    [control]="control()"
+    [type]="dynamicType()"
+    [placeholder]="placeholder()"
+    [(value)]="value"
+    (onFocus)="onTyping(control().value)"
+  />
+
+  @if(showList() && filteredList().length > 0){
+    <div class="autocomplete-panel">
+      @for(item of filteredList(); track $index){
+        <div class="autocomplete-item" (click)="onItemSelect(item)">
+          <span class="name">{{ item.name }}</span>
+          <span class="dot">•</span>
+          @if(item.previewProp){
+            <span class="preview-prop">{{ item.previewProp }}</span>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

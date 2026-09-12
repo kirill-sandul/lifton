@@ -10,7 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { WorkoutDay } from '../../../generated/prisma/enums';
+import { ExerciseUnit, WorkoutDay } from '../../../generated/prisma/enums';
 
 export class ExerciseSetRecord {
   @Type(() => Number)
@@ -42,7 +42,7 @@ export class WorkoutExerciseRecord {
   name: string;
 
   @IsString()
-  unit: string;
+  unit: ExerciseUnit;
 
   @Type(() => Number)
   @IsNumber()

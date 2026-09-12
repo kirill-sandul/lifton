@@ -65,10 +65,10 @@ export class CreateProgramPageComponent {
 
   ngOnInit() {
     this.createProgramFacade.loadProgramDraft();
+  }
 
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-      this.createProgramFacade.saveProgramModel();
-    });
+  ngOnDestroy() {
+    this.createProgramFacade.saveProgramModel();
   }
 
   @HostListener('window:beforeunload')

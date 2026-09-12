@@ -1,4 +1,4 @@
-import { Component, computed, inject, output, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CreateProgramFacade } from '@features/programs/create-program/facade/create-program.facade';
 import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { LucideDynamicIcon } from '@lucide/angular';
@@ -7,8 +7,9 @@ import {
   ConfirmDialogData,
   TargetModalData,
 } from '@features/programs/create-program/models/create-program.models';
-import { Target } from '@core/models/training.models';
+import { ExerciseUnit, Target, TargetUi } from '@core/models/training.models';
 import { TargetModalComponent } from '@features/programs/create-program/components/targets/target-modal/target-modal';
+import { ExerciseUnitPipe } from '@core/pipes/exercise-unit/exercise-unit.pipe';
 
 @Component({
   selector: 'app-targets-list',
@@ -18,6 +19,7 @@ import { TargetModalComponent } from '@features/programs/create-program/componen
     ConfirmDialogComponent,
     CdkConnectedOverlay,
     TargetModalComponent,
+    ExerciseUnitPipe,
   ],
   templateUrl: './targets-list.html',
   styleUrl: './targets-list.scss',
@@ -25,7 +27,27 @@ import { TargetModalComponent } from '@features/programs/create-program/componen
 export class TargetsListComponent {
   createProgramFacade = inject(CreateProgramFacade);
 
-  targetsList = computed(() => this.createProgramFacade.trainingProgramModel().targets);
+  targetsList = computed<TargetUi[]>(() => {
+    const targets = this.createProgramFacade.trainingProgramModel().targets;
+    const savedExercisesMap = this.createProgramFacade.exercisesMap();
+
+    return targets.map((t) => {
+      const bindedExercise = Object.values(savedExercisesMap).find(
+        (d) => d.tempId === t.exerciseTempId,
+      );
+
+      return {
+        name: t.name,
+        exercise: {
+          id: t.exerciseTempId,
+          name: bindedExercise?.name ?? '',
+          unit: bindedExercise?.unit ?? ExerciseUnit.KG,
+        },
+        initialValue: t.initialValue,
+        targetValue: t.targetValue,
+      };
+    });
+  });
 
   editTargetModal = signal<TargetModalData>({
     show: false,
@@ -35,10 +57,15 @@ export class TargetsListComponent {
 
   confirmDialog = signal<ConfirmDialogData | null>(null);
 
-  openEditTargetModal(index: number, defaults: Target) {
+  openEditTargetModal(index: number, defaults: TargetUi) {
     this.editTargetModal.set({
       show: true,
-      defaultValues: defaults,
+      defaultValues: {
+        name: defaults.name,
+        exerciseTempId: defaults.exercise.id,
+        initialValue: defaults.initialValue,
+        targetValue: defaults.targetValue,
+      },
       editTargetIdx: index,
     });
   }

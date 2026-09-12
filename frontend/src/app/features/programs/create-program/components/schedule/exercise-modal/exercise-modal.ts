@@ -3,28 +3,44 @@ import { ModalComponent } from '@shared/components/modal/modal';
 import { BaseInputComponent } from '@shared/components/base-input/base-input';
 import { LucideCircleX, LucidePlus } from '@lucide/angular';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Exercise, ExerciseSet } from '@core/models/training.models';
+import { Exercise, ExerciseSet, ExerciseUnit } from '@core/models/training.models';
 import {
   ExerciseForm,
   ExerciseModalDefaults,
   ExerciseSetForm,
 } from '@features/programs/create-program/models/create-program.models';
+import { InputAutocomplete } from '@shared/components/input-autocomplete/input-autocomplete';
+import { AutocompleteInputList, AutocompleteInputListItem } from '@core/models/ui.models';
+import { SelectInputComponent } from '@shared/components/select-input/select-input';
+import { UNITS_LABELS } from '@shared/constants/ui-mapping/units.labels';
 
 @Component({
   selector: 'app-exercise-modal',
-  imports: [ModalComponent, BaseInputComponent, LucidePlus, ReactiveFormsModule, LucideCircleX],
+  imports: [
+    ModalComponent,
+    BaseInputComponent,
+    LucidePlus,
+    ReactiveFormsModule,
+    LucideCircleX,
+    InputAutocomplete,
+    SelectInputComponent,
+  ],
   templateUrl: './exercise-modal.html',
   styleUrl: './exercise-modal.scss',
 })
 export class ExerciseModal {
-  onClose = output();
-  onCreate = output<Exercise>();
+  protected readonly UNITS_LABELS = UNITS_LABELS;
+
+  autocompleteList = input<AutocompleteInputList | null>();
 
   defaultValues = input<ExerciseModalDefaults>({
     name: '',
-    unit: '',
+    unit: null,
     sets: [],
   });
+
+  onClose = output();
+  onCreate = output<Exercise>();
 
   exerciseForm: FormGroup<ExerciseForm> = new FormGroup({
     name: new FormControl(this.defaultValues().name, [Validators.required]),
@@ -89,6 +105,13 @@ export class ExerciseModal {
 
   removeSet(index: number) {
     this.exerciseForm.controls.sets.removeAt(index);
+  }
+
+  onAutoItemPick(item: AutocompleteInputListItem) {
+    this.exerciseForm.patchValue({
+      ...this.exerciseForm.value,
+      unit: item.props.unit ?? ExerciseUnit,
+    });
   }
 
   onSubmit() {

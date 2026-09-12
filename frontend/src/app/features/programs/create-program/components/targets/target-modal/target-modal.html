@@ -2,22 +2,23 @@
   title="Add target to the program"
   acceptOption="Save target"
   discardOption="Cancel"
+  [contentMinHeight]="210"
   [acceptBtnDisabled]="this.targetForm.invalid"
   (onSubmit)="onSubmit()"
   (onDiscard)="onClose.emit()"
 >
   <form class="target-modal-form" (submit)="$event.preventDefault()">
-    <app-input
-      class="control"
-      placeholder="Target label"
-      name="Target label"
-      [control]="targetForm.controls.name"
+    <app-select-input
+      name="Exercise to bind"
+      placeholder="Exercise to bind to"
+      [control]="targetForm.controls.exerciseTempId"
+      [options]="getSavedExercisesOptions"
     />
     <app-input
       class="control"
-      placeholder="Unit"
-      name="Unit"
-      [control]="targetForm.controls.unit"
+      placeholder="Target label (optional)"
+      name="Target label"
+      [control]="targetForm.controls.name"
     />
     <div class="values">
       <app-input
@@ -37,6 +38,11 @@
         name="Target value"
         [control]="targetForm.controls.targetValue"
       />
+    </div>
+
+    <div class="target-value-error" [class.visible]="targetForm.hasError('targetValueError')">
+      <img src="/assets/error.png" alt="error" />
+      <span class="target-value-error-msg">Target value must be higher than the initial value</span>
     </div>
   </form>
 </app-modal>

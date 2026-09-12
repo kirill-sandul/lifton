@@ -16,6 +16,7 @@
     [cdkConnectedOverlayOpen]="targetModalState()!.show"
   >
     <app-target-modal
+      [savedExercisesList]="createProgramFacade.exercisesMap()"
       (onCreate)="addTarget($event)"
       (onClose)="closeTargetModal()"
     />

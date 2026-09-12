@@ -87,11 +87,13 @@
   @if(exerciseModalState().defaultValues){
     <app-exercise-modal
       [defaultValues]="exerciseModalState().defaultValues!"
+      [autocompleteList]="createProgramFacade.exercisesMapAutocomplete()"
       (onCreate)="editExercise($event)"
       (onClose)="closeExerciseModal()"
     />
   } @else {
     <app-exercise-modal
+      [autocompleteList]="createProgramFacade.exercisesMapAutocomplete()"
       (onCreate)="addExercise($event)"
       (onClose)="closeExerciseModal()"
     />
@@ -103,7 +105,7 @@
   <app-confirm-dialog
     [cdkOrigin]="confirmDialog()!.origin"
     [cdkOpen]="confirmDialog()!.show"
-    confirmText="Are you sure to remove this workout?"
+    confirmText="Are you sure to remove this exercise?"
     (onApprove)="removeExercise(confirmDialog()!.elemIndex)"
     (onDismiss)="closeRemoveExerciseDialog()"
   />

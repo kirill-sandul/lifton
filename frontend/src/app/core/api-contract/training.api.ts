@@ -1,4 +1,4 @@
-import { Target, TrainingCycle, WeekDay } from '@core/models/training.models';
+import { TargetUi, TrainingCycle, WeekDay } from '@core/models/training.models';
 import { ClientProfileWithUser } from '@core/models/user.models';
 
 export interface CreateExerciseSetRecordDto {
