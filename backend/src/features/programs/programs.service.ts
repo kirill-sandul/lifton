@@ -103,8 +103,7 @@ export class ProgramsService {
   }
 
   async createProgram(trainerId: string, createProgramDto: CreateProgramDto) {
-    const { name, cycle, startDate, endDate, weeks, targets } =
-      createProgramDto;
+    const { name, cycle, startDate, endDate } = createProgramDto;
 
     const trainerProfile = await this.prisma.trainerProfile.findUnique({
       where: { userId: trainerId },
