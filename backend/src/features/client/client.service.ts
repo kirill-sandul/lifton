@@ -81,7 +81,11 @@ export class ClientService {
                     },
                   },
                 },
-                targets: true,
+                targets: {
+                  include: {
+                    exercises: true,
+                  },
+                },
               },
             },
           },
@@ -463,6 +467,10 @@ export class ClientService {
 
         return {
           ...target,
+          exercise: {
+            name: target.exercises[0].name,
+            unit: target.exercises[0].unit,
+          },
           completionPercentage: parseInt(relativeCp.toFixed(1)),
         };
       }),
@@ -532,15 +540,17 @@ export class ClientService {
       let currentTargetValue = target.currentValue;
 
       record.exercises.forEach((exercise) => {
-        const validSets = exercise.sets.filter((set) => !set.skipped);
+        if (target.exercises.find((tEx) => tEx.id === exercise.id)) {
+          const validSets = exercise.sets.filter((set) => !set.skipped);
 
-        if (validSets.length > 0) {
-          const biggestExecutedValue = Math.max(
-            ...validSets.map((s) => s.executedValue),
-          );
+          if (validSets.length > 0) {
+            const biggestExecutedValue = Math.max(
+              ...validSets.map((s) => s.executedValue),
+            );
 
-          if (biggestExecutedValue > currentTargetValue) {
-            currentTargetValue = biggestExecutedValue;
+            if (biggestExecutedValue > currentTargetValue) {
+              currentTargetValue = biggestExecutedValue;
+            }
           }
         }
       });

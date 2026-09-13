@@ -1,4 +1,4 @@
-import { TargetUi, TrainingCycle, WeekDay } from '@core/models/training.models';
+import { ExerciseUnit, TargetUi, TrainingCycle, WeekDay } from '@core/models/training.models';
 import { ClientProfileWithUser } from '@core/models/user.models';
 
 export interface CreateExerciseSetRecordDto {
@@ -73,8 +73,10 @@ export interface TargetResponse {
   initialValue: number;
   currentValue: number;
   targetValue: number;
-  unit: string;
   completionPercentage: number;
-  exerciseId?: string | null;
+  exercise: {
+    name: string;
+    unit: ExerciseUnit;
+  };
   trainingPlanId?: string;
 }

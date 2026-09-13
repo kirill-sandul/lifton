@@ -86,11 +86,14 @@
               <div class="targets-list">
                 @for(target of _selectedProgram.targets; track target.id){
                   <div class="target-card">
-                    <h3 class="name">{{ target.name }}</h3>
+                    <h3 class="exercise-name">{{ target.exercise.name }}</h3>
+                    @if(target.name.trim()){
+                      <h3 class="name grey">{{ target.name }}</h3>
+                    }
                     <div class="values">
-                      <span>Initially: <span class="warn">{{ target.initialValue }}{{ target.unit }}</span></span>
+                      <span>Initially: <span class="warn">{{ target.initialValue }}{{ target.exercise.unit }}</span></span>
                       <svg lucideIcon="move-right"></svg>
-                      <span>Target: <span class="success">{{ target.targetValue }}{{ target.unit }}</span></span>
+                      <span>Target: <span class="success">{{ target.targetValue }}{{ target.exercise.unit }}</span></span>
                     </div>
                     <span class="completion">Completion: 40% (by current data)</span>
                   </div>

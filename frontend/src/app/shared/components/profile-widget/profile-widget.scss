@@ -23,6 +23,10 @@
     &::before {
       opacity: 1;
     }
+
+    &:hover::before {
+      opacity: 0.8;
+    }
   }
 
   &::before {

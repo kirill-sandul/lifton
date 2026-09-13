@@ -1,9 +1,20 @@
 .widget {
+  min-width: 600px;
+
+  @media (max-width: 1555px) {
+    min-width: 400px;
+
+    .targets {
+      grid-template-columns: repeat(1, 1fr) !important;
+    }
+  }
+
   .targets {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
     padding: 10px 0;
+    gap: 40px;
 
     .target {
       display: flex;
@@ -13,9 +24,13 @@
         display: flex;
         justify-content: space-between;
 
-        .target-name {
+        .exercise-name {
           font-weight: 500;
           font-size: 18px;
+        }
+
+        .target-name {
+
         }
 
         .target-completion {

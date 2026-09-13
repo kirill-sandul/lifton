@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 import { LowerCasePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { LucideMoveRight } from '@lucide/angular';
 import { UserRolePipe } from '@core/pipes/user-role/user-role.pipe';
 import { UserProfile } from '@core/models/user.models';
@@ -9,7 +10,7 @@ type ProfileWidgetColor = 'light' | 'dark';
 
 @Component({
   selector: 'app-profile-widget',
-  imports: [LowerCasePipe, LucideMoveRight, UserRolePipe, PfpCircleComponent],
+  imports: [LowerCasePipe, LucideMoveRight, UserRolePipe, PfpCircleComponent, RouterLink],
   templateUrl: './profile-widget.html',
   styleUrl: './profile-widget.scss',
 })

@@ -21,7 +21,11 @@ const currentProgramArgs = {
         workouts: workoutArgs,
       },
     },
-    targets: true,
+    targets: {
+      include: {
+        exercises: true,
+      },
+    },
   },
 } satisfies Prisma.TrainingProgramFindManyArgs;
 

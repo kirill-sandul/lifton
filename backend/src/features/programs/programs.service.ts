@@ -30,7 +30,11 @@ export class ProgramsService {
                 },
               },
             },
-            targets: true,
+            targets: {
+              include: {
+                exercises: true,
+              },
+            },
           },
         },
       },
@@ -38,7 +42,18 @@ export class ProgramsService {
 
     if (!trainer) throw new NotFoundException();
 
-    return trainer.programs;
+    return trainer.programs.map((p) => ({
+      ...p,
+      targets: p.targets.map((target) => {
+        return {
+          ...target,
+          exercise: {
+            name: target.exercises[0].name,
+            unit: target.exercises[0].unit,
+          },
+        };
+      }),
+    }));
   }
 
   async assignClient(

@@ -4,6 +4,7 @@ import {
   LucideArrowUpRight,
   LucideAtSign,
   LucideBell,
+  LucideChartNoAxesCombined,
   LucideCheck,
   LucideCheckCheck,
   LucideCircleAlert,
@@ -71,4 +72,5 @@ export const APP_ICONS = [
   LucideCheckCheck,
   LucideInfo,
   LucideEllipsisVertical,
+  LucideChartNoAxesCombined,
 ];

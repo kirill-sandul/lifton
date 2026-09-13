@@ -22,9 +22,11 @@ export class ProgramsLibFacade {
 
   selectedProgramId = signal<string | null>(null);
 
-  selectedProgram = computed(
-    () => this.programs().filter((p) => p.id === this.selectedProgramId())[0],
-  );
+  selectedProgram = computed(() => {
+    console.log(this.programs().find((p) => p.id === this.selectedProgramId()));
+
+    return this.programs().find((p) => p.id === this.selectedProgramId());
+  });
 
   selectedProgramWhitelist = computed<TrainingProgramWhitelist>(() => {
     const whitelist: TrainingProgramWhitelist = [];

@@ -1,6 +1,7 @@
 .client-workouts-list {
   display: flex;
   flex-direction: column;
+  min-width: 400px;
   gap: 17px;
 
   .top-block {

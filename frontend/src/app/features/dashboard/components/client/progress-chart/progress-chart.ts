@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
+import { LucideDynamicIcon } from '@lucide/angular';
 
 @Component({
   selector: 'app-progress-chart',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, LucideDynamicIcon],
   templateUrl: './progress-chart.html',
   styleUrl: './progress-chart.scss',
 })
@@ -12,7 +13,7 @@ export class ProgressChartComponent {
   lineChartType: 'line' = 'line';
 
   chartData: ChartDataset<'line'> = {
-    data: [60, 70, 73, 80],
+    data: [],
     label: 'Bench Press',
     borderColor: '#0084E2',
     borderWidth: 2,

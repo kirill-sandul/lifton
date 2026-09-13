@@ -33,65 +33,65 @@ export const DASHBOARD_WIDGET_REGISTRY: DashboardWidgetRegistry = {
   CLIENT: [
     {
       component: WorkoutWidgetComponent,
-      grid: 'grid-rows-1-3',
+      grid: 'workout-widget', //grid-rows-1-3
     },
     {
       component: TrainerInfoWidgetComponent,
-      grid: 'grid-rows-3-4',
+      grid: 'trainer-info-widget', //grid-rows-3-4
     },
     {
       component: CompletionWidgetComponent,
-      grid: 'grid-rows-1-2 grid-cols-3-4',
+      grid: 'completion-widget', // grid-rows-1-2 grid-cols-3-4,
     },
     {
       component: StreakWidgetComponent,
-      grid: 'grid-rows-2-3 grid-cols-3-4',
+      grid: 'streak-widget', //grid-rows-2-3 grid-cols-3-4,
     },
     {
       component: TargetsWidgetComponent,
-      grid: 'grid-rows-3-4 grid-cols-2-3',
+      grid: 'targets-widget', // grid-rows-3-4 grid-cols-2-3,
     },
     {
       component: ClientScheduleWidgetComponent,
-      grid: 'grid-rows-3-4 grid-cols-3-4',
+      grid: 'client-schedule-widget', // grid-rows-3-4 grid-cols-3-4,
     },
     {
       component: ProgressChartComponent,
-      grid: 'grid-rows-1-3 grid-cols-2-3',
+      grid: 'progress-chart-widget', // grid-rows-1-3 grid-cols-2-3,
     },
   ],
   TRAINER: [
     {
       component: AvgProgressWidgetComponent,
-      grid: 'grid-rows-1-2',
+      grid: 'avg-progress-widget', // grid-rows-1-2,
     },
     {
       component: AdherenceRateWidgetComponent,
-      grid: 'grid-rows-1-2',
+      grid: 'adherence-rate-widget', // grid-rows-1-2,
     },
     {
       component: CompletedWorkoutsWidgetComponent,
-      grid: 'grid-rows-1-2 min-size',
+      grid: 'completed-workouts-widget min-size', // grid-rows-1-2 min-size,
     },
     {
       component: ActiveProgramsWidgetComponent,
-      grid: 'grid-rows-1-2 ',
+      grid: 'active-programs-widget', //grid-rows-1-2
     },
     {
       component: TrainerScheduleWidgetComponent,
-      grid: 'grid-rows-1-2 grid-span-3 max-size',
+      grid: 'trainer-schedule-widget max-size', // grid-rows-1-2 grid-span-3,
     },
     {
       component: ClientsListWidgetComponent,
-      grid: 'grid-rows-2-3',
+      grid: 'clients-list-widget', // grid-rows-2-3,
     },
     {
       component: ClientsProgressChartComponent,
-      grid: 'grid-rows-2-3 grid-span-3',
+      grid: 'clients-progress-chart-widget', // grid-rows-2-3 grid-span-3,
     },
     {
       component: TodoWidgetComponent,
-      grid: 'grid-rows-2-3 grid-cols-5-8',
+      grid: 'todo-widget', // grid-rows-2-3 grid-cols-5-8,
     },
   ],
 };

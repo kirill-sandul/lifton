@@ -1,6 +1,6 @@
 import { Component, output, signal, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { isSameDay, setDate } from 'date-fns';
+import { addDays, eachDayOfInterval, isSameDay, setDate, setDay, startOfWeek } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { ButtonComponent } from '@shared/components/button/button';
 import { LucideDynamicIcon } from '@lucide/angular';
@@ -15,6 +15,7 @@ import { LucideDynamicIcon } from '@lucide/angular';
 export class CalendarWidgetComponent {
   currentDate = new Date();
   week: Date[] = this.getWeekDays(this.currentDate);
+
   selectedDay = signal<Date>(this.currentDate);
 
   onSelectDay = output<Date>();
@@ -32,8 +33,12 @@ export class CalendarWidgetComponent {
     const start = new Date(baseDate);
     const startInTz = toZonedTime(start, userTimeZone);
 
-    return Array.from({ length: 7 }).map((_, i) => {
-      return setDate(startInTz, i);
+    const monday = startOfWeek(startInTz, {
+      weekStartsOn: 1,
     });
+
+    const sunday = addDays(monday, 6);
+
+    return eachDayOfInterval({ start: monday, end: sunday });
   }
 }

@@ -1,14 +1,18 @@
-<div class="profile-widget" [class.dark]="color() === 'dark'">
-  <div class="pfp mini" pfpCircle [pfpUrl]="profile()?.pfpUrl"></div>
-  <div class="wrapper">
-    <div class="text">
-      <span class="fullName">{{ profile()?.fullName }}</span>
-      <svg lucideMoveRight></svg>
-    </div>
-    <div class="brief-props">
-      <span>{{ profile()?.role | userRole | lowercase }}</span>
-      <span class="dot">•</span>
-      <span>{{ profile()?.email }}</span>
+@let _profile = profile();
+
+@if(_profile){
+  <div class="profile-widget" [class.dark]="color() === 'dark'" routerLink="profile/{{_profile.username}}">
+    <div class="pfp mini" pfpCircle [pfpUrl]="_profile.pfpUrl"></div>
+    <div class="wrapper">
+      <div class="text">
+        <span class="fullName">{{ _profile.fullName }}</span>
+        <svg lucideMoveRight></svg>
+      </div>
+      <div class="brief-props">
+        <span>{{ _profile.role | userRole | lowercase }}</span>
+        <span class="dot">•</span>
+        <span>{{ _profile.email }}</span>
+      </div>
     </div>
   </div>
-</div>
+}
