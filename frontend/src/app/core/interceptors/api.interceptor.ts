@@ -1,6 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '@features/auth/services/auth.service';
+import { environment } from '../../../environments/environment';
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
@@ -18,7 +19,7 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(
     req.clone({
-      url: `http://localhost:3000/api/${req.url}`,
+      url: `${environment.apiURL}/api/${req.url}`,
       withCredentials: true,
       setHeaders: headers,
     }),
