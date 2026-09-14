@@ -2,6 +2,7 @@ import {
   Prisma,
   ClientProfile,
   WorkoutRecord,
+  ExerciseUnit,
 } from '../../generated/prisma/client';
 
 const workoutArgs = {
@@ -85,16 +86,27 @@ export type WorkoutRecordRes = Prisma.WorkoutRecordGetPayload<{
   };
 }>;
 
+export interface ProgressChartExercisesData {
+  exerciseName: string;
+  values: number[];
+  labels: string[];
+}
+
+export interface ProgressChartWidgetRes {
+  chartData: ProgressChartExercisesData[];
+}
+
 export interface ClientDashboardResponse {
   upcomingWorkoutWidget: WorkoutFull | null;
   scheduleWidget: ScheduleWidgetRes | null;
   completionWidget: ProgramCompletionWidgetRes | null;
   streakWidget: StreakWidgetRes | null;
   targetsWidget: TargetsWidgetRes | null;
+  progressChartWidget: ProgressChartWidgetRes | null;
 }
 
 export interface DashboardContext {
   profile: ClientProfile;
   program: CurrentProgram;
-  records: WorkoutRecord[];
+  records: WorkoutRecordRes[];
 }

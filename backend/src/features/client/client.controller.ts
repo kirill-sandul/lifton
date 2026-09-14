@@ -28,7 +28,7 @@ export class ClientController {
     @CurrentUser() user: { sub: string },
     @UserTimeZone() tz: string,
   ) {
-    return this.clientService.getTodaysWorkout(user.sub, tz);
+    return this.clientService.getUpcomingWorkout(user.sub, tz);
   }
 
   @Post('workout-session/record')

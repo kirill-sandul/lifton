@@ -20,6 +20,7 @@ import {
   CurrentProgram,
   DashboardContext,
   ProgramCompletionWidgetRes,
+  ProgressChartWidgetRes,
   StreakWidgetRes,
   TargetsWidgetRes,
   WorkoutFull,
@@ -27,9 +28,10 @@ import {
   WorkoutWidgetRes,
   WorkoutWithDate,
 } from './client.models';
-import { WorkoutDay } from '../../generated/prisma/enums';
+import { ExerciseUnit, WorkoutDay } from '../../generated/prisma/enums';
 import { WorkoutSessionRecordDto } from './dto/client.dto';
 import { ClientProfile, WorkoutRecord } from '../../generated/prisma/client';
+import { async } from 'rxjs';
 
 @Injectable()
 export class ClientService {
@@ -109,6 +111,13 @@ export class ClientService {
     const { profile, program } = await this.getClientWithProgram(clientId);
     const records = await this.prisma.workoutRecord.findMany({
       where: { doneByClientId: profile.id, programId: program.id },
+      include: {
+        exercises: {
+          include: {
+            sets: true,
+          },
+        },
+      },
     });
 
     return { profile, program, records };
@@ -208,10 +217,10 @@ export class ClientService {
   }
 
   private getCorrespondingWeekIdx(daysPassed: number): number {
-    if (daysPassed <= 0) return -1;
+    if (daysPassed < 0) return -1;
 
-    // -1 for index
-    return Math.floor(daysPassed / 7) - 1;
+    // - 1 for index
+    return Math.ceil(daysPassed / 7) - 1;
   }
 
   // ---------------------
@@ -460,20 +469,86 @@ export class ClientService {
       programContext ?? (await this.getDashboardContext(clientId)).program;
 
     return {
-      targets: program.targets.map((target) => {
-        const range = target.targetValue - target.initialValue;
-        const relativeCp =
-          ((target.currentValue - target.initialValue) / range) * 100;
+      targets: program.targets
+        .map((target) => {
+          const range = target.targetValue - target.initialValue;
+          const relativeCp =
+            ((target.currentValue - target.initialValue) / range) * 100;
 
-        return {
-          ...target,
-          exercise: {
-            name: target.exercises[0].name,
-            unit: target.exercises[0].unit,
-          },
-          completionPercentage: parseInt(relativeCp.toFixed(1)),
-        };
-      }),
+          return {
+            ...target,
+            exercise: {
+              name: target.exercises[0].name,
+              unit: target.exercises[0].unit,
+            },
+            completionPercentage: parseInt(relativeCp.toFixed(1)),
+          };
+        })
+        .sort((a, b) => b.completionPercentage - a.completionPercentage),
+    };
+  }
+
+  async getProgressChart(
+    clientId: string,
+    recordsContext: WorkoutRecordRes[],
+  ): Promise<ProgressChartWidgetRes> {
+    const records =
+      recordsContext ?? (await this.getDashboardContext(clientId)).records;
+
+    if (records.length >= 2) {
+      const progress: Map<
+        string,
+        { workoutIdxs: number[]; workoutPrs: number[]; exerciseUnit: string }
+      > = new Map();
+
+      records.forEach((record, recordIdx) => {
+        record.exercises.forEach((exercise) => {
+          const exPr = Math.max(
+            ...exercise.sets.map((set) => set.executedValue),
+          );
+
+          const prevPrs = progress.get(exercise.name);
+
+          console.log(
+            exercise.name,
+            recordIdx + 1,
+            exercise.sets.map((set) => set.executedValue),
+          );
+
+          if (prevPrs) {
+            progress.set(exercise.name, {
+              workoutIdxs: [...prevPrs.workoutIdxs, recordIdx + 1],
+              workoutPrs: [...prevPrs.workoutPrs, exPr],
+              exerciseUnit: exercise.unit,
+            });
+          } else {
+            progress.set(exercise.name, {
+              workoutIdxs: [recordIdx + 1],
+              workoutPrs: [exPr],
+              exerciseUnit: exercise.unit,
+            });
+          }
+        });
+      });
+
+      const structuredProgress = [...progress.entries()]
+        .filter(([_, values]) => values.workoutIdxs.length > 1)
+        .map((exData) => ({
+          exerciseName: exData[0],
+          exerciseUnit: exData[1].exerciseUnit,
+          values: exData[1].workoutPrs,
+          labels: exData[1].workoutIdxs.map(
+            (workoutIdx) => `${workoutIdx}º workout`,
+          ),
+        }));
+
+      return {
+        chartData: structuredProgress.length > 0 ? structuredProgress : [],
+      };
+    }
+
+    return {
+      chartData: [],
     };
   }
 
@@ -492,12 +567,14 @@ export class ClientService {
       programCompletionResult,
       streakResult,
       targetsResult,
+      progressChartResult,
     ] = await Promise.allSettled([
       this.getUpcomingWorkout(clientId, tz, dashboardContext),
       this.getSchedule(clientId, tz, dashboardContext.program),
       this.getProgramCompletion(clientId, tz, dashboardContext),
       this.getStreak(clientId, tz, dashboardContext),
       this.getTargets(clientId, dashboardContext.program),
+      this.getProgressChart(clientId, dashboardContext.records),
     ]);
 
     const upcomingWorkoutWidget =
@@ -519,12 +596,18 @@ export class ClientService {
     const streakWidget =
       streakResult.status === 'fulfilled' ? streakResult.value : null;
 
+    const progressChartWidget =
+      progressChartResult.status === 'fulfilled'
+        ? progressChartResult.value
+        : null;
+
     return {
       upcomingWorkoutWidget,
       scheduleWidget,
       completionWidget,
       streakWidget,
       targetsWidget,
+      progressChartWidget,
     };
   }
 
@@ -540,7 +623,7 @@ export class ClientService {
       let currentTargetValue = target.currentValue;
 
       record.exercises.forEach((exercise) => {
-        if (target.exercises.find((tEx) => tEx.id === exercise.id)) {
+        if (target.exercises.find((tEx) => tEx.name === exercise.name)) {
           const validSets = exercise.sets.filter((set) => !set.skipped);
 
           if (validSets.length > 0) {

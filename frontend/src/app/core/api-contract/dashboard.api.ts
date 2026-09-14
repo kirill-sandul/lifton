@@ -1,4 +1,5 @@
 import { TargetResponse, WorkoutResponse } from '@core/api-contract/training.api';
+import { ExerciseUnit } from '@core/models/training.models';
 
 export type WorkoutWidgetResponse = WorkoutResponse & {
   date: Date;
@@ -29,10 +30,22 @@ export interface TargetsWidgetResponse {
   targets: TargetResponse[];
 }
 
+export interface ProgressChartDataset {
+  exerciseName: string;
+  exerciseUnit: ExerciseUnit;
+  values: number[];
+  labels: string[];
+}
+
+export interface ProgressChartWidgetResponse {
+  chartData: ProgressChartDataset[];
+}
+
 export interface ClientDashboardRes {
   upcomingWorkoutWidget: WorkoutWidgetResponse | null;
   scheduleWidget: ScheduleWidgetResponse | null;
   completionWidget: ProgramCompletionWidgetResponse | null;
   streakWidget: StreakWidgetResponse | null;
   targetsWidget: TargetsWidgetResponse | null;
+  progressChartWidget: ProgressChartWidgetResponse | null;
 }

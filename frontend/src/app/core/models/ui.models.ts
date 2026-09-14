@@ -12,3 +12,8 @@ export interface AutocompleteInputListItem {
 }
 
 export type AutocompleteInputList = AutocompleteInputListItem[];
+
+export interface PcExerciseSelectorOption {
+  label: string;
+  value: any;
+}
