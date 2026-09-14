@@ -66,4 +66,22 @@ export class LoginPageComponent {
         error: (error) => this.checkCredentialsError(error),
       });
   }
+
+  clientPreviewSubmit() {
+    this.authService.login({ identity: 'bruh', password: '12345678' }).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (error) => this.checkCredentialsError(error),
+    });
+  }
+
+  trainerPreviewSubmit() {
+    this.authService.login({ identity: 'admin@mailer.com', password: '12345678' }).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (error) => this.checkCredentialsError(error),
+    });
+  }
 }
