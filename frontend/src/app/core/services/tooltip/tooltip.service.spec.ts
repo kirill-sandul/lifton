@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Tooltip } from './tooltip';
+import { Tooltip } from './tooltip.service';
 
 describe('Tooltip', () => {
   let service: Tooltip;

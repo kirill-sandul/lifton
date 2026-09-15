@@ -1,29 +1,39 @@
-import { Component, effect, ElementRef, input, signal, viewChild } from '@angular/core';
-import { ITooltip } from '@core/services/tooltip/tooltip';
+import { Component, inject } from '@angular/core';
+import { TooltipService } from '@core/services/tooltip/tooltip.service';
+import {
+  CdkConnectedOverlay,
+  CdkOverlayOrigin,
+  ConnectedPosition,
+  ScrollStrategyOptions,
+} from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-tooltip',
-  imports: [],
+  imports: [CdkConnectedOverlay, CdkOverlayOrigin],
   templateUrl: './tooltip.html',
   styleUrl: './tooltip.scss',
 })
 export class TooltipComponent {
-  tooltip = input.required<ITooltip>();
+  tooltipService = inject(TooltipService);
 
-  topPos = signal(0);
-  leftPos = signal(0);
-  tooltipWidth = signal(0);
+  protected scrollStrategy = inject(ScrollStrategyOptions).reposition({
+    scrollThrottle: 0,
+  });
 
-  tooltipRef = viewChild<ElementRef>('tooltipRef');
-
-  constructor() {
-    // afterNextRender(() => {
-    //   // this.tooltipWidth.set(this.tooltipRef()?.nativeElement.getBoundingClientRect().width);
-    // });
-    effect(() => {
-      console.log(this.tooltip().targetElem.getBoundingClientRect().left);
-      this.topPos.set(this.tooltip().targetElem.getBoundingClientRect().bottom + 5);
-      this.leftPos.set(this.tooltip().targetElem.getBoundingClientRect().left);
-    });
-  }
+  protected tooltipOverlayPositions: ConnectedPosition[] = [
+    {
+      originX: 'center', // Центр кнопки
+      originY: 'top', // Верхний край кнопки
+      overlayX: 'center', // Центр тултипа
+      overlayY: 'bottom', // Нижний край тултипа
+      offsetY: -8, // Небольшой отступ вверх, чтобы не прилипал
+    },
+    {
+      originX: 'center',
+      originY: 'bottom',
+      overlayX: 'center',
+      overlayY: 'top',
+      offsetY: 8, // Запасная позиция снизу, если сверху нет места
+    },
+  ];
 }

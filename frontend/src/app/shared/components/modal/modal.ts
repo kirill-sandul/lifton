@@ -12,6 +12,7 @@ export class ModalComponent {
   subTitle = input<string>();
   acceptOption = input<string>();
   discardOption = input.required<string>();
+  overflowStyles = input<boolean>();
   maxWidth = input<number | null>();
   contentMinHeight = input<number | null>();
 

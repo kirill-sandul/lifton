@@ -3,6 +3,7 @@
   discardOption="Close"
   (onDiscard)="onClose.emit()"
   [subTitle]="`Add/remove clients on “${programsLibFacade.selectedProgram()?.name}”`"
+  [overflowStyles]="false"
 >
   <div class="search-bar" (click)="input.focus()">
     <input #input type="text" placeholder="Filter by client’s name..." [(ngModel)]="searchValue" />

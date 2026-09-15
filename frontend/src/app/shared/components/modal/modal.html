@@ -6,7 +6,7 @@
         <p class="subtitle grey">{{ subTitle() }}</p>
       }
     </header>
-    <main class="content" [style.min-height]="contentMinHeight() ? `${contentMinHeight()}px` : false">
+    <main class="content" [class.enable-overflow-styles]="overflowStyles()" [style.min-height]="contentMinHeight() ? `${contentMinHeight()}px` : false">
       <div class="content-wrapper">
         <ng-content />
       </div>

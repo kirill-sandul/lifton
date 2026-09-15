@@ -71,8 +71,8 @@
   }
 
   .tooltip {
-    position: absolute;
     display: flex;
+    position: absolute;
     width: max-content;
     top: calc(100% + 7px);
     color: #fff;
@@ -84,8 +84,8 @@
     padding: 5px 10px;
     pointer-events: none;
     transform: scale(1);
-    z-index: 999;
     transition: 0.2s;
+    z-index: 999;
 
     @starting-style {
       opacity: 0;

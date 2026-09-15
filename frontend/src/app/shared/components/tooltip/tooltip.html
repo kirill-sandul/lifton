@@ -1,8 +1,21 @@
-<div
-  #tooltipRef
-  class="tooltip"
-  [style.top]="`${topPos()}px`"
-  [style.left]="`${leftPos()}px`"
->
-  {{ tooltip().text }}
-</div>
+@let tooltipData = tooltipService.tooltip();
+
+<ng-template class="mock-origin" cdkOverlayOrigin #mockOrigin="cdkOverlayOrigin"></ng-template>
+
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="tooltipData?.origin || mockOrigin"
+    [cdkConnectedOverlayOpen]="!!tooltipData"
+    [cdkConnectedOverlayScrollStrategy]="scrollStrategy"
+    [cdkConnectedOverlayPositions]="tooltipOverlayPositions"
+    [cdkConnectedOverlayPush]="false"
+  >
+    @if(tooltipData){
+      <div
+        class="tooltip"
+        [animate.leave]="'tooltip-leave'"
+      >
+        {{ tooltipData.text }}
+      </div>
+    }
+  </ng-template>
