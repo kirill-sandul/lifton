@@ -1,16 +1,21 @@
+@let _tasks = tasks();
+
 <div class="widget">
-  <h3>To-Do actions</h3>
-  <div class="todo">
+  <header>
+    <h3>To-Do actions</h3>
+
     <app-input [name]="'Task text'" [control]="taskControl" [placeholder]="'Add a task...'">
       <svg lucidePlus class="add-task-btn" (click)="addTask()"></svg>
     </app-input>
-    @if(tasks.length){
+  </header>
+  <div class="todo">
+    @if(_tasks && _tasks.length > 0){
       <div class="tasks">
-        @for (task of tasks; track task.id) {
+        @for (task of _tasks; track task.id) {
           <div class="task">
             <div class="task-wrapper">
               <div class="column">
-                <app-checkbox (onCheck)="onComplete(task.id, $event)" />
+                <app-checkbox [initiallyChecked]="task.completed" (onCheck)="onComplete(task.id, $event)" />
                 <div class="content" [class.completed]="task.completed">{{ task.content }}</div>
               </div>
               <button class="remove-task-btn">

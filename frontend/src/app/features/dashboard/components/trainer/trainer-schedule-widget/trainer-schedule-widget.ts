@@ -1,11 +1,14 @@
 import { Component, effect, ElementRef, inject, signal, ViewChild } from '@angular/core';
-import { CalendarWidgetComponent } from '@features/dashboard/components/calendar-widget/calendar-widget';
 import { DatePipe } from '@angular/common';
-import { ClientWorkoutOnDay } from '@core/models/training.models';
-import { TrainerService } from '@core/services/roles/trainer/trainer.service';
-import { ClientPreviewComponent } from '@shared/components/client-preview/client-preview';
-import EmblaCarousel from 'embla-carousel';
 import { LucideMoveLeft, LucideMoveRight } from '@lucide/angular';
+import { isSameDay } from 'date-fns';
+import EmblaCarousel from 'embla-carousel';
+import { CalendarWidgetComponent } from '@features/dashboard/components/calendar-widget/calendar-widget';
+import { TrainerFacade } from '@core/facades/roles/trainer/trainer.facade';
+import { ClientPreviewComponent } from '@shared/components/client-preview/client-preview';
+import { ClientWorkoutOnDay } from '@core/api-contract/dashboard.api';
+import { UserRole } from '@core/models/user.models';
+import { FullTrainerScheduleModal } from '@features/dashboard/components/trainer/trainer-schedule-widget/components/full-trainer-schedule-modal/full-trainer-schedule-modal';
 
 @Component({
   selector: 'app-trainer-client-schedule-widget',
@@ -15,16 +18,18 @@ import { LucideMoveLeft, LucideMoveRight } from '@lucide/angular';
     ClientPreviewComponent,
     LucideMoveLeft,
     LucideMoveRight,
+    FullTrainerScheduleModal,
   ],
   templateUrl: './trainer-schedule-widget.html',
   styleUrl: './trainer-schedule-widget.scss',
 })
 export class TrainerScheduleWidgetComponent {
-  trainerService = inject(TrainerService);
+  trainerFacade = inject(TrainerFacade);
+
+  schedule = this.trainerFacade.scheduleWidget();
 
   selectedDay = signal<Date>(new Date());
   dayWorkouts = signal<ClientWorkoutOnDay[] | null>(null);
-  schedule = this.trainerService.clientsWorkoutsOnDay;
 
   @ViewChild('embla') emblaRef!: ElementRef<HTMLElement>;
   emblaSlider?: ReturnType<typeof EmblaCarousel>;
@@ -32,8 +37,14 @@ export class TrainerScheduleWidgetComponent {
   disableScrollPrev = signal<boolean>(true);
   disableScrollNext = signal<boolean>(false);
 
+  showFullSchedule = signal<boolean>(false);
+
+  protected readonly UserRole = UserRole;
+
   constructor() {
     effect(() => {
+      this.schedule = this.trainerFacade.scheduleWidget();
+
       const workouts = this.getDayWorkouts(this.selectedDay());
 
       this.dayWorkouts.set(workouts ?? null);
@@ -72,23 +83,17 @@ export class TrainerScheduleWidgetComponent {
     this.updateSliderNavButtons();
   }
 
-  getDayWorkouts(day: Date) {
+  getDayWorkouts(day: Date): ClientWorkoutOnDay[] {
     this.selectedDay.set(day);
 
-    const dayIdx = day.getDay();
+    if (!this.schedule) return [];
 
-    const weekDays: Record<number, string> = {
-      0: 'SUNDAY',
-      1: 'MONDAY',
-      2: 'TUESDAY',
-      3: 'WEDNESDAY',
-      4: 'THURSDAY',
-      5: 'FRIDAY',
-      6: 'SATURDAY',
-    };
+    let dayWorkouts: ClientWorkoutOnDay[] = [];
 
-    if (!this.schedule) return;
+    Object.entries(this.schedule).forEach(([scheduleDate, workouts]) => {
+      if (isSameDay(new Date(scheduleDate), day)) dayWorkouts = workouts;
+    });
 
-    return this.schedule.filter((d) => d.plannedWorkout.day === weekDays[dayIdx]);
+    return dayWorkouts;
   }
 }

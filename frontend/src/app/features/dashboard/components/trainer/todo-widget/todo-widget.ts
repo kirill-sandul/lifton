@@ -1,14 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { BaseInputComponent } from '@shared/components/base-input/base-input';
 import { LucideCircleX, LucidePlus } from '@lucide/angular';
 import { FormControl, Validators } from '@angular/forms';
 import { Checkbox } from '@shared/components/checkbox/checkbox';
-
-export interface TodoWidgetTask {
-  id: string;
-  content: string;
-  completed: boolean;
-}
+import { TrainerFacade } from '@core/facades/roles/trainer/trainer.facade';
+import { TrainerTodoListItem } from '@core/api-contract/dashboard.api';
 
 @Component({
   selector: 'app-todo-widget',
@@ -17,27 +13,29 @@ export interface TodoWidgetTask {
   styleUrl: './todo-widget.scss',
 })
 export class TodoWidgetComponent {
+  trainerFacade = inject(TrainerFacade);
+
   taskControl = new FormControl('', [Validators.minLength(3), Validators.maxLength(70)]);
-  tasks: TodoWidgetTask[] = [];
+
+  tasks = computed(() => this.trainerFacade.tasks());
 
   addTask() {
-    if (!this.taskControl.value || this.taskControl.invalid) return;
+    const taskControlValue = this.taskControl.value;
+    if (!taskControlValue || this.taskControl.invalid) return;
 
-    this.tasks.push({
-      id: crypto.randomUUID(),
-      content: this.taskControl.value,
-      completed: false,
-    });
+    this.trainerFacade.addTask(taskControlValue);
 
     this.taskControl.reset();
   }
 
   onComplete(taskId: string, checkBoxState: boolean) {
-    const taskIdx = this.tasks.findIndex((task) => task.id === taskId);
-    this.tasks[taskIdx].completed = checkBoxState;
+    this.trainerFacade.editTask({
+      taskId,
+      completed: checkBoxState,
+    });
   }
 
   removeTask(taskId: string) {
-    this.tasks = this.tasks.filter((task) => task.id !== taskId);
+    this.trainerFacade.removeTask(taskId);
   }
 }

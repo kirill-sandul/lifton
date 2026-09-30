@@ -6,6 +6,7 @@
   <div
     class="selection-bg"
     [style]="{'width': `${currentTabWidth()}px`, 'transform': `translate(${selectionBgPos()}px)`}"
+    [class.hidden]="selectorStep() === -1"
   ></div>
 
   @for (opt of options(); track $index) {

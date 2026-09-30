@@ -58,6 +58,8 @@ export class DashboardFacade {
   getDashboard() {
     if (this.userService.role() === UserRole.CLIENT) {
       this.clientService.getDashboard().subscribe();
+    } else {
+      this.trainerService.getDashboard().subscribe();
     }
   }
 }

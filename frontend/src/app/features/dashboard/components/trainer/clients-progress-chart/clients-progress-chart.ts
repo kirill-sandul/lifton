@@ -1,47 +1,158 @@
-import { Component, computed, inject } from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
-import { TrainerService } from '@core/services/roles/trainer/trainer.service';
-import { FormControl } from '@angular/forms';
-import { ClientSelectorComponent, SelectInputOption } from '../client-selector/client-selector';
+import { TrainerFacade } from '@core/facades/roles/trainer/trainer.facade';
+import { ClientSelectorComponent, ClientSelectorOption } from '../client-selector/client-selector';
+import { ProgressChartExerciseSelector } from '@shared/components/exercise-selector/exercise-selector';
+import { PcExerciseSelectorOption } from '@core/models/ui.models';
+import { ClientProgressData } from '@core/api-contract/dashboard.api';
+import { ProgressChartComponent } from '@shared/components/progress-chart/progress-chart';
 
 @Component({
-  selector: 'app-clients-progress-chart',
-  imports: [BaseChartDirective, ClientSelectorComponent],
+  selector: 'app-clients-progress-chart-widget',
+  imports: [ClientSelectorComponent, ProgressChartExerciseSelector, ProgressChartComponent],
   templateUrl: './clients-progress-chart.html',
   styleUrl: './clients-progress-chart.scss',
 })
 export class ClientsProgressChartComponent {
-  trainerService = inject(TrainerService);
-  clients = computed(() => this.trainerService.clients());
+  trainerFacade = inject(TrainerFacade);
 
-  lineChartType: 'line' = 'line';
+  clients = computed(() => this.trainerFacade.clients());
 
-  chartData: ChartDataset<'line'> = {
-    data: [60, 70, 73, 80],
-    label: 'Bench Press',
-    borderColor: '#0084E2',
-    borderWidth: 2,
-    fill: true,
-    tension: 0.4,
-    backgroundColor: (context) => {
-      const ctx = context.chart?.ctx;
+  selectedClientId = signal<string | null>(null);
+  selectedExerciseOption = signal<PcExerciseSelectorOption | null>(null);
+  selectedClientChartData = computed<ClientProgressData | null | undefined>(() => {
+    const progressChartData = this.trainerFacade.allClientsProgressWidget();
 
-      if (!ctx) return;
+    return progressChartData
+      ? progressChartData.find((v) => v.clientData.id === this.selectedClientId())
+      : null;
+  });
 
-      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+  selectedClientName = computed<string | null>(() => {
+    const selectedClientChartData = this.selectedClientChartData();
+    return selectedClientChartData ? selectedClientChartData.clientData.fullName : null;
+  });
 
-      gradient.addColorStop(0, 'rgba(168, 218, 255, 0.8)');
-      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+  generatedExercisesOptions = computed<PcExerciseSelectorOption[]>(() => {
+    const selectedChartData = this.selectedClientChartData();
 
-      return gradient;
-    },
-  };
+    const options: PcExerciseSelectorOption[] = [];
 
-  lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-    datasets: [this.chartData],
-  };
+    if (selectedChartData) {
+      selectedChartData.chartData.forEach((exData) => {
+        options.push({
+          label: exData.exerciseName,
+          value: exData,
+        });
+      });
+    }
+
+    return options;
+  });
+
+  generateClientsOptions = computed<ClientSelectorOption[]>(() => {
+    const options: ClientSelectorOption[] = [];
+
+    this.clients().forEach((client) => {
+      const firstName = client.user.fullName.split(' ')[0];
+
+      options.push({
+        clientPfpUrl: client.user.pfpUrl!,
+        clientFirstName: firstName,
+        value: client.id,
+      });
+    });
+
+    return options;
+  });
+
+  lineChartData = computed<ChartConfiguration<'line'>['data']>(() => {
+    const progressChartData = this.trainerFacade.allClientsProgressWidget();
+
+    const selectedChartData = this.selectedClientChartData();
+    const selectedExerciseOption = this.selectedExerciseOption();
+
+    if (!progressChartData || !selectedChartData || !selectedExerciseOption) {
+      return {
+        labels: [],
+        datasets: [],
+      };
+    }
+
+    let chartDatasets: ChartDataset<'line'>[] = [];
+    let labels: string[] = [];
+    const labelsSetConcat = new Set<string>();
+
+    if (selectedExerciseOption._all_option) {
+      selectedChartData.chartData.forEach((correspondingChartData) => {
+        const chartData: ChartDataset<'line'> = {
+          data: correspondingChartData ? correspondingChartData.values : [],
+          label: correspondingChartData.exerciseName,
+          borderColor: '#0084E2',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          backgroundColor: (context) => {
+            const ctx = context.chart?.ctx;
+
+            if (!ctx) return;
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+
+            gradient.addColorStop(0, 'rgba(168, 218, 255, 0.8)');
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+            return gradient;
+          },
+        };
+
+        chartDatasets = [...chartDatasets, chartData];
+        correspondingChartData.labels.forEach((label) => labelsSetConcat.add(label));
+
+        labels = Array.from(labelsSetConcat);
+
+        console.log(correspondingChartData);
+      });
+    } else {
+      const exerciseChart = selectedChartData.chartData.find(
+        (exData) => exData.exerciseName === this.selectedExerciseOption()?.value.exerciseName,
+      );
+
+      console.log(this.selectedExerciseOption());
+
+      if (exerciseChart) {
+        chartDatasets = [
+          {
+            data: exerciseChart ? exerciseChart.values : [],
+            label: exerciseChart.exerciseName,
+            borderColor: '#0084E2',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            backgroundColor: (context) => {
+              const ctx = context.chart?.ctx;
+
+              if (!ctx) return;
+
+              const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+
+              gradient.addColorStop(0, 'rgba(168, 218, 255, 0.8)');
+              gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+              return gradient;
+            },
+          },
+        ];
+
+        labels = exerciseChart.labels;
+      }
+    }
+
+    return {
+      labels: labels,
+      datasets: chartDatasets,
+    };
+  });
 
   lineChartOptions: ChartOptions<'line'> = {
     responsive: true,
@@ -62,22 +173,4 @@ export class ClientsProgressChartComponent {
       },
     },
   };
-
-  selectClientControl = new FormControl(this.clients().length ? this.clients()[0].user.id : '');
-
-  generateClientsOptions() {
-    const options: SelectInputOption[] = [];
-
-    this.clients().forEach((client) => {
-      const firstName = client.user.fullName.split(' ')[0];
-
-      options.push({
-        clientPfpUrl: client.user.pfpUrl!,
-        clientFirstName: firstName,
-        value: client.user.id!,
-      });
-    });
-
-    return options;
-  }
 }

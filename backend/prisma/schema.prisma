@@ -211,6 +211,25 @@ model TrainerProfile {
 
   clients  ClientProfile[]
   programs TrainingProgram[]
+
+  todoList TrainerTodoList?
+}
+
+model TrainerTodoItem {
+  id        String  @id @default(uuid())
+  content   String
+  completed Boolean @default(false)
+
+  trainerTodoList   TrainerTodoList? @relation(fields: [trainerTodoListId], references: [id])
+  trainerTodoListId String?
+}
+
+model TrainerTodoList {
+  id    String            @id @default(uuid())
+  items TrainerTodoItem[]
+
+  trainerProfile   TrainerProfile? @relation(fields: [trainerProfileId], references: [id])
+  trainerProfileId String?         @unique
 }
 
 model WorkoutRecord {
@@ -234,6 +253,8 @@ model WorkoutRecord {
 
   doneByClient   ClientProfile? @relation(fields: [doneByClientId], references: [id])
   doneByClientId String?
+
+  createdAt DateTime @default(now())
 }
 
 model ExerciseRecord {

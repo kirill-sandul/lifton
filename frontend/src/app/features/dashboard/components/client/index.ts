@@ -4,4 +4,4 @@ export { CompletionWidgetComponent } from './program-completion-widget/program-c
 export { StreakWidgetComponent } from './streak-widget/streak-widget';
 export { TargetsWidgetComponent } from './targets-widget/targets-widget';
 export { ClientScheduleWidgetComponent } from './client-schedule-widget/client-schedule-widget';
-export { ProgressChartComponent } from './progress-chart/progress-chart';
+export { ClientProgressChartWidgetComponent } from '@features/dashboard/components/client/client-progress-chart-widget/client-progress-chart-widget';

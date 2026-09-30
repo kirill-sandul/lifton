@@ -1,4 +1,5 @@
 .widget {
+
   .mini-title {
     font-size: 17.5px;
     font-weight: 400;
@@ -8,7 +9,7 @@
   .rate {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 25px;
 
     .avg-percentage {
       font-size: 32px;
@@ -16,7 +17,8 @@
     }
 
     .conclusion {
-      color: var(--primary-success);
+      min-width: 150px;
+      max-width: 200px;
     }
   }
 

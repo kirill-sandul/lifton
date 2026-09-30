@@ -16,4 +16,5 @@ export type AutocompleteInputList = AutocompleteInputListItem[];
 export interface PcExerciseSelectorOption {
   label: string;
   value: any;
+  _all_option?: boolean;
 }

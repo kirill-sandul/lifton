@@ -7,14 +7,19 @@ import {
 import {
   addWeeks,
   differenceInCalendarDays,
+  eachDayOfInterval,
   getDay,
   isEqual,
   isPast,
+  isSameDay,
   nextDay,
   setDay,
+  setISODay,
+  toDate,
 } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { PrismaService } from '../../core/modules/prisma/prisma.service';
+import { WorkoutWithDate } from '../../core/models/global.models';
 import {
   ClientDashboardResponse,
   CurrentProgram,
@@ -26,12 +31,10 @@ import {
   WorkoutFull,
   WorkoutRecordRes,
   WorkoutWidgetRes,
-  WorkoutWithDate,
 } from './client.models';
-import { ExerciseUnit, WorkoutDay } from '../../generated/prisma/enums';
+import { WorkoutDay } from '../../generated/prisma/enums';
 import { WorkoutSessionRecordDto } from './dto/client.dto';
 import { ClientProfile, WorkoutRecord } from '../../generated/prisma/client';
-import { async } from 'rxjs';
 
 @Injectable()
 export class ClientService {
@@ -188,9 +191,9 @@ export class ClientService {
       if (!additionalWeek) break;
 
       // if latest scheduled workout day goes after endDate, it will get removed
-      const normalizedWorkouts = additionalWeek.workouts.filter(
-        (workout) => this.DAYS_IDX[workout.day] <= program.endDate.getUTCDay(),
-      );
+      const normalizedWorkouts = additionalWeek.workouts.filter((workout) => {
+        return this.DAYS_IDX[workout.day] <= program.endDate.getUTCDay();
+      });
 
       normalizedProgramWeeks.push({
         ...additionalWeek,
@@ -218,6 +221,7 @@ export class ClientService {
 
   private getCorrespondingWeekIdx(daysPassed: number): number {
     if (daysPassed < 0) return -1;
+    else if (daysPassed === 0) return 0;
 
     // - 1 for index
     return Math.ceil(daysPassed / 7) - 1;
@@ -283,11 +287,16 @@ export class ClientService {
     if (currentWeek) {
       // sort by correct week day, day index, and clear already recorded workouts
       const availableWorkouts = currentWeek.workouts
-        .filter(
-          (w) =>
+        .filter((w) => {
+          if (this.DAYS_IDX[w.day] === 0) {
+            return 7 >= currentWeekDayIdx && !recordedWorkoutsSet.has(w.id);
+          }
+
+          return (
             this.DAYS_IDX[w.day] >= currentWeekDayIdx &&
-            !recordedWorkoutsSet.has(w.id),
-        )
+            !recordedWorkoutsSet.has(w.id)
+          );
+        })
         .sort((a, b) => this.DAYS_IDX[a.day] - this.DAYS_IDX[b.day]);
 
       if (availableWorkouts.length > 0) {
@@ -311,9 +320,9 @@ export class ClientService {
       throw new NotFoundException('No upcoming workouts found');
     }
 
-    const nextWeekWorkout = nextWeek.workouts.sort(
-      (a, b) => this.DAYS_IDX[a.day] - this.DAYS_IDX[b.day],
-    )[0];
+    const nextWeekWorkout = nextWeek.workouts
+      .filter((w) => !recordedWorkoutsSet.has(w.id))
+      .sort((a, b) => this.DAYS_IDX[a.day] - this.DAYS_IDX[b.day])[0];
 
     const nextWeekWorkoutDate = nextDay(
       todayInUserTz,
@@ -342,17 +351,20 @@ export class ClientService {
 
     const programStartInUserTz = toZonedTime(program.startDate, tz);
 
-    return normalizedWeeks.flatMap((week, weekIdx) =>
-      week.workouts.map((workout) => {
-        const weekOffset = addWeeks(programStartInUserTz, weekIdx + 1);
-        const workoutDate = setDay(weekOffset, this.DAYS_IDX[workout.day]);
+    return normalizedWeeks.flatMap((week, weekIdx) => {
+      return week.workouts.map((workout) => {
+        const weekOffset = addWeeks(programStartInUserTz, weekIdx);
+
+        const workoutDate = setDay(weekOffset, this.DAYS_IDX[workout.day], {
+          weekStartsOn: 1,
+        });
 
         return {
           ...workout,
           date: workoutDate,
         };
-      }),
-    );
+      });
+    });
   }
 
   async getProgramCompletion(
@@ -401,6 +413,54 @@ export class ClientService {
       weeksPassed,
       daysOffset,
       weeksTotal,
+    };
+  }
+
+  async getClientAdherenceRate(
+    clientId: string,
+    tz: string,
+    startDate: Date,
+    endDate: Date,
+    context?: DashboardContext,
+  ) {
+    const { program, records } =
+      context ?? (await this.getDashboardContext(clientId));
+
+    const schedule = await this.getSchedule(clientId, tz, program);
+
+    const recordsMap = new Map<string | null, WorkoutRecord>(
+      records.map((record) => [record.originalWorkoutId, record]),
+    );
+
+    let workoutsCompleted = 0;
+    let workoutsSkipped = 0;
+    let totalWorkoutsPlanned = 0;
+
+    for (const workout of schedule) {
+      const requestedRange = eachDayOfInterval({
+        start: startDate,
+        end: endDate,
+      });
+
+      requestedRange.forEach((dateInRange) => {
+        if (isSameDay(workout.date, dateInRange)) {
+          totalWorkoutsPlanned++;
+          const correspondingRecord = recordsMap.get(workout.id);
+
+          if (correspondingRecord) {
+            if (correspondingRecord.skipped) workoutsSkipped++;
+            else workoutsCompleted++;
+          } else if (isPast(workout.date)) {
+            workoutsSkipped++;
+          }
+        }
+      });
+    }
+
+    return {
+      workoutsCompleted,
+      workoutsSkipped,
+      totalWorkoutsPlanned,
     };
   }
 
@@ -490,7 +550,7 @@ export class ClientService {
 
   async getProgressChart(
     clientId: string,
-    recordsContext: WorkoutRecordRes[],
+    recordsContext?: WorkoutRecordRes[],
   ): Promise<ProgressChartWidgetRes> {
     const records =
       recordsContext ?? (await this.getDashboardContext(clientId)).records;
@@ -508,12 +568,6 @@ export class ClientService {
           );
 
           const prevPrs = progress.get(exercise.name);
-
-          console.log(
-            exercise.name,
-            recordIdx + 1,
-            exercise.sets.map((set) => set.executedValue),
-          );
 
           if (prevPrs) {
             progress.set(exercise.name, {

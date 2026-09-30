@@ -1,0 +1,17 @@
+@let _chartData = chartData();
+
+@if(_chartData && _chartData.datasets.length > 0){
+  <div class="progress-chart">
+    <div class="chart">
+      <canvas baseChart [data]="_chartData" [options]="chartOptions()" [type]="lineChartType"></canvas>
+    </div>
+  </div>
+}
+@else {
+  <div class="no-progress">
+    <div class="icon-wrapper">
+      <svg lucideIcon="chart-no-axes-combined"></svg>
+    </div>
+    <span class="grey">{{ noProgressMessage() }}</span>
+  </div>
+}

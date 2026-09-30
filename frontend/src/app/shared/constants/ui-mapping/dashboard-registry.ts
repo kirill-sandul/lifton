@@ -8,7 +8,7 @@ import {
   StreakWidgetComponent,
   TargetsWidgetComponent,
   ClientScheduleWidgetComponent,
-  ProgressChartComponent,
+  ClientProgressChartWidgetComponent,
 } from '@features/dashboard/components/client';
 
 import {
@@ -56,8 +56,8 @@ export const DASHBOARD_WIDGET_REGISTRY: DashboardWidgetRegistry = {
       grid: 'client-schedule-widget', // grid-rows-3-4 grid-cols-3-4,
     },
     {
-      component: ProgressChartComponent,
-      grid: 'progress-chart-widget', // grid-rows-1-3 grid-cols-2-3,
+      component: ClientProgressChartWidgetComponent,
+      grid: 'client-progress-chart-widget', // grid-rows-1-3 grid-cols-2-3,
     },
   ],
   TRAINER: [
@@ -115,7 +115,7 @@ export const NO_DATA_WIDGET_REGISTRY: DashboardWidgetRegistry = {
       grid: 'grid-rows-2-3 grid-cols-1-2',
     },
     {
-      component: ProgressChartComponent,
+      component: ClientProgressChartWidgetComponent,
       grid: 'grid-rows-1-2 grid-cols-2-3',
     },
   ],

@@ -1,0 +1,42 @@
+@let _workoutsData = workoutsData();
+
+@if(_workoutsData && _workoutsData.length > 0){
+  <div class="workouts-on-day-list">
+    @for(clientWorkout of _workoutsData; track clientWorkout.id){
+      <app-client-preview
+        type="clientWithWorkout"
+        [noRedirect]="true"
+        [clientWithWorkout]="clientWorkout"
+        (click)="onSelectWorkout.emit(clientWorkout)"
+      />
+    }
+  </div>
+
+  <div class="delimiter-line"></div>
+
+  @let _selectedWorkout = selectedWorkout();
+  @if(_selectedWorkout){
+    <div class="selected-client-workout-details">
+      <header>
+        <h3>
+          Workout details of <span class="highlight">{{ _selectedWorkout.fullName }}</span> on this day:
+        </h3>
+      </header>
+      <main>
+        <app-workout-details [workoutData]="_selectedWorkout.workout" />
+      </main>
+    </div>
+  }
+  @else {
+    <div class="selected-client-workout-details">
+      <header>
+        <h3 class="grey">
+          Select a client's workout of the list to see details
+        </h3>
+      </header>
+    </div>
+  }
+}
+@else {
+  <p class="no-workouts grey">No workouts on this day</p>
+}

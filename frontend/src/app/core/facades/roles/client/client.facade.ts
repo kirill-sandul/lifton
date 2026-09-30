@@ -16,9 +16,9 @@ import { SnackbarService } from '@core/services/snackbar/snackbar.service';
   providedIn: 'root',
 })
 export class ClientFacade {
-  clientService = inject(ClientService);
-  workoutSessionService = inject(WorkoutSessionService);
-  snackbarService = inject(SnackbarService);
+  private clientService = inject(ClientService);
+  private workoutSessionService = inject(WorkoutSessionService);
+  private snackbarService = inject(SnackbarService);
 
   dashboardData = computed(() => {
     if (this.clientService.dashboardData()) return this.clientService.dashboardData();

@@ -43,6 +43,10 @@ export class TabsButtonComponent {
     });
 
     effect(() => {
+      if(this.selectorStep() === -1){
+
+      }
+
       const selectedRef = this.tabElements()[this.selectorStep()] as ElementRef;
       if (!selectedRef) return;
 

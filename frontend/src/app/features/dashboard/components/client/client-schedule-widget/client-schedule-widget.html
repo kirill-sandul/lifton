@@ -18,5 +18,5 @@
 </app-calendar-widget>
 
 @if(showFullSchedule() && clientFacade.schedule()){
-  <app-full-schedule-modal [schedule]="clientFacade.schedule()!" (onClose)="showFullSchedule.set(false)" />
+  <app-full-schedule-modal [schedule]="clientFacade.schedule()!" (onClose)="showFullSchedule.set(false)"></app-full-schedule-modal>
 }

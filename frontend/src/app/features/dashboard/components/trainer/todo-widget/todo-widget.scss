@@ -1,5 +1,14 @@
 .widget {
+  padding: 0;
+
+  header {
+    padding: 15px 30px 0 30px;
+  }
+
   .todo {
+    max-height: 500px;
+    overflow-y: auto;
+
     .add-task-btn {
       cursor: pointer;
     }
@@ -8,6 +17,8 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      padding: 5px 30px 30px 30px;
+
       margin-top: 20px;
 
       .task {
@@ -25,6 +36,8 @@
           position: relative;
           flex: 1;
           max-width: 300px;
+          word-wrap: break-word;
+          overflow: hidden;
           margin-left: 14px;
 
           &.completed {

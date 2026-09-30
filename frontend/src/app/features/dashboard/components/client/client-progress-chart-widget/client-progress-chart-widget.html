@@ -1,0 +1,15 @@
+<div class="widget">
+  <div class="top-text">
+    <h3>Your progress in details</h3>
+
+    @let _progressChart = clientFacade.progressChart();
+    @if(_progressChart && _progressChart.chartData.length > 0){
+      <progress-chart-exercise-selector [options]="exerciseSelectorOptions" (onSelect)="selectedExercise.set($event.value)" />
+    }
+  </div>
+  <app-progress-chart
+    [chartData]="lineChartData()"
+    [chartOptions]="lineChartOptions"
+    noProgressMessage="Your progress will appear here"
+  />
+</div>

@@ -4,17 +4,18 @@ import { startOfDay } from 'date-fns';
 import { DatepickerValue, HolidayProvider, NgxsmkDatepickerComponent } from 'ngxsmk-datepicker';
 import { ModalComponent } from '@shared/components/modal/modal';
 import { ScheduleWidgetResponse, WorkoutWithDate } from '@core/api-contract/dashboard.api';
+import { getDayWorkout } from '@core/utils/get-day-workout';
 import { WorkoutDetails } from '@shared/components/workout-details/workout-details';
-import { getDayWorkout } from '@features/dashboard/components/client/client-schedule-widget/utils/get-day-workout';
 
 @Component({
   selector: 'app-full-schedule-modal',
-  imports: [ModalComponent, NgxsmkDatepickerComponent, WorkoutDetails, DatePipe],
+  imports: [ModalComponent, NgxsmkDatepickerComponent, DatePipe, WorkoutDetails],
   templateUrl: './full-schedule-modal.html',
   styleUrl: './full-schedule-modal.scss',
 })
 export class FullScheduleModal {
   schedule = input.required<ScheduleWidgetResponse>();
+
   selectedDate = signal<Date>(new Date());
   dayContent = signal<WorkoutWithDate | null>(null);
 

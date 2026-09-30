@@ -8,14 +8,14 @@
     </div>
   </div>
   <div class="dropdown" [class.opened]="isOpen()">
-    @for (option of options(); track option.value) {
+    @for (option of processedOptions(); track option.id) {
       <div
         class="option"
-        [class.selected]="control.value === option.value"
-        (click)="control.setValue(option.value); isOpen.set(false)"
+        [class.selected]="control.value === option.id"
+        (click)="selectOption(option)"
       >
         <span>{{ option.label }}</span>
-        <svg lucideCheck class="check-icon" [class.visible]="control.value === option.value"></svg>
+        <svg lucideCheck class="check-icon" [class.visible]="control.value === option.id"></svg>
       </div>
     }
   </div>

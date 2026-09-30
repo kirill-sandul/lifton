@@ -2,7 +2,7 @@
   display: inline-block;
   position: relative;
   overflow: hidden;
-  
+
   &.primary {
     background: var(--primary-blue-gradient);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.11);
@@ -19,6 +19,11 @@
 
     .selection-bg {
       background: var(--primary-dark-gradient);
+
+      &.hidden {
+        opacity: 0;
+        transition: 0.2s;
+      }
     }
 
     .select-button {

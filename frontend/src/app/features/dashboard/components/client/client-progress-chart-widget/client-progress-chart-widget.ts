@@ -1,22 +1,19 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
-import { LucideDynamicIcon } from '@lucide/angular';
 import { ClientFacade } from '@core/facades/roles/client/client.facade';
-import { ProgressChartExerciseSelector } from '@features/dashboard/components/client/progress-chart/components/exercise-selector/exercise-selector';
+import { ProgressChartExerciseSelector } from '@shared/components/exercise-selector/exercise-selector';
 import { PcExerciseSelectorOption } from '@core/models/ui.models';
 import { ProgressChartDataset } from '@core/api-contract/dashboard.api';
+import { ProgressChartComponent } from '@shared/components/progress-chart/progress-chart';
 
 @Component({
-  selector: 'app-progress-chart',
-  imports: [BaseChartDirective, LucideDynamicIcon, ProgressChartExerciseSelector],
-  templateUrl: './progress-chart.html',
-  styleUrl: './progress-chart.scss',
+  selector: 'app-client-progress-chart-widget',
+  imports: [ProgressChartExerciseSelector, ProgressChartComponent],
+  templateUrl: './client-progress-chart-widget.html',
+  styleUrl: './client-progress-chart-widget.scss',
 })
-export class ProgressChartComponent {
+export class ClientProgressChartWidgetComponent {
   clientFacade = inject(ClientFacade);
-
-  lineChartType: 'line' = 'line';
 
   selectedExercise = signal<ProgressChartDataset | null>(null);
 

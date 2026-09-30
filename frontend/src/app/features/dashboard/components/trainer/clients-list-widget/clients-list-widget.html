@@ -1,4 +1,4 @@
-@let noClients = !(clientsList.length);
+@let noClients = clientsList.length === 0;
 
 <div class="widget">
   <div class="top-block">
@@ -9,12 +9,14 @@
       </button>
     }
   </div>
-  <div class="count">{{ clientsList.length }}</div>
-  <div class="clients-list">
-    @for (client of clientsList; track client.user.id) {
-      <app-client-preview [type]="'statusActivity'" [clientUser]="client.user" />
-    }
-  </div>
+  @if(!noClients){
+    <div class="count">{{ clientsList.length }}</div>
+    <div class="clients-list">
+      @for (client of clientsList; track client.user.id) {
+        <app-client-preview [type]="'statusActivity'" [clientUser]="client.user" />
+      }
+    </div>
+  }
   @if (noClients) {
     <span class="grey">No clients yet</span>
     <a liftonButton class="search-clients-btn" icon="arrow-up-right" routerLink="/search">

@@ -5,7 +5,8 @@ import { ClientFacade } from '@core/facades/roles/client/client.facade';
 import { WorkoutWithDate } from '@core/api-contract/dashboard.api';
 import { DashboardFacade } from '@features/dashboard/facade/dashboard.facade';
 import { FullScheduleModal } from '@features/dashboard/components/client/client-schedule-widget/components/full-schedule-modal/full-schedule-modal';
-import { getDayWorkout } from '@features/dashboard/components/client/client-schedule-widget/utils/get-day-workout';
+import { getDayWorkout } from '@core/utils/get-day-workout';
+import { UserRole } from '@core/models/user.models';
 
 @Component({
   selector: 'app-client-schedule-widget',
@@ -21,6 +22,8 @@ export class ClientScheduleWidgetComponent {
   dayContent = signal<WorkoutWithDate | null>(null);
 
   showFullSchedule = signal(false);
+
+  protected readonly UserRole = UserRole;
 
   constructor() {
     effect(() => {

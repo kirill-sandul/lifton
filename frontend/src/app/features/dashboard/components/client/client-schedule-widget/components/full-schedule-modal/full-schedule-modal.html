@@ -13,6 +13,7 @@
 
     <div class="column">
       <span class="date" [class.centered]="!dayContent()">{{ selectedDate() | date: 'fullDate' }}</span>
+
       <app-workout-details [workoutData]="dayContent()" />
     </div>
   </div>

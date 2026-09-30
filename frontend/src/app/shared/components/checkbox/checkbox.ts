@@ -1,4 +1,4 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-checkbox',
@@ -7,6 +7,13 @@ import { Component, output, signal } from '@angular/core';
   styleUrl: './checkbox.scss',
 })
 export class Checkbox {
+  initiallyChecked = input(false);
+
   isChecked = signal(false);
+
   onCheck = output<boolean>();
+
+  ngOnInit() {
+    this.isChecked.set(this.initiallyChecked());
+  }
 }

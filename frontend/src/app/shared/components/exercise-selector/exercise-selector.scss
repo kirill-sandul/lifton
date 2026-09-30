@@ -14,9 +14,10 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-evenly;
+      gap: 5px;
       width: 100%;
       background-color: transparent;
-      padding: 5px 10px 5px 0;
+      padding: 5px 10px;
       transition: .1s;
 
       .arrow-icon {
@@ -72,7 +73,7 @@
       border: 1px solid transparent;
       border-radius: 20px;
       align-items: center;
-      padding: 5px 10px 5px 0;
+      padding: 5px 10px;
       cursor: pointer;
       transition: .3s;
 

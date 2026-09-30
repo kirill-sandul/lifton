@@ -130,10 +130,6 @@ export interface TargetUi {
   targetValue: number;
 }
 
-export type ClientWorkoutOnDay = UserProfile & {
-  plannedWorkout: Workout;
-};
-
 export type ExerciseSetRecordUi = {
   id: string;
   exerciseId: string;
