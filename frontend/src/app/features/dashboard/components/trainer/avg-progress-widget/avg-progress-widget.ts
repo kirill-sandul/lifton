@@ -10,8 +10,4 @@ import { DatePipe } from '@angular/common';
 })
 export class AvgProgressWidgetComponent {
   trainerFacade = inject(TrainerFacade);
-
-  constructor() {
-    console.log(this.trainerFacade.averageClientsProgressWidget());
-  }
 }
