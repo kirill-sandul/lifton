@@ -63,7 +63,7 @@ export class HeaderComponent {
     },
     {
       label: 'Clients',
-      link: '',
+      link: '/clients',
     },
     {
       label: 'Programs',

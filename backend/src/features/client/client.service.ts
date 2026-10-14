@@ -15,6 +15,7 @@ import {
   nextDay,
   setDay,
   setISODay,
+  subMonths,
   toDate,
 } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
@@ -35,6 +36,7 @@ import {
 import { WorkoutDay } from '../../generated/prisma/enums';
 import { WorkoutSessionRecordDto } from './dto/client.dto';
 import { ClientProfile, WorkoutRecord } from '../../generated/prisma/client';
+import { async } from 'rxjs';
 
 @Injectable()
 export class ClientService {
@@ -550,10 +552,16 @@ export class ClientService {
 
   async getProgressChart(
     clientId: string,
+    tz: string,
     recordsContext?: WorkoutRecordRes[],
+    startDate?: Date,
+    endDate?: Date,
   ): Promise<ProgressChartWidgetRes> {
     const records =
       recordsContext ?? (await this.getDashboardContext(clientId)).records;
+
+    const todayInUserTz = toZonedTime(new Date(), tz);
+    const oneMonthPrior = subMonths(todayInUserTz, 1);
 
     if (records.length >= 2) {
       const progress: Map<
@@ -562,27 +570,40 @@ export class ClientService {
       > = new Map();
 
       records.forEach((record, recordIdx) => {
-        record.exercises.forEach((exercise) => {
-          const exPr = Math.max(
-            ...exercise.sets.map((set) => set.executedValue),
-          );
+        let isInRange = false;
 
-          const prevPrs = progress.get(exercise.name);
-
-          if (prevPrs) {
-            progress.set(exercise.name, {
-              workoutIdxs: [...prevPrs.workoutIdxs, recordIdx + 1],
-              workoutPrs: [...prevPrs.workoutPrs, exPr],
-              exerciseUnit: exercise.unit,
-            });
-          } else {
-            progress.set(exercise.name, {
-              workoutIdxs: [recordIdx + 1],
-              workoutPrs: [exPr],
-              exerciseUnit: exercise.unit,
-            });
-          }
+        const requestedRange = eachDayOfInterval({
+          start: startDate || oneMonthPrior,
+          end: endDate || todayInUserTz,
         });
+
+        requestedRange.forEach((dateInRange) => {
+          if (isSameDay(record.createdAt, dateInRange)) isInRange = true;
+        });
+
+        if (isInRange) {
+          record.exercises.forEach((exercise) => {
+            const exPr = Math.max(
+              ...exercise.sets.map((set) => set.executedValue),
+            );
+
+            const prevPrs = progress.get(exercise.name);
+
+            if (prevPrs) {
+              progress.set(exercise.name, {
+                workoutIdxs: [...prevPrs.workoutIdxs, recordIdx + 1],
+                workoutPrs: [...prevPrs.workoutPrs, exPr],
+                exerciseUnit: exercise.unit,
+              });
+            } else {
+              progress.set(exercise.name, {
+                workoutIdxs: [recordIdx + 1],
+                workoutPrs: [exPr],
+                exerciseUnit: exercise.unit,
+              });
+            }
+          });
+        }
       });
 
       const structuredProgress = [...progress.entries()]
@@ -628,7 +649,7 @@ export class ClientService {
       this.getProgramCompletion(clientId, tz, dashboardContext),
       this.getStreak(clientId, tz, dashboardContext),
       this.getTargets(clientId, dashboardContext.program),
-      this.getProgressChart(clientId, dashboardContext.records),
+      this.getProgressChart(clientId, tz, dashboardContext.records),
     ]);
 
     const upcomingWorkoutWidget =

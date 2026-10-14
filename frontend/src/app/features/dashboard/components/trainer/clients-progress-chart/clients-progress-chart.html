@@ -25,12 +25,17 @@
       <div class="analytics">
         <div class="row">
           <span class="title">{{ selectedClientName() }}'s progress last weeks:</span>
-          <span class="warn percentage">4.2%</span>
+          <span class="warn percentage">{{ selectedClientAvgProgress() }}</span>
         </div>
-        <div class="row">
-          <span class="title">Average progress rate of your clients:</span>
-          <span class="success percentage">12.1%</span>
-        </div>
+
+        @let averageClientsProgress = trainerFacade.averageClientsProgressWidget();
+        @if(averageClientsProgress){
+          <div class="row">
+            <span class="title">Average progress rate of your clients:</span>
+
+            <span class="success percentage">{{ averageClientsProgress.percentage }}%</span>
+          </div>
+        }
       </div>
     }
     @else {

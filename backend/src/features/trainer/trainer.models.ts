@@ -23,6 +23,14 @@ export type TrainerTodo = Prisma.TrainerTodoListGetPayload<{
   };
 }>;
 
+export interface AverageClientsProgressResponse {
+  percentage: number;
+  daysRange: {
+    start: Date;
+    end: Date;
+  };
+}
+
 export interface AdherenceWidgetResponse {
   percentage: number;
   daysRange: {
@@ -54,6 +62,7 @@ export interface ScheduleWidgetResponse {
 export type AllClientProgressResponse = ProgressChartWidgetRes[];
 
 export interface TrainerDashboardResponse {
+  avgClientsProgressWidget: AverageClientsProgressResponse | null;
   adherenceRateWidget: AdherenceWidgetResponse | null;
   completedWorkoutsWidget: number | null;
   activeProgramsWidget: number | null;

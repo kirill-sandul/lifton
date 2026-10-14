@@ -16,6 +16,14 @@ import { ProgressChartComponent } from '@shared/components/progress-chart/progre
 export class ClientsProgressChartComponent {
   trainerFacade = inject(TrainerFacade);
 
+  private colorPalette: { border: string; gradientTop: string }[] = [
+    { border: '#0084E2', gradientTop: 'rgba(168, 218, 255, 0.8)' },
+    { border: '#E2006A', gradientTop: 'rgba(255, 168, 210, 0.8)' },
+    { border: '#00B074', gradientTop: 'rgba(168, 255, 218, 0.8)' },
+    { border: '#8400E2', gradientTop: 'rgba(218, 168, 255, 0.8)' },
+    { border: '#E27400', gradientTop: 'rgba(255, 210, 168, 0.8)' },
+  ];
+
   clients = computed(() => this.trainerFacade.clients());
 
   selectedClientId = signal<string | null>(null);
@@ -31,6 +39,20 @@ export class ClientsProgressChartComponent {
   selectedClientName = computed<string | null>(() => {
     const selectedClientChartData = this.selectedClientChartData();
     return selectedClientChartData ? selectedClientChartData.clientData.fullName : null;
+  });
+
+  selectedClientAvgProgress = computed<string>(() => {
+    const selectedClientChartData = this.selectedClientChartData();
+
+    if (selectedClientChartData) {
+      const correspondingPercentage = selectedClientChartData.analytics.avgClientProgress;
+
+      if (correspondingPercentage > 0) return `+${correspondingPercentage.toFixed(1)}%`;
+      else if (correspondingPercentage < 0) return `${correspondingPercentage.toFixed(1)}%`;
+      else return '-';
+    }
+
+    return '-';
   });
 
   generatedExercisesOptions = computed<PcExerciseSelectorOption[]>(() => {
@@ -88,18 +110,24 @@ export class ClientsProgressChartComponent {
         const chartData: ChartDataset<'line'> = {
           data: correspondingChartData ? correspondingChartData.values : [],
           label: correspondingChartData.exerciseName,
-          borderColor: '#0084E2',
           borderWidth: 2,
           fill: true,
           tension: 0.4,
+          borderColor: (context) => {
+            const safeIdx = context.datasetIndex % this.colorPalette.length;
+
+            return this.colorPalette[safeIdx].border;
+          },
+
           backgroundColor: (context) => {
             const ctx = context.chart?.ctx;
-
             if (!ctx) return;
 
-            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            const safeIdx = context.datasetIndex % this.colorPalette.length;
+            const colors = this.colorPalette[safeIdx];
 
-            gradient.addColorStop(0, 'rgba(168, 218, 255, 0.8)');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, colors.gradientTop);
             gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
             return gradient;
@@ -110,15 +138,11 @@ export class ClientsProgressChartComponent {
         correspondingChartData.labels.forEach((label) => labelsSetConcat.add(label));
 
         labels = Array.from(labelsSetConcat);
-
-        console.log(correspondingChartData);
       });
     } else {
       const exerciseChart = selectedChartData.chartData.find(
         (exData) => exData.exerciseName === this.selectedExerciseOption()?.value.exerciseName,
       );
-
-      console.log(this.selectedExerciseOption());
 
       if (exerciseChart) {
         chartDatasets = [

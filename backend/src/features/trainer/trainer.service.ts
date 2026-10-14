@@ -5,14 +5,16 @@ import { PrismaService } from '../../core/modules/prisma/prisma.service';
 import {
   AdherenceWidgetResponse,
   AllClientProgressResponse,
+  AverageClientsProgressResponse,
   ClientSchedule,
   ClientWorkoutOnDay,
   ScheduleWidgetResponse,
   TrainerDashboardResponse,
   TrainerProfileFull,
 } from './trainer.models';
-import { ClientService } from '../client/client.service';
 import { TodoListItem, TodoListItemUpdate } from './dto/trainer.dto';
+import { ClientService } from '../client/client.service';
+import { ProgressChartWidgetRes } from '../client/client.models';
 
 @Injectable()
 export class TrainerService {
@@ -50,6 +52,31 @@ export class TrainerService {
     return trainerUser.trainerProfile;
   }
 
+  private analyzeClientProgressVector(clientProgress: ProgressChartWidgetRes) {
+    const avgStepProgressPerExercise = clientProgress.chartData.map(
+      (exData) => {
+        if (exData.values.length < 2) return 0;
+        const first = exData.values[0];
+        const last = exData.values[exData.values.length - 1];
+        const steps = exData.values.length - 1;
+
+        // Formula: Compound Annual Growth Rate
+        const averageFactor = Math.pow(last / first, 1 / steps) - 1;
+
+        return averageFactor * 100;
+      },
+    );
+
+    const progressPercentageAllExercises = avgStepProgressPerExercise.reduce(
+      (acc, cur) => acc + cur,
+      0,
+    );
+
+    if (!progressPercentageAllExercises) return 0;
+
+    return progressPercentageAllExercises / clientProgress.chartData.length;
+  }
+
   // DASHBOARD METHODS
 
   getActivePrograms(trainerProfile: TrainerProfileFull): number {
@@ -59,6 +86,46 @@ export class TrainerService {
     }, 0);
 
     return totalActivePrograms;
+  }
+
+  async getAvgClientsProgress(
+    trainerProfile: TrainerProfileFull,
+    tz: string,
+  ): Promise<AverageClientsProgressResponse> {
+    let avgClientsProgressPerc = 0;
+
+    const todayInUserTz = toZonedTime(new Date(), tz);
+    const daysRangeStart = subMonths(todayInUserTz, 1);
+    const daysRangeEnd = todayInUserTz;
+
+    const promises = trainerProfile.clients.map(async (client) => {
+      const clientProgress = await this.clientService.getProgressChart(
+        client.userId,
+        tz,
+        undefined,
+        daysRangeEnd,
+        daysRangeStart,
+      );
+
+      const clientAvgProgressPerc =
+        this.analyzeClientProgressVector(clientProgress);
+
+      avgClientsProgressPerc += clientAvgProgressPerc;
+    });
+
+    await Promise.all(promises);
+
+    avgClientsProgressPerc = Math.floor(
+      avgClientsProgressPerc / trainerProfile.clients.length,
+    );
+
+    return {
+      percentage: avgClientsProgressPerc,
+      daysRange: {
+        start: daysRangeStart,
+        end: daysRangeEnd,
+      },
+    };
   }
 
   async getCompletedWorkoutsAndAdherence(
@@ -227,11 +294,16 @@ export class TrainerService {
 
   async getAllClientsProgress(
     trainerProfile: TrainerProfileFull,
+    tz: string,
   ): Promise<AllClientProgressResponse> {
     const promises = trainerProfile.clients.map(async (client) => {
       const clientProgress = await this.clientService.getProgressChart(
         client.userId,
+        tz,
       );
+
+      const clientAvgProgressPerc =
+        this.analyzeClientProgressVector(clientProgress);
 
       return {
         clientData: {
@@ -240,6 +312,9 @@ export class TrainerService {
           fullName: client.user.fullName,
         },
         ...clientProgress,
+        analytics: {
+          avgClientProgress: clientAvgProgressPerc,
+        },
       };
     });
 
@@ -253,16 +328,23 @@ export class TrainerService {
     const trainerProfile = await this.getTrainerProfile(trainerId);
 
     const [
+      avgClientsProgressResult,
       completedWorkoutsResult,
       scheduleResult,
       todoListResult,
       allClientsProgressResult,
     ] = await Promise.allSettled([
+      this.getAvgClientsProgress(trainerProfile, tz),
       this.getCompletedWorkoutsAndAdherence(trainerProfile, tz),
       this.getSchedule(trainerProfile, tz),
       this.getTodoList(trainerId),
-      this.getAllClientsProgress(trainerProfile),
+      this.getAllClientsProgress(trainerProfile, tz),
     ]);
+
+    const avgClientsProgressWidget =
+      avgClientsProgressResult.status === 'fulfilled'
+        ? avgClientsProgressResult.value
+        : null;
 
     const completedWorkoutsWidget =
       completedWorkoutsResult.status === 'fulfilled'
@@ -286,6 +368,7 @@ export class TrainerService {
         : null;
 
     return {
+      avgClientsProgressWidget,
       completedWorkoutsWidget,
       adherenceRateWidget,
       scheduleWidget,

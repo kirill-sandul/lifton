@@ -1,10 +1,17 @@
-import { Component } from '@angular/core';
-import { LucideArrowUpRight } from '@lucide/angular';
+import { Component, inject } from '@angular/core';
+import { TrainerFacade } from '@core/facades/roles/trainer/trainer.facade';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-avg-progress-widget',
-  imports: [LucideArrowUpRight],
+  imports: [DatePipe],
   templateUrl: './avg-progress-widget.html',
   styleUrl: './avg-progress-widget.scss',
 })
-export class AvgProgressWidgetComponent {}
+export class AvgProgressWidgetComponent {
+  trainerFacade = inject(TrainerFacade);
+
+  constructor() {
+    console.log(this.trainerFacade.averageClientsProgressWidget());
+  }
+}

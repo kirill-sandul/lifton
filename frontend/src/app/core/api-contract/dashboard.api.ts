@@ -52,6 +52,14 @@ export interface ClientDashboardRes {
 }
 
 // Trainer
+export interface AverageClientsProgressWidgetRes {
+  percentage: number;
+  daysRange: {
+    start: Date;
+    end: Date;
+  };
+}
+
 export interface AdherenceWidgetRes {
   percentage: number;
   daysRange: {
@@ -94,12 +102,15 @@ export interface ClientProgressData {
     fullName: string;
   };
   chartData: ProgressChartDataset[];
+  analytics: {
+    avgClientProgress: number;
+  };
 }
 
 export type AllClientsProgressWidgetRes = ClientProgressData[];
 
 export interface TrainerDashboardRes {
-  avgClientProgressWidget: null;
+  avgClientsProgressWidget: AverageClientsProgressWidgetRes | null;
   adherenceRateWidget: AdherenceWidgetRes;
   completedWorkoutsWidget: number | null;
   activeProgramsWidget: number | null;

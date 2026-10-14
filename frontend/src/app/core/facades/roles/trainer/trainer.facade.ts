@@ -1,13 +1,13 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { TrainerService } from '@core/services/roles/trainer/trainer.service';
 import {
   AdherenceWidgetRes,
+  AverageClientsProgressWidgetRes,
   TrainerDashboardRes,
   TrainerScheduleWidgetRes,
   TrainerTodoListItem,
-  TrainerTodoListWidgetRes,
 } from '@core/api-contract/dashboard.api';
-import { BehaviorSubject, map, merge, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, map, switchMap } from 'rxjs';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -21,6 +21,11 @@ export class TrainerFacade {
   dashboardData = computed<TrainerDashboardRes | null>(() => {
     if (this.trainerService.dashboardData()) return this.trainerService.dashboardData();
     else return null;
+  });
+
+  averageClientsProgressWidget = computed<AverageClientsProgressWidgetRes | null>(() => {
+    const dashboardData = this.dashboardData();
+    return dashboardData ? dashboardData.avgClientsProgressWidget : null;
   });
 
   adherenceRateWidget = computed<AdherenceWidgetRes | null>(() => {
