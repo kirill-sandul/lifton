@@ -32,11 +32,28 @@
     }
   }
 
+  &.selected {
+    background: var(--primary-blue-dark-gradient);
+
+    .info {
+      .status {
+        color: var(--primary-success-accent);
+      }
+    }
+
+    &:hover {
+      .info .client-name {
+        color: #fff;
+      }
+    }
+  }
+
   &.statusActivity {
     .info {
       display: flex;
       flex-direction: row;
       align-items: center;
+      width: 100%;
       gap: 12px;
 
       .client-name {
@@ -50,10 +67,19 @@
         background-color: #fff;
         border-radius: 100%;
       }
+
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: auto;
+      }
     }
   }
 
   .client-pfp {
+    display: flex;
+    flex-shrink: 0;
     width: 40px;
     height: 40px;
     background-size: cover;

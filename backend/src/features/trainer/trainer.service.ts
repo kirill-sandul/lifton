@@ -457,4 +457,11 @@ export class TrainerService {
       },
     });
   }
+
+  // CLIENTS LIB
+  async getClientData(trainerId: string, clientId: string) {
+    const trainerProfile = await this.getTrainerProfile(trainerId);
+
+    return trainerProfile.clients;
+  }
 }

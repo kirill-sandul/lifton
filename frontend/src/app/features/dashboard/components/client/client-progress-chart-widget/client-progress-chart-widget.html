@@ -4,7 +4,7 @@
 
     @let _progressChart = clientFacade.progressChart();
     @if(_progressChart && _progressChart.chartData.length > 0){
-      <progress-chart-exercise-selector [options]="exerciseSelectorOptions" (onSelect)="selectedExercise.set($event.value)" />
+      <progress-chart-exercise-selector [options]="exerciseSelectorOptions()" (onSelect)="selectedExercise.set($event)" />
     }
   </div>
   <app-progress-chart

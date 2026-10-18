@@ -4,6 +4,7 @@ import { authGuard } from '@core/guards/auth.guard';
 import { guestGuard } from '@core/guards/guest.guard';
 import { clientRoleGuard } from '@core/guards/client-role.guard';
 import { trainerRoleGuard } from '@core/guards/trainer-role.guard';
+import { workoutSessionGuard } from '@core/guards/workout-session.guard';
 
 import { AuthLayoutComponent } from '@layouts/auth-layout/auth-layout';
 import { AppLayoutComponent } from '@layouts/app-layout/app-layout';
@@ -19,8 +20,8 @@ import { ProfilePageComponent } from '@features/profile/pages/profile-page/profi
 import { SearchPageComponent } from '@features/search/pages/search-page/search-page';
 import { CreateProgramPageComponent } from '@features/programs/create-program/pages/create-program-page/create-program-page';
 import { ProgramsLibPageComponent } from '@features/programs/programs-lib/pages/programs-lib-page/programs-lib-page';
+import { ClientsLibPageComponent } from '@features/clients-lib/pages/clients-lib-page/clients-lib-page';
 import { WorkoutSessionPageComponent } from '@features/workout-session/pages/workout-session-page/workout-session-page';
-import { workoutSessionGuard } from '@core/guards/workout-session.guard';
 
 export const routes: Routes = [
   {
@@ -55,6 +56,11 @@ export const routes: Routes = [
       {
         path: 'programs',
         component: ProgramsLibPageComponent,
+        canActivate: [authGuard, trainerRoleGuard],
+      },
+      {
+        path: 'clients-lib',
+        component: ClientsLibPageComponent,
         canActivate: [authGuard, trainerRoleGuard],
       },
       {

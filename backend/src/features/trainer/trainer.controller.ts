@@ -55,4 +55,13 @@ export class TrainerController {
   ) {
     return this.trainerService.removeTodoTask(user.sub, taskId);
   }
+
+  @UseGuards(JwtGuard)
+  @Get('clients-lib/get-client-data/:id')
+  getClientData(
+    @CurrentUser() user: { sub: string },
+    @Param('id') clientId: string,
+  ) {
+    return this.trainerService.getClientData(user.sub, clientId);
+  }
 }

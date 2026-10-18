@@ -14,6 +14,7 @@ type ClientPreviewType = 'clientWithWorkout' | 'statusActivity' | 'minimalChip';
 })
 export class ClientPreviewComponent {
   type = input<ClientPreviewType>();
+  selectedStyle = input<boolean>();
   noRedirect = input<boolean>();
 
   clientWithWorkout = input<ClientWorkoutOnDay>();

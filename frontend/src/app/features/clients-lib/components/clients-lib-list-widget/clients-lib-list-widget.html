@@ -1,0 +1,31 @@
+<div class="clients-lib-list widget">
+  <header>
+    <div class="search-bar">
+      <input type="text" placeholder="Search in clients..." (input)="onTypingSearch()" [(ngModel)]="searchBarValue" />
+      <svg lucideIcon="search" class="icon"></svg>
+    </div>
+    <span class="clients-number">{{ clientsList().length }}</span>
+  </header>
+
+  <div class="list">
+    @if(clientsList().length > 0){
+      <span class="tap-to-see grey">Tap to see any client's info</span>
+
+      @if(filteredClientsList().length > 0){
+        @for(client of filteredClientsList(); track client.id){
+          <app-client-preview
+            type="statusActivity"
+            (click)="onClientSelect(client.id)"
+            [clientUser]="client.user"
+            [noRedirect]="true"
+            [selectedStyle]="selectedClientId() === client.id"
+          ></app-client-preview>
+        }
+      } @else {
+        <p>No clients found by this filter</p>
+      }
+    } @else {
+      <p class="no-clients grey">You don't have any clients yet</p>
+    }
+  </div>
+</div>

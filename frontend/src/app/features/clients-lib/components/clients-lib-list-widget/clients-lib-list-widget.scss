@@ -1,0 +1,43 @@
+.clients-lib-list {
+  header {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    gap: 50px;
+    margin-bottom: 20px;
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      border: 1px solid #000;
+      border-radius: 30px;
+
+      input {
+        font-size: 14px;
+        border: 0;
+        outline: none;
+        padding: 0 20px;
+      }
+
+      .icon {
+        width: 20px;
+        margin-right: 15px;
+      }
+    }
+
+    .clients-number {
+      font-size: 30px;
+      font-weight: 600;
+    }
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    .tap-to-see {
+      margin-bottom: 5px;
+    }
+  }
+}
